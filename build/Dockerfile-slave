@@ -1,0 +1,6 @@
+FROM gcr.io/span-cloud-testing/jmeter-base:latest
+
+EXPOSE 1099 50000
+
+RUN ls -al $JMETER_HOME/bin/jmeter-server
+CMD echo "rahul"
