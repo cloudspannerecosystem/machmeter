@@ -1,0 +1,2 @@
+FROM gcr.io/span-cloud-testing/jmeter-base:latest
+EXPOSE 60000
