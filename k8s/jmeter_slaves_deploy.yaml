@@ -1,3 +1,9 @@
+# Copyright 2022 Google LLC
+#
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file or at
+# https://developers.google.com/open-source/licenses/bsd
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,8 +22,8 @@ spec:
     spec:
       containers:
         - name: jmslave
-          image: gcr.io/span-cloud-testing/jmeter-slave-2:latest
-          imagePullPolicy: IfNotPresent
+          image: gcr.io/span-cloud-testing/jmeter-slave:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 1099
             - containerPort: 50000

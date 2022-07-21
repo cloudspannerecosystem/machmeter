@@ -1,4 +1,10 @@
-apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
+# Copyright 2022 Google LLC
+#
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file or at
+# https://developers.google.com/open-source/licenses/bsd
+
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jmeter-reporter
@@ -17,7 +23,7 @@ spec:
       containers:
         - name: jmreporter
           image: gcr.io/span-cloud-testing/jmeter-reporter:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8686
 

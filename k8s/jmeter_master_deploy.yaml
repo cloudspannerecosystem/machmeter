@@ -1,3 +1,9 @@
+# Copyright 2022 Google LLC
+#
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file or at
+# https://developers.google.com/open-source/licenses/bsd
+
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
@@ -17,7 +23,7 @@ spec:
       containers:
       - name: jmmaster
         image: gcr.io/span-cloud-testing/jmeter-master:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         command: [ "/bin/bash", "-c", "--" ]
         args: [ "while true; do sleep 30; done;" ]
         volumeMounts:
