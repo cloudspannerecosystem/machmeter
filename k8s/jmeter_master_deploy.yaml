@@ -30,9 +30,17 @@ spec:
           - name: loadtest
             mountPath: /load_test
             subPath: "load_test"
+          - mountPath: /var/secrets/google
+            name: google-cloud-key
         ports:
         - containerPort: 60000
+        env:
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: /var/secrets/google/key.json
       volumes:
       - name: loadtest
         configMap:
          name: jmeter-load-test
+      - name: google-cloud-key
+        secret:
+          secretName: sa-key

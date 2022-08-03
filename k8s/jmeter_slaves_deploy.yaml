@@ -27,3 +27,13 @@ spec:
           ports:
             - containerPort: 1099
             - containerPort: 50000
+          volumeMounts:
+            - mountPath: /var/secrets/google
+              name: google-cloud-key
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: sa-key
