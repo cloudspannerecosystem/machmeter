@@ -33,6 +33,13 @@ spec:
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/key.json
+          resources:
+            limits:
+              cpu: 200m
+              memory: 2Gi
+            requests:
+              cpu: 100m
+              memory: 1Gi
       volumes:
       - name: google-cloud-key
         secret:

@@ -26,17 +26,6 @@ iputils-ping \
 curl \
 unzip
 
-RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
- && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
- && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
- && rm -f /tmp/apache-maven.tar.gz \
- && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
-
-ENV MAVEN_HOME /usr/share/maven
-ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
-
-RUN mvn dependency:get -Dartifact=com.google.cloud:google-cloud-spanner-jdbc:RELEASE -Dmaven.repo.local=.
-RUN find . -name *.jar -exec mv '{}' . \;
 RUN   mkdir /jmeter \
 && cd /jmeter/ \
 && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-$JMETER_VERSION.tgz \
@@ -52,3 +41,17 @@ RUN cd /jmeter/apache-jmeter-$JMETER_VERSION/ && wget -q -O /tmp/bzm-parallel-0.
 ENV JMETER_HOME /jmeter/apache-jmeter-$JMETER_VERSION/
 
 ENV PATH $JMETER_HOME/bin:$PATH
+
+
+RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
+ && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+ && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
+ && rm -f /tmp/apache-maven.tar.gz \
+ && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+
+ENV MAVEN_HOME /usr/share/maven
+ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
+
+RUN mkdir -p /test/ && cd /test && mvn dependency:get -Dartifact=com.google.cloud:google-cloud-spanner-jdbc:RELEASE -Dmaven.repo.local=.
+RUN cd /test && find . -name "*.jar" -exec mv '{}' . \;
+RUN cp /test/guava-*.jar /jmeter/apache-jmeter-5.5/lib/
