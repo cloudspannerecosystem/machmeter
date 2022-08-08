@@ -1,0 +1,13 @@
+target/
+/target
+.idea/
+*.iml
+*.class
+*.lst
+output.txt
+
+src/test/golang/**/*.h
+src/test/golang/**/*.so
+
+src/test/csharp/**/bin
+src/test/csharp/**/obj
