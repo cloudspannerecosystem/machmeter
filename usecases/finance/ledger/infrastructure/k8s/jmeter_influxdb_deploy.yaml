@@ -21,7 +21,7 @@ spec:
         app: influxdb-jmeter
     spec:
       containers:
-        - image: influxdb
+        - image: influxdb:1.8.3
           imagePullPolicy: Always
           name: influxdb
           volumeMounts:

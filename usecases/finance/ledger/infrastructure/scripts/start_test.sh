@@ -24,7 +24,31 @@ then
     exit
 fi
 
+csv_file="$2"
+[ -n "$csv_file" ] || read -p 'Enter path to the CSV file ' csv_file
+if [ ! -f "$csv_file" ];
+then
+    echo "Test CSV file was not found in PATH"
+    echo "Kindly check and input the correct file path"
+    exit
+fi
+
 test_name="$(basename "$jmx")"
+
+
+
+slave_pods=($(kubectl get po -n "$tenant" | grep jmeter-slave | awk '{print $1}'))
+
+# for array iteration
+slavesnum=${#slave_pods[@]}
+
+printf "Number of slaves is %s\n" "${slavesnum}"
+
+for i in $(seq -f "%0${slavedigits}g" 0 $((slavesnum-1)))
+  do
+    printf "Copy %s on %s\n" "${csv_file}" "${slave_pods[i]}"
+    kubectl -n "$tenant" cp "${csv_file}" "${slave_pods[i]}":/
+  done
 
 #Get Master pod details
 
