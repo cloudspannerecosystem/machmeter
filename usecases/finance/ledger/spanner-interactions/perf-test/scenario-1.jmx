@@ -15,17 +15,17 @@
           </elementProp>
           <elementProp name="instance" elementType="Argument">
             <stringProp name="Argument.name">instance</stringProp>
-            <stringProp name="Argument.value">poc-pitch-and-validation</stringProp>
+            <stringProp name="Argument.value">asapha-test</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="db" elementType="Argument">
             <stringProp name="Argument.name">db</stringProp>
-            <stringProp name="Argument.value">scenario-1</stringProp>
+            <stringProp name="Argument.value">pratick-test-google</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="threads" elementType="Argument">
             <stringProp name="Argument.name">threads</stringProp>
-            <stringProp name="Argument.value">${__P(threads,300)}</stringProp>
+            <stringProp name="Argument.value">${__P(threads,1)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="rampUp_Time" elementType="Argument">
@@ -50,17 +50,22 @@
           </elementProp>
           <elementProp name="grpc_channel" elementType="Argument">
             <stringProp name="Argument.name">grpc_channel</stringProp>
-            <stringProp name="Argument.value">10</stringProp>
+            <stringProp name="Argument.value">50</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="connections" elementType="Argument">
-            <stringProp name="Argument.name">connections</stringProp>
-            <stringProp name="Argument.value">1000</stringProp>
+          <elementProp name="user_id_csv" elementType="Argument">
+            <stringProp name="Argument.name">user_id_csv</stringProp>
+            <stringProp name="Argument.value">/Users/pratick/IdeaProjects/cloud-spanner-poc-validation/usecases/finance/ledger/spanner-interactions/perf-test/userId.csv</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="txn_id_csv" elementType="Argument">
+            <stringProp name="Argument.name">txn_id_csv</stringProp>
+            <stringProp name="Argument.value">/Users/pratick/IdeaProjects/cloud-spanner-poc-validation/usecases/finance/ledger/spanner-interactions/perf-test/txnid.csv</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
       </elementProp>
-      <stringProp name="TestPlan.user_define_classpath">/test/</stringProp>
+      <stringProp name="TestPlan.user_define_classpath">/Users/pratick/benchmarking-poc/jars</stringProp>
     </TestPlan>
     <hashTree>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
@@ -140,13 +145,25 @@
       <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
         <stringProp name="delimiter">,</stringProp>
         <stringProp name="fileEncoding"></stringProp>
-        <stringProp name="filename">/userId.csv</stringProp>
+        <stringProp name="filename">${user_id_csv}</stringProp>
         <boolProp name="ignoreFirstLine">false</boolProp>
         <boolProp name="quotedData">false</boolProp>
         <boolProp name="recycle">true</boolProp>
         <stringProp name="shareMode">shareMode.all</stringProp>
         <boolProp name="stopThread">false</boolProp>
         <stringProp name="variableNames">userId</stringProp>
+      </CSVDataSet>
+      <hashTree/>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+        <stringProp name="delimiter">,</stringProp>
+        <stringProp name="fileEncoding"></stringProp>
+        <stringProp name="filename">${txn_id_csv}</stringProp>
+        <boolProp name="ignoreFirstLine">false</boolProp>
+        <boolProp name="quotedData">false</boolProp>
+        <boolProp name="recycle">true</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+        <boolProp name="stopThread">false</boolProp>
+        <stringProp name="variableNames">loaded_txnId</stringProp>
       </CSVDataSet>
       <hashTree/>
       <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="create spanner client" enabled="true">
@@ -163,7 +180,7 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </SetupThreadGroup>
       <hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Create Connection" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Create connection" enabled="true">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -176,70 +193,32 @@ String databaseId = &quot;${db}&quot;;
 int channels = ${grpc_channel};
 
 SpannerOptions options = SpannerOptions.newBuilder()
-      .setNumChannels(channels)
-      .build();
+						.setNumChannels(channels)
+						.build();
 Spanner spanner = options.getService();
-DatabaseClient dbClient = spanner.getDatabaseClient(DatabaseId.of(projectId, instanceId, databaseId));
+DatabaseClient dbClient = spanner.getDatabaseClient(
+						DatabaseId.of(projectId, instanceId, databaseId)
+					);
 
 props.put(&quot;spanner&quot;, spanner);
 props.put(&quot;dbClient&quot;, dbClient);
 
 SampleResult.setRequestHeaders(spanner.toString());</stringProp>
         </JSR223Sampler>
-        <hashTree>
-          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-            <boolProp name="ResultCollector.error_logging">false</boolProp>
-            <objProp>
-              <name>saveConfig</name>
-              <value class="SampleSaveConfiguration">
-                <time>true</time>
-                <latency>true</latency>
-                <timestamp>true</timestamp>
-                <success>true</success>
-                <label>true</label>
-                <code>true</code>
-                <message>true</message>
-                <threadName>true</threadName>
-                <dataType>true</dataType>
-                <encoding>false</encoding>
-                <assertions>true</assertions>
-                <subresults>true</subresults>
-                <responseData>false</responseData>
-                <samplerData>false</samplerData>
-                <xml>false</xml>
-                <fieldNames>true</fieldNames>
-                <responseHeaders>false</responseHeaders>
-                <requestHeaders>false</requestHeaders>
-                <responseDataOnError>false</responseDataOnError>
-                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
-                <assertionsResultsToSave>0</assertionsResultsToSave>
-                <bytes>true</bytes>
-                <sentBytes>true</sentBytes>
-                <url>true</url>
-                <threadCounts>true</threadCounts>
-                <idleTime>true</idleTime>
-                <connectTime>true</connectTime>
-              </value>
-            </objProp>
-            <stringProp name="filename"></stringProp>
-          </ResultCollector>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Master Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" enabled="true">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">${ramUp_Time}</stringProp>
-        <longProp name="ThreadGroup.start_time">1363247040000</longProp>
-        <longProp name="ThreadGroup.end_time">1363247040000</longProp>
+        <stringProp name="ThreadGroup.ramp_time">${rampUp_Time}</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">${duration}</stringProp>
         <stringProp name="ThreadGroup.delay">${startUp_Delay}</stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
       </ThreadGroup>
       <hashTree>
         <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
@@ -248,16 +227,142 @@ SampleResult.setRequestHeaders(spanner.toString());</stringProp>
           <intProp name="ThroughputController.maxThroughput">1</intProp>
           <FloatProperty>
             <name>ThroughputController.percentThroughput</name>
-            <value>100.0</value>
+            <value>12.0</value>
             <savedValue>0.0</savedValue>
           </FloatProperty>
         </ThroughputController>
         <hashTree>
-          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Test Case 1" enabled="true">
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Write with Transactions" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+String userId = vars.get(&quot;userId&quot;);
+String txnId = vars.get(&quot;txnId&quot;);
+int randomAmount = Integer.parseInt(vars.get(&quot;randomAmount&quot;));
+
+dbClient
+	.readWriteTransaction()
+	.run(transaction -&gt; {
+		String sql1 = &quot;Select Balance from user_bal where UserId = &apos;&quot;+userId+&quot;&apos;&quot;;
+		ResultSet resultSet = transaction.executeQuery(Statement.of(sql1));
+		double balance = 0.0;
+		
+		while (resultSet.next()) {
+			balance = resultSet.getBigDecimal(&quot;Balance&quot;).doubleValue();
+		}
+		transaction.buffer(
+			Mutation.newInsertBuilder(&quot;user_txns&quot;)
+				.set(&quot;UserId&quot;)
+				.to(userId)
+				.set(&quot;TransactionId&quot;)
+				.to(txnId)
+				.set(&quot;Amount&quot;)
+				.to(randomAmount)
+				.set(&quot;RewardType&quot;)
+				.to(&quot;COINS&quot;)
+				.set(&quot;TransactionSource&quot;)
+				.to(&quot;LOADTEST&quot;)
+				.set(&quot;TransactionStatus&quot;)
+				.to(&quot;SUCCESS&quot;)
+				.set(&quot;TransactionType&quot;)
+				.to(&quot;Credit&quot;)
+				.set(&quot;CreationTime&quot;)
+				.to(1)
+				.build());
+		transaction.buffer(
+			Mutation.newUpdateBuilder(&quot;user_bal&quot;)
+				.set(&quot;UserId&quot;)
+				.to(userId)
+				.set(&quot;Balance&quot;)
+				.to(new BigDecimal(balance + randomAmount))
+				.set(&quot;UpdationTime&quot;)
+				.to(1)
+				.build());
+		}
+	);
+
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree>
+            <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
+              <collectionProp name="UserParameters.names">
+                <stringProp name="110811429">txnId</stringProp>
+                <stringProp name="-1076477189">randomAmount</stringProp>
+              </collectionProp>
+              <collectionProp name="UserParameters.thread_values">
+                <collectionProp name="332914725">
+                  <stringProp name="118040362">${__UUID()}</stringProp>
+                  <stringProp name="-108146350">${__Random(0000,9999)}</stringProp>
+                </collectionProp>
+              </collectionProp>
+              <boolProp name="UserParameters.per_iteration">false</boolProp>
+            </UserParameters>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
+          <intProp name="ThroughputController.style">1</intProp>
+          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <intProp name="ThroughputController.maxThroughput">1</intProp>
+          <FloatProperty>
+            <name>ThroughputController.percentThroughput</name>
+            <value>24.06</value>
+            <savedValue>0.0</savedValue>
+          </FloatProperty>
+        </ThroughputController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read balance" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+String userId = vars.get(&quot;userId&quot;);
+String readBalanceSql = &quot;Select Balance from user_bal where UserId = @userId&quot;;
+Statement stmt = Statement.newBuilder(readBalanceSql)
+      .bind(&quot;userId&quot;).to(userId)
+      .build();
+
+ResultSet result = dbClient
+	.singleUseReadOnlyTransaction()
+	.executeQuery(stmt);
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	responseHeader += &quot; Balance: &quot; +result.getBigDecimal(&quot;Balance&quot;).doubleValue();
+}
+result.close();
+
+SampleResult.setRequestHeaders(responseHeader);</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
+          <intProp name="ThroughputController.style">1</intProp>
+          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <intProp name="ThroughputController.maxThroughput">1</intProp>
+          <FloatProperty>
+            <name>ThroughputController.percentThroughput</name>
+            <value>63.16</value>
+            <savedValue>0.0</savedValue>
+          </FloatProperty>
+        </ThroughputController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Write update user" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
             <stringProp name="script">import com.google.cloud.spanner.*;
 import java.util.*;
 import com.google.cloud.Timestamp;
@@ -267,120 +372,108 @@ DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 String userId = vars.get(&quot;userId&quot;);
 String txnId = vars.get(&quot;txnId&quot;);
 
-dbClient
-      .readWriteTransaction()
-      .run(transaction -&gt; {
+Mutation mutation = Mutation.newUpdateBuilder(&quot;user_bal&quot;)
+					.set(&quot;UserId&quot;)
+					.to(userId)
+					.set(&quot;StreakDay&quot;)
+					.to(10)
+					.set(&quot;UpdationTime&quot;)
+					.to(12120)
+					.build();
 
-         String sql1 =
-            &quot;Select Balance from user_bal_new where UserId = &apos;&quot;+userId+&quot;&apos;&quot;;
-        ResultSet resultSet = transaction.executeQuery(Statement.of(sql1));
-        long balance = 0;
-        while (resultSet.next()) {
-          balance = resultSet.getLong(&quot;Balance&quot;);
-        }
+ArrayList&lt;Mutation&gt; mutations = new ArrayList&lt;&gt;();
+mutations.add(mutation);
+dbClient.write(mutations);
 
-          transaction.buffer(
-              Mutation.newInsertBuilder(&quot;user_txns_new&quot;)
-      .set(&quot;UserId&quot;)
-      .to(userId)
-      .set(&quot;TransactionId&quot;)
-      .to(txnId)
-      .set(&quot;Amount&quot;)
-      .to(1L)
-      .set(&quot;RewardType&quot;)
-      .to(&quot;COINS&quot;)
-      .set(&quot;TransactionSource&quot;)
-      .to(&quot;LOADTEST&quot;)
-      .set(&quot;TransactionStatus&quot;)
-      .to(&quot;SUCCESS&quot;)
-      .set(&quot;TransactionType&quot;)
-      .to(&quot;Credit&quot;)
-      .set(&quot;CreationTime&quot;)
-      .to(Value.COMMIT_TIMESTAMP)
-      .build());
-
-          transaction.buffer(
-              Mutation.newUpdateBuilder(&quot;user_bal_new&quot;)
-                  .set(&quot;UserId&quot;)
-                  .to(userId)
-                  .set(&quot;Balance&quot;)
-                  .to(balance+1)
-                  .set(&quot;UpdationTime&quot;)
-                   .to(Timestamp.now())
-                  .build());
-
-      });
-
-</stringProp>
+SampleResult.setRequestHeaders(mutation.toString());</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
           </JSR223Sampler>
-          <hashTree>
-            <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
-              <collectionProp name="UserParameters.names">
-                <stringProp name="110811429">txnId</stringProp>
-              </collectionProp>
-              <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="681405977">
-                  <stringProp name="118040362">${__UUID()}</stringProp>
-                </collectionProp>
-              </collectionProp>
-              <boolProp name="UserParameters.per_iteration">false</boolProp>
-            </UserParameters>
-            <hashTree/>
-          </hashTree>
+          <hashTree/>
         </hashTree>
-        <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
-          <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="influxdbMetricsSender" elementType="Argument">
-                <stringProp name="Argument.name">influxdbMetricsSender</stringProp>
-                <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="influxdbUrl" elementType="Argument">
-                <stringProp name="Argument.name">influxdbUrl</stringProp>
-                <stringProp name="Argument.value">http://jmeter-influxdb:8086/write?db=jmeter</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="application" elementType="Argument">
-                <stringProp name="Argument.name">application</stringProp>
-                <stringProp name="Argument.value">application name</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="measurement" elementType="Argument">
-                <stringProp name="Argument.name">measurement</stringProp>
-                <stringProp name="Argument.value">jmeter</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="summaryOnly" elementType="Argument">
-                <stringProp name="Argument.name">summaryOnly</stringProp>
-                <stringProp name="Argument.value">false</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="samplersRegex" elementType="Argument">
-                <stringProp name="Argument.name">samplersRegex</stringProp>
-                <stringProp name="Argument.value">.*</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="percentiles" elementType="Argument">
-                <stringProp name="Argument.name">percentiles</stringProp>
-                <stringProp name="Argument.value">99;95;90</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="testTitle" elementType="Argument">
-                <stringProp name="Argument.name">testTitle</stringProp>
-                <stringProp name="Argument.value">Test name</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="eventTags" elementType="Argument">
-                <stringProp name="Argument.name">eventTags</stringProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
-          </elementProp>
-          <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient</stringProp>
-        </BackendListener>
-        <hashTree/>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
+          <intProp name="ThroughputController.style">1</intProp>
+          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <intProp name="ThroughputController.maxThroughput">1</intProp>
+          <FloatProperty>
+            <name>ThroughputController.percentThroughput</name>
+            <value>0.12</value>
+            <savedValue>0.0</savedValue>
+          </FloatProperty>
+        </ThroughputController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read Single Txns Request" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+String loadedTxnId = vars.get(&quot;loaded_txnId&quot;);
+String sql = &quot;Select * from user_txns where transactionid = @loadedTxnId&quot;;
+Statement stmt = Statement.newBuilder(sql)
+				.bind(&quot;loadedTxnId&quot;)
+				.to(loadedTxnId)
+				.build();
+
+ResultSet result = dbClient
+				.singleUseReadOnlyTransaction()
+				.executeQuery(stmt);
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	responseHeader += &quot; Userid: &quot; +result.getString(0);
+}
+result.close();
+
+SampleResult.setRequestHeaders(responseHeader);</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
+          <intProp name="ThroughputController.style">1</intProp>
+          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <intProp name="ThroughputController.maxThroughput">1</intProp>
+          <FloatProperty>
+            <name>ThroughputController.percentThroughput</name>
+            <value>0.62</value>
+            <savedValue>0.0</savedValue>
+          </FloatProperty>
+        </ThroughputController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read aggregate txns read" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+String sql = &quot;select * from user_txns where UserId= @user_id&quot;;
+
+String userId = vars.get(&quot;userId&quot;);
+Statement stmt = Statement.newBuilder(sql)
+				.bind(&quot;user_id&quot;)
+				.to(userId)
+				.build();
+
+ResultSet result = dbClient
+					.singleUseReadOnlyTransaction()
+					.executeQuery(stmt);
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	responseHeader += &quot; Userid: &quot; +result.getString(0);
+}
+result.close();
+
+SampleResult.setRequestHeaders(responseHeader);</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
       </hashTree>
       <PostThreadGroup guiclass="PostThreadGroupGui" testclass="PostThreadGroup" testname="tearDown Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
