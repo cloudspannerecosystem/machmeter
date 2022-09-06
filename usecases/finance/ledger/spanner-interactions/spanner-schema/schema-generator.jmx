@@ -15,12 +15,12 @@
           </elementProp>
           <elementProp name="instance" elementType="Argument">
             <stringProp name="Argument.name">instance</stringProp>
-            <stringProp name="Argument.value">asapha-test</stringProp>
+            <stringProp name="Argument.value">spanner-load-test</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="db" elementType="Argument">
             <stringProp name="Argument.name">db</stringProp>
-            <stringProp name="Argument.value">pratick-test-google</stringProp>
+            <stringProp name="Argument.value">finance-ledger</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="startUp_Delay" elementType="Argument">

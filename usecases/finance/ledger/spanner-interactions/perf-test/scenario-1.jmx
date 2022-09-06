@@ -15,17 +15,17 @@
           </elementProp>
           <elementProp name="instance" elementType="Argument">
             <stringProp name="Argument.name">instance</stringProp>
-            <stringProp name="Argument.value">asapha-test</stringProp>
+            <stringProp name="Argument.value">spanner-load-test</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="db" elementType="Argument">
             <stringProp name="Argument.name">db</stringProp>
-            <stringProp name="Argument.value">pratick-test-google</stringProp>
+            <stringProp name="Argument.value">finance-ledger</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="threads" elementType="Argument">
             <stringProp name="Argument.name">threads</stringProp>
-            <stringProp name="Argument.value">${__P(threads,1)}</stringProp>
+            <stringProp name="Argument.value">${__P(threads,50)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="rampUp_Time" elementType="Argument">
@@ -45,7 +45,7 @@
           </elementProp>
           <elementProp name="iterations" elementType="Argument">
             <stringProp name="Argument.name">iterations</stringProp>
-            <stringProp name="Argument.value">${__P(iterations,1)}</stringProp>
+            <stringProp name="Argument.value">${__P(iterations,10)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="grpc_channel" elementType="Argument">
@@ -244,7 +244,7 @@ import com.google.cloud.Timestamp;
 DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 String userId = vars.get(&quot;userId&quot;);
 String txnId = vars.get(&quot;txnId&quot;);
-int randomAmount = Integer.parseInt(vars.get(&quot;randomAmount&quot;));
+double randomAmount = Double.parseDouble(vars.get(&quot;randomAmount&quot;));
 
 dbClient
 	.readWriteTransaction()
@@ -254,7 +254,7 @@ dbClient
 		double balance = 0.0;
 		
 		while (resultSet.next()) {
-			balance = resultSet.getBigDecimal(&quot;Balance&quot;).doubleValue();
+			balance = resultSet.getDouble(&quot;Balance&quot;);
 		}
 		transaction.buffer(
 			Mutation.newInsertBuilder(&quot;user_txns&quot;)
@@ -272,17 +272,13 @@ dbClient
 				.to(&quot;SUCCESS&quot;)
 				.set(&quot;TransactionType&quot;)
 				.to(&quot;Credit&quot;)
-				.set(&quot;CreationTime&quot;)
-				.to(1)
 				.build());
 		transaction.buffer(
 			Mutation.newUpdateBuilder(&quot;user_bal&quot;)
 				.set(&quot;UserId&quot;)
 				.to(userId)
 				.set(&quot;Balance&quot;)
-				.to(new BigDecimal(balance + randomAmount))
-				.set(&quot;UpdationTime&quot;)
-				.to(1)
+				.to(balance + randomAmount)
 				.build());
 		}
 	);
@@ -340,7 +336,7 @@ ResultSet result = dbClient
 
 String responseHeader = &quot;&quot;;
 while (result.next()) {
-	responseHeader += &quot; Balance: &quot; +result.getBigDecimal(&quot;Balance&quot;).doubleValue();
+	responseHeader += &quot; Balance: &quot; +result.getDouble(&quot;Balance&quot;);
 }
 result.close();
 
@@ -377,8 +373,6 @@ Mutation mutation = Mutation.newUpdateBuilder(&quot;user_bal&quot;)
 					.to(userId)
 					.set(&quot;StreakDay&quot;)
 					.to(10)
-					.set(&quot;UpdationTime&quot;)
-					.to(12120)
 					.build();
 
 ArrayList&lt;Mutation&gt; mutations = new ArrayList&lt;&gt;();
