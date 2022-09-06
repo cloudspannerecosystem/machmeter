@@ -55,8 +55,4 @@ resource "google_spanner_database" "database" {
   name     = var.spanner_config.database_name
   deletion_protection = false
   version_retention_period = "1h"
-  ddl = [
-    "CREATE TABLE user_bal_new ( UserId STRING(1024) NOT NULL, CSpent INT64, CEarn INT64, Balance INT64 NOT NULL, EngmntLvl STRING(1024), StreakDay STRING(1024), Source STRING(1024), CreationTime TIMESTAMP NOT NULL OPTIONS ( allow_commit_timestamp = true ), UpdationTime TIMESTAMP, ) PRIMARY KEY(UserId)",
-    "CREATE TABLE user_txns_new ( UserId STRING(1024) NOT NULL, TransactionId STRING(1024) NOT NULL, Amount INT64 NOT NULL, TransactionType STRING(1024) NOT NULL, TransactionStatus STRING(1024) NOT NULL, RewardType STRING(1024) NOT NULL, TransactionSource STRING(1024), CreationTime TIMESTAMP NOT NULL OPTIONS ( allow_commit_timestamp = true ), ) PRIMARY KEY(UserId, TransactionId), INTERLEAVE IN PARENT user_bal_new ON DELETE CASCADE",
-  ]
 }
