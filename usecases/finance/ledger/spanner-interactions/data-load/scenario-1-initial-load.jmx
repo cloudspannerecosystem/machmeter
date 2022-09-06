@@ -15,12 +15,12 @@
           </elementProp>
           <elementProp name="instance" elementType="Argument">
             <stringProp name="Argument.name">instance</stringProp>
-            <stringProp name="Argument.value">manit-testing</stringProp>
+            <stringProp name="Argument.value">spanner-load-test</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="db" elementType="Argument">
             <stringProp name="Argument.name">db</stringProp>
-            <stringProp name="Argument.value">jmeter-test3</stringProp>
+            <stringProp name="Argument.value">finance-ledger</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="connections" elementType="Argument">
@@ -81,9 +81,9 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="user_bal_new insert" enabled="true">
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="user_bal insert" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">insert into user_bal_new (UserId, Balance, CreationTime) values (?,?,?)</stringProp>
+          <stringProp name="query">insert into user_bal (UserId, Balance, CreationTime) values (?,?,?)</stringProp>
           <stringProp name="queryArguments">${UserId},${Balance},${CreationTime}</stringProp>
           <stringProp name="queryArgumentsTypes">VARCHAR,DOUBLE,TIMESTAMP</stringProp>
           <stringProp name="queryTimeout"></stringProp>
@@ -117,9 +117,9 @@
           <stringProp name="LoopController.loops">1</stringProp>
         </LoopController>
         <hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="user_txns_new insert" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="user_txns insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="query">insert into user_txns_new (UserId, TransactionId, Amount, CreationTime) values (?,?,?,?);</stringProp>
+            <stringProp name="query">insert into user_txns (UserId, TransactionId, Amount, CreationTime) values (?,?,?,?);</stringProp>
             <stringProp name="queryArguments">${UserId},${TransactionId},${Amount},${CreationTime_txn}</stringProp>
             <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,DOUBLE,TIMESTAMP</stringProp>
             <stringProp name="queryTimeout"></stringProp>
@@ -150,7 +150,7 @@
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Update total balance" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
             <stringProp name="queryType">Prepared Update Statement</stringProp>
-            <stringProp name="query">update user_bal_new set Balance = Balance + ? where UserId = ?;</stringProp>
+            <stringProp name="query">update user_bal set Balance = Balance + ? where UserId = ?;</stringProp>
             <stringProp name="queryArguments">${Amount},${UserId}</stringProp>
             <stringProp name="queryArgumentsTypes">DOUBLE,VARCHAR</stringProp>
             <stringProp name="variableNames"></stringProp>
@@ -187,7 +187,7 @@
           <stringProp name="TestPlan.comments">Create CSV for sample UserIds to be used for perf test.</stringProp>
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Select Statement</stringProp>
-          <stringProp name="query">SELECT UserId FROM user_bal_new TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
+          <stringProp name="query">SELECT UserId FROM user_bal TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="variableNames"></stringProp>
@@ -200,7 +200,7 @@
           <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="JDBC PreProcessor" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
             <stringProp name="queryType">Select Statement</stringProp>
-            <stringProp name="query">SELECT UserId FROM user_bal_new TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
+            <stringProp name="query">SELECT UserId FROM user_bal TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
             <stringProp name="queryArguments"></stringProp>
             <stringProp name="queryArgumentsTypes"></stringProp>
             <stringProp name="variableNames"></stringProp>
@@ -236,7 +236,7 @@ org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/Users/manitgup
           <stringProp name="TestPlan.comments">Create CSV for sample UserIds, TransactionIds to be used for perf test.</stringProp>
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Select Statement</stringProp>
-          <stringProp name="query">SELECT UserId, TransactionId FROM user_txns_new TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
+          <stringProp name="query">SELECT UserId, TransactionId FROM user_txns TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="variableNames"></stringProp>
@@ -249,7 +249,7 @@ org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/Users/manitgup
           <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="JDBC PreProcessor" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
             <stringProp name="queryType">Select Statement</stringProp>
-            <stringProp name="query">SELECT UserId, TransactionId FROM user_txns_new TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
+            <stringProp name="query">SELECT UserId, TransactionId FROM user_txns TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
             <stringProp name="queryArguments"></stringProp>
             <stringProp name="queryArgumentsTypes"></stringProp>
             <stringProp name="variableNames"></stringProp>
