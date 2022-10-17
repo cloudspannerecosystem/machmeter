@@ -53,19 +53,14 @@
             <stringProp name="Argument.value">50</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="user_id_csv" elementType="Argument">
-            <stringProp name="Argument.name">user_id_csv</stringProp>
-            <stringProp name="Argument.value">/Users/pratick/IdeaProjects/cloud-spanner-poc-validation/usecases/finance/ledger/spanner-interactions/perf-test/userId.csv</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="txn_id_csv" elementType="Argument">
-            <stringProp name="Argument.name">txn_id_csv</stringProp>
-            <stringProp name="Argument.value">/Users/pratick/IdeaProjects/cloud-spanner-poc-validation/usecases/finance/ledger/spanner-interactions/perf-test/txnid.csv</stringProp>
+          <elementProp name="connections" elementType="Argument">
+            <stringProp name="Argument.name">connections</stringProp>
+            <stringProp name="Argument.value">1000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
       </elementProp>
-      <stringProp name="TestPlan.user_define_classpath">/Users/pratick/benchmarking-poc/jars</stringProp>
+      <stringProp name="TestPlan.user_define_classpath">/test/</stringProp>
     </TestPlan>
     <hashTree>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
@@ -145,7 +140,7 @@
       <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
         <stringProp name="delimiter">,</stringProp>
         <stringProp name="fileEncoding"></stringProp>
-        <stringProp name="filename">${user_id_csv}</stringProp>
+        <stringProp name="filename">/userId.csv</stringProp>
         <boolProp name="ignoreFirstLine">false</boolProp>
         <boolProp name="quotedData">false</boolProp>
         <boolProp name="recycle">true</boolProp>
@@ -155,15 +150,15 @@
       </CSVDataSet>
       <hashTree/>
       <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
-        <stringProp name="delimiter">,</stringProp>
+        <stringProp name="filename">/txnId.csv</stringProp>
         <stringProp name="fileEncoding"></stringProp>
-        <stringProp name="filename">${txn_id_csv}</stringProp>
+        <stringProp name="variableNames">loaded_txnId</stringProp>
         <boolProp name="ignoreFirstLine">false</boolProp>
+        <stringProp name="delimiter">,</stringProp>
         <boolProp name="quotedData">false</boolProp>
         <boolProp name="recycle">true</boolProp>
-        <stringProp name="shareMode">shareMode.all</stringProp>
         <boolProp name="stopThread">false</boolProp>
-        <stringProp name="variableNames">loaded_txnId</stringProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
       </CSVDataSet>
       <hashTree/>
       <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="create spanner client" enabled="true">
@@ -193,12 +188,10 @@ String databaseId = &quot;${db}&quot;;
 int channels = ${grpc_channel};
 
 SpannerOptions options = SpannerOptions.newBuilder()
-						.setNumChannels(channels)
-						.build();
+      .setNumChannels(channels)
+      .build();
 Spanner spanner = options.getService();
-DatabaseClient dbClient = spanner.getDatabaseClient(
-						DatabaseId.of(projectId, instanceId, databaseId)
-					);
+DatabaseClient dbClient = spanner.getDatabaseClient(DatabaseId.of(projectId, instanceId, databaseId));
 
 props.put(&quot;spanner&quot;, spanner);
 props.put(&quot;dbClient&quot;, dbClient);
@@ -209,16 +202,18 @@ SampleResult.setRequestHeaders(spanner.toString());</stringProp>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Master Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">${rampUp_Time}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${ramUp_Time}</stringProp>
+        <longProp name="ThreadGroup.start_time">1363247040000</longProp>
+        <longProp name="ThreadGroup.end_time">1363247040000</longProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">${duration}</stringProp>
         <stringProp name="ThreadGroup.delay">${startUp_Delay}</stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
         <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
@@ -233,9 +228,10 @@ SampleResult.setRequestHeaders(spanner.toString());</stringProp>
         </ThroughputController>
         <hashTree>
           <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Write with Transactions" enabled="true">
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="filename"></stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
             <stringProp name="script">import com.google.cloud.spanner.*;
 import java.util.*;
 import com.google.cloud.Timestamp;
@@ -252,7 +248,7 @@ dbClient
 		String sql1 = &quot;Select Balance from user_bal where UserId = &apos;&quot;+userId+&quot;&apos;&quot;;
 		ResultSet resultSet = transaction.executeQuery(Statement.of(sql1));
 		double balance = 0.0;
-		
+
 		while (resultSet.next()) {
 			balance = resultSet.getDouble(&quot;Balance&quot;);
 		}
@@ -284,7 +280,6 @@ dbClient
 	);
 
 </stringProp>
-            <stringProp name="scriptLanguage">groovy</stringProp>
           </JSR223Sampler>
           <hashTree>
             <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
@@ -356,9 +351,10 @@ SampleResult.setRequestHeaders(responseHeader);</stringProp>
         </ThroughputController>
         <hashTree>
           <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Write update user" enabled="true">
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="filename"></stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
             <stringProp name="script">import com.google.cloud.spanner.*;
 import java.util.*;
 import com.google.cloud.Timestamp;
@@ -380,7 +376,6 @@ mutations.add(mutation);
 dbClient.write(mutations);
 
 SampleResult.setRequestHeaders(mutation.toString());</stringProp>
-            <stringProp name="scriptLanguage">groovy</stringProp>
           </JSR223Sampler>
           <hashTree/>
         </hashTree>
@@ -395,7 +390,7 @@ SampleResult.setRequestHeaders(mutation.toString());</stringProp>
           </FloatProperty>
         </ThroughputController>
         <hashTree>
-          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read Single Txns Request" enabled="true">
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read Subgle Txns Request" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
@@ -438,9 +433,10 @@ SampleResult.setRequestHeaders(responseHeader);</stringProp>
         </ThroughputController>
         <hashTree>
           <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read aggregate txns read" enabled="true">
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="filename"></stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
             <stringProp name="script">import com.google.cloud.spanner.*;
 
 
@@ -464,10 +460,62 @@ while (result.next()) {
 result.close();
 
 SampleResult.setRequestHeaders(responseHeader);</stringProp>
-            <stringProp name="scriptLanguage">groovy</stringProp>
           </JSR223Sampler>
           <hashTree/>
         </hashTree>
+        <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
+          <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="influxdbMetricsSender" elementType="Argument">
+                <stringProp name="Argument.name">influxdbMetricsSender</stringProp>
+                <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="influxdbUrl" elementType="Argument">
+                <stringProp name="Argument.name">influxdbUrl</stringProp>
+                <stringProp name="Argument.value">http://jmeter-influxdb:8086/write?db=jmeter</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="application" elementType="Argument">
+                <stringProp name="Argument.name">application</stringProp>
+                <stringProp name="Argument.value">application name</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="measurement" elementType="Argument">
+                <stringProp name="Argument.name">measurement</stringProp>
+                <stringProp name="Argument.value">jmeter</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="summaryOnly" elementType="Argument">
+                <stringProp name="Argument.name">summaryOnly</stringProp>
+                <stringProp name="Argument.value">false</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="samplersRegex" elementType="Argument">
+                <stringProp name="Argument.name">samplersRegex</stringProp>
+                <stringProp name="Argument.value">.*</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="percentiles" elementType="Argument">
+                <stringProp name="Argument.name">percentiles</stringProp>
+                <stringProp name="Argument.value">99;95;90</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="testTitle" elementType="Argument">
+                <stringProp name="Argument.name">testTitle</stringProp>
+                <stringProp name="Argument.value">Test name</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="eventTags" elementType="Argument">
+                <stringProp name="Argument.name">eventTags</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient</stringProp>
+        </BackendListener>
+        <hashTree/>
       </hashTree>
       <PostThreadGroup guiclass="PostThreadGroupGui" testclass="PostThreadGroup" testname="tearDown Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
