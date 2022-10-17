@@ -1,0 +1,10 @@
+{
+  "ddlConfig" : {
+    "instanceConfig" : {
+      "instanceId" : "alpha-test",
+      "dbName" : "test-google",
+      "projectId" : "span-cloud-testing"
+    },
+    "schemaFilePath" : "/Users/albha/queries.sql"
+  }
+}

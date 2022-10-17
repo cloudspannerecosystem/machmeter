@@ -1,4 +1,4 @@
-package spanner.jdbc.ddl;
+package com.google.cloud.machmeter.ddl;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
@@ -19,7 +19,6 @@ public class ScriptRunner {
   private Connection connection;
 
   private boolean stopOnError;
-  private boolean autoCommit;
   private boolean sendFullScript;
 
   private PrintWriter logWriter = new PrintWriter(System.out);
@@ -39,10 +38,6 @@ public class ScriptRunner {
 
   public void setStopOnError(boolean stopOnError) {
     this.stopOnError = stopOnError;
-  }
-
-  public void setAutoCommit(boolean autoCommit) {
-    this.autoCommit = autoCommit;
   }
 
   public void setSendFullScript(boolean sendFullScript) {
@@ -66,8 +61,6 @@ public class ScriptRunner {
   }
 
   public void runScript(Reader reader) throws SQLException {
-    // setAutoCommit();
-
     try {
       if (sendFullScript) {
         executeFullScript(reader);
@@ -119,17 +112,6 @@ public class ScriptRunner {
       connection.close();
     } catch (Exception e) {
       // ignore
-    }
-  }
-
-  private void setAutoCommit() throws SQLException {
-    try {
-      if (autoCommit != connection.getAutoCommit()) {
-        connection.setAutoCommit(autoCommit);
-      }
-    } catch (Throwable t) {
-      throw new SQLException("Could not set AutoCommit to " + autoCommit + ". Cause: " + t,
-          t);
     }
   }
 
@@ -258,6 +240,4 @@ public class ScriptRunner {
       errorLogWriter.flush();
     }
   }
-
-
 }
