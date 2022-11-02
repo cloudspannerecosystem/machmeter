@@ -33,6 +33,7 @@ public class SpannerInstancePlugin implements PluginInterface {
     List<String> cdkList = new ArrayList<>();
     cdkList.add("/opt/homebrew/bin/cdktf");
     cdkList.add("deploy");
+    cdkList.add("spannerStack");
     ProcessBuilder processBuilder = new ProcessBuilder(cdkList);
     try {
       Process process = processBuilder.start();
