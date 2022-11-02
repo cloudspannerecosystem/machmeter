@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@cdktf/provider-google": "^3.0.14"
+  }
+}
