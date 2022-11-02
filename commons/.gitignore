@@ -9,5 +9,5 @@ output.txt
 src/test/golang/**/*.h
 src/test/golang/**/*.so
 
-src/test/csharp/**/bin
-src/test/csharp/**/obj
+../src/test/csharp/**/bin
+../src/test/csharp/**/obj
