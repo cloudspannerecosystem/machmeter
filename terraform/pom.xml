@@ -35,6 +35,11 @@
       <artifactId>cdktf-provider-google</artifactId>
       <version>3.0.14</version>
     </dependency>
+    <dependency>
+      <groupId>com.hashicorp</groupId>
+      <artifactId>cdktf-provider-kubernetes</artifactId>
+      <version>3.0.12</version>
+    </dependency>
   </dependencies>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>

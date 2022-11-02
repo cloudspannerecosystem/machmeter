@@ -5,9 +5,9 @@ import com.hashicorp.cdktf.providers.google.spanner_instance.SpannerInstance;
 import software.constructs.Construct;
 
 import com.hashicorp.cdktf.TerraformStack;
-public class Spanner extends TerraformStack
+public class SpannerStack extends TerraformStack
 {
-    public Spanner(final Construct scope, final String id) {
+    public SpannerStack(final Construct scope, final String id) {
         super(scope, id);
         // the arguments provided to spannerInstance need to be parameterised
         SpannerInstance spannerInstance = SpannerInstance.Builder.create(this, "abc")

@@ -5,7 +5,8 @@
   "sendCrashReports": "false",
   "codeMakerOutput": "src/main/java/imports",
   "terraformProviders": [
-    "hashicorp/gcp@~>4.0"
+    "hashicorp/gcp@~>4.0",
+    "hashicorp/kubernetes@~>1.11.3"
   ],
   "terraformModules": [],
   "context": {

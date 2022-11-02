@@ -7,7 +7,7 @@ public class Main
 {
     public static void main(String[] args) {
         final App app = new App();
-        new Spanner(app, "terraform");
+        new SpannerStack(app, "terraform");
         app.synth();
     }
 }
