@@ -29,8 +29,6 @@ public class Orchestrator {
    * [1]: path to json machMeterConfig
    */
   public static void main(String[] parameters) {
-    File f= new File(Resources.getResource("main.tf").getPath());
-    System.out.println(f.getParent());
     if (parameters.length != 2) {
       throw new IllegalArgumentException("Command and config path required.");
     }
