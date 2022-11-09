@@ -4,12 +4,16 @@ import com.google.cloud.machmeter.model.ExecutionCommand;
 import com.google.cloud.machmeter.model.MachmeterConfig;
 import com.google.cloud.machmeter.plugins.PluginController;
 import com.google.cloud.machmeter.plugins.PluginInterface;
+import com.google.common.io.Resources;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +29,8 @@ public class Orchestrator {
    * [1]: path to json machMeterConfig
    */
   public static void main(String[] parameters) {
+    File f= new File(Resources.getResource("main.tf").getPath());
+    System.out.println(f.getParent());
     if (parameters.length != 2) {
       throw new IllegalArgumentException("Command and config path required.");
     }

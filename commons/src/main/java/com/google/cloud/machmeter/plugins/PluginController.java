@@ -23,7 +23,7 @@ public class PluginController {
 
   private List<PluginInterface> getOrderedSetupCommand() {
     List<PluginInterface> setupCommandList = new ArrayList<>();
-    setupCommandList.add(new DdlPlugin());
+    setupCommandList.add(new InfraSetup());
     return setupCommandList;
   }
 
