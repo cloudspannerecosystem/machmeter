@@ -156,24 +156,25 @@ public class InfraSetup implements PluginInterface {
 
     @Override
     public void execute(MachmeterConfig config) {
-        File f = new File(System.getProperty("user.dir")+"/machmeter/main.tf");
-        if(!f.getParentFile().exists()){
-            f.getParentFile().mkdirs();
-        }
-        if(!f.exists()){
-            try {
-                f.createNewFile();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        Charset utf8 = StandardCharsets.UTF_8;
-        try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(f), utf8)) {
-            writer.write(content);
-        } catch (IOException e) {}
+//        File f = new File(System.getProperty("user.dir")+"/machmeter/main.tf");
+//        if(!f.getParentFile().exists()){
+//            f.getParentFile().mkdirs();
+//        }
+//        if(!f.exists()){
+//            try {
+//                f.createNewFile();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        Charset utf8 = StandardCharsets.UTF_8;
+//        try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(f), utf8)) {
+//            writer.write(content);
+//        } catch (IOException e) {}
 //        File f= new File(Resources.getResource("main.tf").getPath());
 //        System.out.println(f.getParent());
-        String terraformCommand = String.format("terraform -chdir=%s plan -var=gcp_project=%s", f.getParent(),"span-cloud-testing");
+//        String terraformCommand = String.format("terraform -chdir=%s plan -var=gcp_project=%s", f.getParent(),"span-cloud-testing");
+        String terraformCommand = String.format("terraform plan -var=gcp_project=%s", "span-cloud-testing");
 //
 //        List<String> terraformCommand = new ArrayList<>();
 //        terraformCommand.add("terraform");
@@ -217,6 +218,7 @@ public class InfraSetup implements PluginInterface {
     public void run(String executeCommand) throws Exception{
         ProcessBuilder processBuilder = new ProcessBuilder(executeCommand.split(" "));
         processBuilder.inheritIO();
+        processBuilder.directory(new File("machmeter_output/terraform"));
         Process process = processBuilder.start();
         StringBuilder output = new StringBuilder();
         BufferedReader reader
