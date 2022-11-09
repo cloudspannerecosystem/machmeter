@@ -14,7 +14,8 @@ This plugin creates a local directory on the user system to preserve machmeter s
  */
 public class MachmeterStatePlugin implements PluginInterface {
 
-  public static final String MACHMETER_OUTPUT_DIR = "machmeter_output";
+  private static final String MACHMETER_OUTPUT_DIR = "machmeter_output";
+  private static final String TERRAFORM_DIR = "terraform";
 
   @Override
   public String getName() {
@@ -28,6 +29,6 @@ public class MachmeterStatePlugin implements PluginInterface {
         machmeterDir.mkdirs();
       }
     ResourceHandler resourceCopy = new ResourceHandler();
-    resourceCopy.copyResourceDirectory(Paths.get(machmeterDir.getAbsolutePath()));
+    resourceCopy.copyResourceDirectory(TERRAFORM_DIR, Paths.get(machmeterDir.getAbsolutePath()));
   }
 }

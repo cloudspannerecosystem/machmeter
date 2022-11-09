@@ -9,20 +9,19 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 /**
  * A helper to copy resources from a JAR file into a directory.
  */
 public final class ResourceHandler {
+  private static final String MACHMETER_ASSETS = "%s/machmeter-assets.txt";
 
-  private static final String TERRAFORM_DIR = "terraform";
-  private static final String MACHMETER_ASSETS = String.format("%s/%s", TERRAFORM_DIR, "machmeter-assets.txt");
-
-  public void copyResourceDirectory(final Path targetDirPath) {
-    try (BufferedReader listFile = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(MACHMETER_ASSETS), StandardCharsets.UTF_8))) {
+  public void copyResourceDirectory(final String sourceFolder, final Path targetDirPath) {
+    try (BufferedReader listFile = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(String.format(MACHMETER_ASSETS, sourceFolder))), StandardCharsets.UTF_8))) {
       String line;
-      while ((line =  listFile.readLine()) != null) {
-        String assetResource = String.format("%s/%s", TERRAFORM_DIR, line);
+      while ((line = listFile.readLine()) != null) {
+        String assetResource = String.format("%s/%s", sourceFolder, line);
         System.out.println("resource: " + assetResource);
         Path assetFile = targetDirPath.resolve(assetResource);
         Files.createDirectories(assetFile.getParent());
