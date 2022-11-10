@@ -24,6 +24,7 @@ public class PluginController {
     List<PluginInterface> setupCommandList = new ArrayList<>();
     setupCommandList.add(new MachmeterStatePlugin());
     setupCommandList.add(new InfraSetup());
+    setupCommandList.add(new DdlPlugin());
     return setupCommandList;
   }
 
