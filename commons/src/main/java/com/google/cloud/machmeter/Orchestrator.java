@@ -31,6 +31,7 @@ public class Orchestrator {
 
   public void executeOrchestrator(String command, String machmeterConfigPath) {
     ExecutionCommand executionCommand = validateExecutionCommand(command);
+
     MachmeterConfig machmeterConfig = validateJsonFile(machmeterConfigPath);
     executeOrchestrator(executionCommand, machmeterConfig);
   }

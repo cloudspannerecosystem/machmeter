@@ -3,6 +3,15 @@ package com.google.cloud.machmeter.model;
 public class MachmeterConfig {
   private InfraConfig infraConfig;
   private DdlConfig ddlConfig;
+  private GKEConfig gkeConfig;
+
+  public GKEConfig getGkeConfig() {
+    return gkeConfig;
+  }
+
+  public void setGkeConfig(GKEConfig gkeConfig) {
+    this.gkeConfig = gkeConfig;
+  }
 
   public DdlConfig getDdlConfig() {
     return ddlConfig;
