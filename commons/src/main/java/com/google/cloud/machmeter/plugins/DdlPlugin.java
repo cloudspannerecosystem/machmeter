@@ -14,8 +14,8 @@ public class DdlPlugin implements PluginInterface {
   }
 
   @Override
-  public void execute(MachmeterConfig config) {
-    DdlConfig ddlConfig = config.getDdlConfig();
+  public void execute(MachmeterConfig machmeterConfig) {
+    DdlConfig ddlConfig = machmeterConfig.getDdlConfig();
     try {
       SpannerJdbcDdl.executeSqlFile(
           ddlConfig.getInstanceConfig().getProjectId(),

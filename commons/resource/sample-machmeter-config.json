@@ -1,6 +1,6 @@
 {
   "infraConfig": {
-    "instanceConfig": {
+    "spannerInstanceConfig": {
       "projectId" : "span-cloud-testing",
       "instanceId": "spanner-load-test",
       "dbName": "test-google",
@@ -19,7 +19,7 @@
     }
   },
   "ddlConfig" : {
-    "instanceConfig" : {
+    "spannerInstanceConfig" : {
       "instanceId" : "spanner-load-test",
       "dbName" : "test-google",
       "configuration": "regional-us-central1",

@@ -1,12 +1,13 @@
 package com.google.cloud.machmeter.plugins;
 
+import com.google.cloud.machmeter.model.GKEConfig;
+import com.google.cloud.machmeter.model.SpannerInstanceConfig;
 import com.google.cloud.machmeter.model.MachmeterConfig;
 import java.io.*;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONObject;
+
+import com.google.gson.Gson;
 
 public class InfraSetup implements PluginInterface {
   private static final Logger logger = Logger.getLogger(InfraSetup.class.getName());
@@ -17,43 +18,24 @@ public class InfraSetup implements PluginInterface {
   }
 
   @Override
-  public void execute(MachmeterConfig config) {
+  public void execute(MachmeterConfig machmeterConfig) {
     // Spanner instance and database config
-    Map<String, Object> spannerConfig = new LinkedHashMap<>();
-    spannerConfig.put("instance_name", config.getInfraConfig().getInstanceConfig().getInstanceId());
-    spannerConfig.put("database_name", config.getInfraConfig().getInstanceConfig().getDbName());
-    spannerConfig.put(
-        "configuration", config.getInfraConfig().getInstanceConfig().getConfiguration());
-    spannerConfig.put(
-        "display_name",
-        config.getInfraConfig().getInstanceConfig().getDisplayName().replaceAll(" ", "_"));
-    spannerConfig.put(
-        "processing_units", config.getInfraConfig().getInstanceConfig().getProcessingUnits());
-    spannerConfig.put("environment", config.getInfraConfig().getInstanceConfig().getEnvironment());
-    // GKE config
-    Map<String, Object> gkeConfig = new LinkedHashMap<>();
-    gkeConfig.put("cluster_name", config.getInfraConfig().getGkeConfig().getClusterName());
-    gkeConfig.put("region", config.getInfraConfig().getGkeConfig().getRegion());
-    gkeConfig.put("network", config.getInfraConfig().getGkeConfig().getNetwork());
-    gkeConfig.put("subnetwork", config.getInfraConfig().getGkeConfig().getSubnetwork());
-    gkeConfig.put(
-        "ip_range_pods_name", config.getInfraConfig().getGkeConfig().getIpRangePodsName());
-    gkeConfig.put(
-        "ip_range_services_name", config.getInfraConfig().getGkeConfig().getIpRangeServicesName());
-
+    Gson gson = new Gson();
+    SpannerInstanceConfig spannerInstanceConfig = machmeterConfig.getInfraConfig().getSpannerInstanceConfig();
+    GKEConfig gkeConfig = machmeterConfig.getInfraConfig().getGkeConfig();
     String terraformPlanCMD =
         String.format(
             "terraform plan -var=gcp_project=%s -var=spanner_config=%s -var=gke_config=%s",
-            config.getInfraConfig().getInstanceConfig().getProjectId(),
-            new JSONObject(spannerConfig),
-            new JSONObject(gkeConfig));
+            spannerInstanceConfig.getProjectId(),
+            gson.toJson(spannerInstanceConfig),
+            gson.toJson(gkeConfig));
+    System.out.println(terraformPlanCMD);
     String terraformApplyCMD =
         String.format(
             "terraform apply -var=gcp_project=%s -var=spanner_config=%s -var=gke_config=%s --auto-approve",
-            config.getInfraConfig().getInstanceConfig().getProjectId(),
-            new JSONObject(spannerConfig),
-            new JSONObject(gkeConfig));
-
+            machmeterConfig.getInfraConfig().getSpannerInstanceConfig().getProjectId(),
+            gson.toJson(spannerInstanceConfig),
+            gson.toJson(gkeConfig));
     try {
       logger.log(Level.INFO, "Executing terraform init");
       run("terraform init");

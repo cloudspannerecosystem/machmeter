@@ -8,5 +8,5 @@ public interface PluginInterface {
   String getName();
 
   /** Executes the underlying plugin */
-  void execute(MachmeterConfig config);
+  void execute(MachmeterConfig machmeterConfig);
 }

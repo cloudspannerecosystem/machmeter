@@ -1,12 +1,25 @@
 package com.google.cloud.machmeter.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class GKEConfig {
 
+  @SerializedName(value = "cluster_name", alternate = "clusterName")
   private String clusterName;
+
+  @SerializedName(value = "region")
   private String region;
+
+  @SerializedName(value = "network")
   private String network;
+
+  @SerializedName(value = "subnetwork")
   private String subnetwork;
+
+  @SerializedName(value = "ip_range_pods_name", alternate = "ipRangePodsName")
   private String ipRangePodsName;
+
+  @SerializedName(value = "ip_range_services_name", alternate = "ipRangeServicesName")
   private String ipRangeServicesName;
 
   public String getClusterName() {

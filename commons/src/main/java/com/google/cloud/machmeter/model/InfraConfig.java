@@ -2,16 +2,16 @@ package com.google.cloud.machmeter.model;
 
 public class InfraConfig {
 
-  private InstanceConfig instanceConfig;
+  private SpannerInstanceConfig spannerInstanceConfig;
 
   private GKEConfig gkeConfig;
 
-  public InstanceConfig getInstanceConfig() {
-    return instanceConfig;
+  public SpannerInstanceConfig getSpannerInstanceConfig() {
+    return spannerInstanceConfig;
   }
 
-  public void setInstanceConfig(InstanceConfig instanceConfig) {
-    this.instanceConfig = instanceConfig;
+  public void setSpannerInstanceConfig(SpannerInstanceConfig spannerInstanceConfig) {
+    this.spannerInstanceConfig = spannerInstanceConfig;
   }
 
   public GKEConfig getGkeConfig() {

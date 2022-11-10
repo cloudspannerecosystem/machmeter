@@ -20,7 +20,7 @@ public class MachmeterStatePlugin implements PluginInterface {
   }
 
   @Override
-  public void execute(MachmeterConfig config) {
+  public void execute(MachmeterConfig machmeterConfig) {
     File machmeterDir = new File(MACHMETER_OUTPUT_DIR);
     if (!machmeterDir.exists()) {
       machmeterDir.mkdirs();
