@@ -15,8 +15,9 @@ public class SpannerJdbcDdl {
   }
 
   /**
-   * Executing this will require setting the environment variable GOOGLE_APPLICATION_CREDENTIALS
-   * to the service accounts credential path.
+   * Executing this will require setting the environment variable GOOGLE_APPLICATION_CREDENTIALS to
+   * the service accounts credential path.
+   *
    * @throws SQLException
    * @throws FileNotFoundException
    */
@@ -29,17 +30,17 @@ public class SpannerJdbcDdl {
   }
 
   /**
-   * Executing this will require setting the environment variable GOOGLE_APPLICATION_CREDENTIALS
-   * to the service accounts credential path.
+   * Executing this will require setting the environment variable GOOGLE_APPLICATION_CREDENTIALS to
+   * the service accounts credential path.
+   *
    * @throws SQLException
    * @throws FileNotFoundException
    */
   public static void executeSqlFile(
-      String projectId,
-      String instanceId,
-      String databaseId,
-      String sqlFile) throws SQLException, FileNotFoundException {
-    String connectionUrl = String.format(
+      String projectId, String instanceId, String databaseId, String sqlFile)
+      throws SQLException, FileNotFoundException {
+    String connectionUrl =
+        String.format(
             "jdbc:cloudspanner:/projects/%s/instances/%s/databases/%s",
             projectId, instanceId, databaseId);
     try (Connection connection = DriverManager.getConnection(connectionUrl)) {
@@ -48,5 +49,4 @@ public class SpannerJdbcDdl {
       sr.runScript(reader);
     }
   }
-
 }

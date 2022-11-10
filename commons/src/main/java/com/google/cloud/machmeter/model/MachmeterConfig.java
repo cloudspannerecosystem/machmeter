@@ -1,7 +1,7 @@
 package com.google.cloud.machmeter.model;
 
 public class MachmeterConfig {
-
+  private InfraConfig infraConfig;
   private DdlConfig ddlConfig;
 
   public DdlConfig getDdlConfig() {
@@ -10,5 +10,13 @@ public class MachmeterConfig {
 
   public void setDdlConfig(DdlConfig ddlConfig) {
     this.ddlConfig = ddlConfig;
+  }
+
+  public InfraConfig getInfraConfig() {
+    return infraConfig;
+  }
+
+  public void setInfraConfig(InfraConfig infraConfig) {
+    this.infraConfig = infraConfig;
   }
 }

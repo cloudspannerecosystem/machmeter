@@ -6,6 +6,12 @@ public class InstanceConfig {
   private String dbName;
   private String projectId;
 
+  private String configuration;
+  private String displayName;
+
+  private int processingUnits;
+  private String environment;
+
   public String getInstanceId() {
     return instanceId;
   }
@@ -28,5 +34,37 @@ public class InstanceConfig {
 
   public void setProjectId(String projectId) {
     this.projectId = projectId;
+  }
+
+  public String getConfiguration() {
+    return configuration;
+  }
+
+  public void setConfiguration(String configuration) {
+    this.configuration = configuration;
+  }
+
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
+  }
+
+  public int getProcessingUnits() {
+    return processingUnits;
+  }
+
+  public void setProcessingUnits(int processingUnits) {
+    this.processingUnits = processingUnits;
+  }
+
+  public String getEnvironment() {
+    return environment;
+  }
+
+  public void setEnvironment(String environment) {
+    this.environment = environment;
   }
 }

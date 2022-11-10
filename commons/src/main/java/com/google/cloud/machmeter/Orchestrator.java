@@ -4,16 +4,12 @@ import com.google.cloud.machmeter.model.ExecutionCommand;
 import com.google.cloud.machmeter.model.MachmeterConfig;
 import com.google.cloud.machmeter.plugins.PluginController;
 import com.google.cloud.machmeter.plugins.PluginInterface;
-import com.google.common.io.Resources;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
-
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,10 +19,8 @@ public class Orchestrator {
   private final PluginController pluginController = new PluginController();
 
   /**
-   *
-   * @param parameters Contains list of command line arguments in the following structure
-   * [0]: setup / execute
-   * [1]: path to json machMeterConfig
+   * @param parameters Contains list of command line arguments in the following structure [0]: setup
+   *     / execute [1]: path to json machMeterConfig
    */
   public static void main(String[] parameters) {
     if (parameters.length != 2) {
@@ -67,5 +61,4 @@ public class Orchestrator {
       throw new IllegalArgumentException("Json File is not of the expected format.", e);
     }
   }
-
 }

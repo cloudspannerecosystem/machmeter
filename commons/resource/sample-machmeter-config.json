@@ -1,8 +1,28 @@
 {
+  "infraConfig": {
+    "instanceConfig": {
+      "projectId" : "span-cloud-testing",
+      "instanceId": "spanner-load-test",
+      "dbName": "test-google",
+      "configuration": "regional-us-central1",
+      "displayName": "load_test_instance",
+      "processingUnits": 1000,
+      "environment": "testing"
+    },
+    "gkeConfig": {
+      "clusterName": "jmeter-load-test",
+      "region": "us-central1",
+      "network": "gke-network",
+      "subnetwork": "gke-subnet",
+      "ipRangePodsName": "ip-range-pods",
+      "ipRangeServicesName": "ip-range-services"
+    }
+  },
   "ddlConfig" : {
     "instanceConfig" : {
-      "instanceId" : "alpha-test",
+      "instanceId" : "spanner-load-test",
       "dbName" : "test-google",
+      "configuration": "regional-us-central1",
       "projectId" : "span-cloud-testing"
     },
     "schemaFilePath" : "/Users/albha/queries.sql"

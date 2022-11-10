@@ -16,7 +16,6 @@ public class PluginController {
     pluginCommandMap.put(ExecutionCommand.EXECUTE, getOrderedExecuteCommand());
   }
 
-
   public List<PluginInterface> getSequentialOfPlugins(ExecutionCommand executionCommand) {
     return pluginCommandMap.get(executionCommand);
   }
@@ -32,5 +31,4 @@ public class PluginController {
     List<PluginInterface> executeCommandList = new ArrayList<>();
     return executeCommandList;
   }
-
 }

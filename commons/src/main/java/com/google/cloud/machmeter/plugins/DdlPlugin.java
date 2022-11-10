@@ -27,6 +27,5 @@ public class DdlPlugin implements PluginInterface {
     } catch (FileNotFoundException e) {
       throw new IllegalArgumentException("Invalid schema file path.", e);
     }
-
   }
 }
