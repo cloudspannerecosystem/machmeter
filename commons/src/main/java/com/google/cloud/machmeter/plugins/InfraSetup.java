@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class InfraSetup implements PluginInterface {
   private static final Logger logger = Logger.getLogger(InfraSetup.class.getName());
@@ -20,7 +21,9 @@ public class InfraSetup implements PluginInterface {
   @Override
   public void execute(MachmeterConfig machmeterConfig) {
     // Spanner instance and database config
-    Gson gson = new Gson();
+    Gson gson = new GsonBuilder()
+        .excludeFieldsWithoutExposeAnnotation()
+        .create();
     SpannerInstanceConfig spannerInstanceConfig = machmeterConfig.getInfraConfig().getSpannerInstanceConfig();
     GKEConfig gkeConfig = machmeterConfig.getInfraConfig().getGkeConfig();
     String terraformPlanCMD =
@@ -33,7 +36,7 @@ public class InfraSetup implements PluginInterface {
     String terraformApplyCMD =
         String.format(
             "terraform apply -var=gcp_project=%s -var=spanner_config=%s -var=gke_config=%s --auto-approve",
-            machmeterConfig.getInfraConfig().getSpannerInstanceConfig().getProjectId(),
+            spannerInstanceConfig.getProjectId(),
             gson.toJson(spannerInstanceConfig),
             gson.toJson(gkeConfig));
     try {

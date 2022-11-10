@@ -1,27 +1,35 @@
 package com.google.cloud.machmeter.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class SpannerInstanceConfig {
 
   @SerializedName(value = "instance_name", alternate = "instanceId")
+  @Expose
   private String instanceId;
 
   @SerializedName(value = "database_name", alternate = "dbName")
+  @Expose
   private String dbName;
 
-  private transient String projectId;
+  @Expose(serialize = false)
+  private String projectId;
 
   @SerializedName(value = "configuration")
+  @Expose
   private String configuration;
 
   @SerializedName(value = "display_name", alternate = "displayName")
+  @Expose
   private String displayName;
 
   @SerializedName(value = "processing_units", alternate = "processingUnits")
+  @Expose
   private int processingUnits;
 
   @SerializedName(value = "environment")
+  @Expose
   private String environment;
 
   public String getInstanceId() {
