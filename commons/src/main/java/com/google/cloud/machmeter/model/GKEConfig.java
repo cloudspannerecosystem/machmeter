@@ -29,6 +29,14 @@ public class GKEConfig {
   @Expose
   private String ipRangeServicesName;
 
+  @SerializedName(value = "namespace")
+  @Expose
+  private String namespace;
+
+  @SerializedName(value = "service_account_json", alternate = "serviceAccountJson")
+  @Expose
+  private String serviceAccountJson;
+
   public String getClusterName() {
     return clusterName;
   }
@@ -75,5 +83,21 @@ public class GKEConfig {
 
   public void setIpRangeServicesName(String ipRangeServicesName) {
     this.ipRangeServicesName = ipRangeServicesName;
+  }
+
+  public String getNamespace() {
+    return namespace;
+  }
+
+  public void setNamespace(String namespace) {
+    this.namespace = namespace;
+  }
+
+  public String getServiceAccountJson() {
+    return serviceAccountJson;
+  }
+
+  public void setServiceAccountJson(String serviceAccountJson) {
+    this.serviceAccountJson = serviceAccountJson;
   }
 }

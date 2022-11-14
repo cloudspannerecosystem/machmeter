@@ -1,14 +1,13 @@
 package com.google.cloud.machmeter.plugins;
 
 import com.google.cloud.machmeter.model.GKEConfig;
-import com.google.cloud.machmeter.model.SpannerInstanceConfig;
 import com.google.cloud.machmeter.model.MachmeterConfig;
+import com.google.cloud.machmeter.model.SpannerInstanceConfig;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class InfraSetup implements PluginInterface {
   private static final Logger logger = Logger.getLogger(InfraSetup.class.getName());
@@ -21,11 +20,13 @@ public class InfraSetup implements PluginInterface {
   @Override
   public void execute(MachmeterConfig machmeterConfig) {
     // Spanner instance and database config
-    Gson gson = new GsonBuilder()
-        .excludeFieldsWithoutExposeAnnotation()
-        .create();
-    SpannerInstanceConfig spannerInstanceConfig = machmeterConfig.getInfraConfig().getSpannerInstanceConfig();
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    SpannerInstanceConfig spannerInstanceConfig =
+        machmeterConfig.getInfraConfig().getSpannerInstanceConfig();
     GKEConfig gkeConfig = machmeterConfig.getInfraConfig().getGkeConfig();
+    if (gkeConfig.getServiceAccountJson().isEmpty()) {
+      gkeConfig.setServiceAccountJson(System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
+    }
     String terraformPlanCMD =
         String.format(
             "terraform plan -var=gcp_project=%s -var=spanner_config=%s -var=gke_config=%s",

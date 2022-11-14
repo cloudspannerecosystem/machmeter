@@ -3,6 +3,7 @@ package com.google.cloud.machmeter.model;
 public class MachmeterConfig {
   private InfraConfig infraConfig;
   private DdlConfig ddlConfig;
+
   public DdlConfig getDdlConfig() {
     return ddlConfig;
   }
