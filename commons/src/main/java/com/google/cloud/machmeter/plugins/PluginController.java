@@ -14,6 +14,7 @@ public class PluginController {
     pluginCommandMap = new HashMap<>();
     pluginCommandMap.put(ExecutionCommand.SETUP, getOrderedSetupCommand());
     pluginCommandMap.put(ExecutionCommand.EXECUTE, getOrderedExecuteCommand());
+    pluginCommandMap.put(ExecutionCommand.CLEANUP, getOrderedCleanupCommand());
   }
 
   public List<PluginInterface> getSequentialOfPlugins(ExecutionCommand executionCommand) {
@@ -31,5 +32,11 @@ public class PluginController {
   private List<PluginInterface> getOrderedExecuteCommand() {
     List<PluginInterface> executeCommandList = new ArrayList<>();
     return executeCommandList;
+  }
+
+  private List<PluginInterface> getOrderedCleanupCommand() {
+    List<PluginInterface> cleanupCommandList = new ArrayList<>();
+    cleanupCommandList.add(new Cleanup());
+    return cleanupCommandList;
   }
 }

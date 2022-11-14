@@ -2,7 +2,9 @@ package com.google.cloud.machmeter.model;
 
 public enum ExecutionCommand {
   SETUP,
-  EXECUTE;
+  EXECUTE,
+
+  CLEANUP;
 
   public static ExecutionCommand parseCommand(String command) {
     for (ExecutionCommand executionCommand : ExecutionCommand.values()) {
