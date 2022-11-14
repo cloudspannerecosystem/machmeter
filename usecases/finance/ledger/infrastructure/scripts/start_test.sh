@@ -12,9 +12,14 @@
 working_dir=`pwd`
 
 #Get namesapce variable
-tenant=`awk '{print $NF}' "$working_dir/tenant_export"`
+tenant="$1"
+if [ -z "$tenant" ]
+then
+  echo "Enter the name of the namespace where infrastructure is running."
+  read tenant
+fi
 
-jmx="$1"
+jmx="$2"
 [ -n "$jmx" ] || read -p 'Enter path to the jmx file ' jmx
 
 if [ ! -f "$jmx" ];

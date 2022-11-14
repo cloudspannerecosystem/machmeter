@@ -12,7 +12,12 @@
 working_dir=`pwd`
 
 #Get namesapce variable
-tenant=`awk '{print $NF}' $working_dir/tenant_export`
+tenant="$1"
+if [ -z "$tenant" ]
+then
+  echo "Enter the name of the namespace where infrastructure is running."
+  read tenant
+fi
 
 master_pod=`kubectl get po -n $tenant | grep jmeter-master | awk '{print $1}'`
 

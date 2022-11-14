@@ -254,6 +254,21 @@ resource "kubernetes_config_map" "configmap_influxdb_config" {
   }
 }
 
+resource "kubernetes_config_map" "configmap_grafana_config" {
+  metadata {
+    labels = {
+      "app" = "jmeter-grafana"
+    }
+    name = "grafana-config"
+    namespace = kubernetes_namespace.namespace.metadata.0.name
+  }
+  data = {
+    "influxdb-datasource.yml" = file("influxdb-datasource.yml")
+    "grafana-dashboard-provider.yml" = file("grafana-dashboard-provider.yml")
+    "grafana-dashboard.json" = file("grafana-dashboard.json")
+  }
+}
+
 resource "kubernetes_deployment" "jmeter-master" {
   metadata {
     name = "jmeter-master"
@@ -304,6 +319,11 @@ resource "kubernetes_deployment" "jmeter-master" {
           name = "loadtest"
           config_map {
             name = "jmeter-load-test"
+            items {
+              key  = "load_test"
+              path = "load_test"
+              mode = "0755"
+            }
           }
         }
         volume {
@@ -421,6 +441,10 @@ resource "kubernetes_deployment" "influxdb" {
             container_port = 2003
             name = "graphite"
           }
+          env {
+            name = "INFLUXDB_DB"
+            value = "jmeter"
+          }
         }
         volume {
           name = "config-volume"
@@ -482,6 +506,30 @@ resource "kubernetes_deployment" "jmeter-grafana" {
           port {
             container_port = 3000
             protocol = "TCP"
+          }
+          volume_mount {
+            mount_path = "/etc/grafana/provisioning/datasources/influxdb-datasource.yml"
+            name       = "grafana-config"
+            read_only = true
+            sub_path = "influxdb-datasource.yml"
+          }
+          volume_mount {
+            mount_path = "/etc/grafana/provisioning/dashboards/grafana-dashboard-provider.yml"
+            name       = "grafana-config"
+            read_only = true
+            sub_path = "grafana-dashboard-provider.yml"
+          }
+          volume_mount {
+            mount_path = "/var/lib/grafana/dashboards/grafana-dashboard.json"
+            name       = "grafana-config"
+            read_only = true
+            sub_path = "grafana-dashboard.json"
+          }
+        }
+        volume {
+          name = "grafana-config"
+          config_map {
+            name = "grafana-config"
           }
         }
       }
