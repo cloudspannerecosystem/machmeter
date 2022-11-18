@@ -1,6 +1,6 @@
 package com.google.cloud.machmeter.model;
 
-public class MachmeterConfig {
+public class SetupConfig implements ConfigInterface {
   private InfraConfig infraConfig;
   private DdlConfig ddlConfig;
 

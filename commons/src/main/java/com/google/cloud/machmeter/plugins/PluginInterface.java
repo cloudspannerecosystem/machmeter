@@ -1,6 +1,7 @@
 package com.google.cloud.machmeter.plugins;
 
-import com.google.cloud.machmeter.model.MachmeterConfig;
+import com.google.cloud.machmeter.model.ConfigInterface;
+import com.google.cloud.machmeter.model.SetupConfig;
 
 public interface PluginInterface {
 
@@ -8,5 +9,5 @@ public interface PluginInterface {
   String getName();
 
   /** Executes the underlying plugin */
-  void execute(MachmeterConfig machmeterConfig);
+  void execute(ConfigInterface configInterface);
 }

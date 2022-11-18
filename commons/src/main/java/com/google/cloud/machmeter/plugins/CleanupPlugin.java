@@ -1,7 +1,8 @@
 package com.google.cloud.machmeter.plugins;
 
+import com.google.cloud.machmeter.model.ConfigInterface;
 import com.google.cloud.machmeter.model.GKEConfig;
-import com.google.cloud.machmeter.model.MachmeterConfig;
+import com.google.cloud.machmeter.model.SetupConfig;
 import com.google.cloud.machmeter.model.SpannerInstanceConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,12 +19,19 @@ public class CleanupPlugin implements PluginInterface {
   }
 
   @Override
-  public void execute(MachmeterConfig machmeterConfig) {
+  public void execute(ConfigInterface config) {
+    SetupConfig setupConfig;
+    if (config instanceof SetupConfig) {
+      setupConfig = (SetupConfig) config;
+    }
+    else {
+      throw new RuntimeException("Cast error!");
+    }
     // Spanner instance and database config
     Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     SpannerInstanceConfig spannerInstanceConfig =
-        machmeterConfig.getInfraConfig().getSpannerInstanceConfig();
-    GKEConfig gkeConfig = machmeterConfig.getInfraConfig().getGkeConfig();
+        setupConfig.getInfraConfig().getSpannerInstanceConfig();
+    GKEConfig gkeConfig = setupConfig.getInfraConfig().getGkeConfig();
     if (gkeConfig.getServiceAccountJson().isEmpty()) {
       gkeConfig.setServiceAccountJson(System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
     }

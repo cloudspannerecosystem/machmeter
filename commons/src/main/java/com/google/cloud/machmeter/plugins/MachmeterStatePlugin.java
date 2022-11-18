@@ -1,7 +1,8 @@
 package com.google.cloud.machmeter.plugins;
 
 import com.google.cloud.machmeter.helpers.ResourceHandler;
-import com.google.cloud.machmeter.model.MachmeterConfig;
+import com.google.cloud.machmeter.model.ConfigInterface;
+import com.google.cloud.machmeter.model.SetupConfig;
 import java.io.File;
 import java.nio.file.Paths;
 
@@ -20,7 +21,7 @@ public class MachmeterStatePlugin implements PluginInterface {
   }
 
   @Override
-  public void execute(MachmeterConfig machmeterConfig) {
+  public void execute(ConfigInterface config) {
     File machmeterDir = new File(MACHMETER_OUTPUT_DIR);
     if (!machmeterDir.exists()) {
       machmeterDir.mkdirs();

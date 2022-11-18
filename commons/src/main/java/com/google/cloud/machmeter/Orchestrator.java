@@ -1,7 +1,9 @@
 package com.google.cloud.machmeter;
 
+import com.google.cloud.machmeter.model.ConfigInterface;
+import com.google.cloud.machmeter.model.ExecuteConfig;
 import com.google.cloud.machmeter.model.ExecutionCommand;
-import com.google.cloud.machmeter.model.MachmeterConfig;
+import com.google.cloud.machmeter.model.SetupConfig;
 import com.google.cloud.machmeter.plugins.PluginController;
 import com.google.cloud.machmeter.plugins.PluginInterface;
 import com.google.gson.Gson;
@@ -32,15 +34,15 @@ public class Orchestrator {
   public void executeOrchestrator(String command, String machmeterConfigPath) {
     ExecutionCommand executionCommand = validateExecutionCommand(command);
 
-    MachmeterConfig machmeterConfig = validateJsonFile(machmeterConfigPath);
-    executeOrchestrator(executionCommand, machmeterConfig);
+    ConfigInterface config = validateJsonFile(executionCommand, machmeterConfigPath);
+    executeOrchestrator(executionCommand, config);
   }
 
-  public void executeOrchestrator(ExecutionCommand command, MachmeterConfig machmeterConfig) {
+  public void executeOrchestrator(ExecutionCommand command, ConfigInterface config) {
     List<PluginInterface> pluginInterfaces = pluginController.getSequentialOfPlugins(command);
     for (PluginInterface pluginInterface : pluginInterfaces) {
       logger.log(Level.INFO, "Executing {0} plugin.", pluginInterface.getName());
-      pluginInterface.execute(machmeterConfig);
+      pluginInterface.execute(config);
       logger.log(Level.INFO, "Plugin {0} completed.", pluginInterface.getName());
     }
   }
@@ -49,11 +51,14 @@ public class Orchestrator {
     return ExecutionCommand.parseCommand(command);
   }
 
-  private MachmeterConfig validateJsonFile(String pathToJsonFile) {
+  private ConfigInterface validateJsonFile(ExecutionCommand executionCommand, String pathToJsonFile) {
 
     Gson gson = new Gson();
     try (JsonReader reader = new JsonReader(new FileReader(pathToJsonFile))) {
-      return gson.fromJson(reader, MachmeterConfig.class);
+      if (executionCommand.equals(ExecutionCommand.SETUP) || executionCommand.equals(ExecutionCommand.CLEANUP)) {
+        return gson.fromJson(reader, SetupConfig.class);
+      }
+       return gson.fromJson(reader, ExecuteConfig.class);
     } catch (FileNotFoundException e) {
       throw new IllegalArgumentException("Invalid Json File.");
     } catch (IOException e) {

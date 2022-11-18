@@ -1,0 +1,11 @@
+{
+  "executeConfig" : {
+    "jMeterTemplatePath" : "",
+    "spannerConfig": {
+      "projectId": "",
+      "instanceId": "",
+      "dbName": "",
+    },
+    "jMeterParams" : {}
+  }
+}
