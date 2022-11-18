@@ -1,7 +1,12 @@
 package com.google.cloud.machmeter.plugins;
 
+import com.google.cloud.machmeter.helpers.ShellExecutor;
 import com.google.cloud.machmeter.model.ConfigInterface;
 import com.google.cloud.machmeter.model.ExecuteConfig;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /*
@@ -26,7 +31,17 @@ public class ExecutePlugin implements PluginInterface {
     else {
       throw new RuntimeException("Cast error!");
     }
+    //TODO: Use Dependency Injection throughout Machmeter.
+    ShellExecutor shellExecutor = new ShellExecutor();
+    String jMeterArgs = convertMapToJMeterArgs(executeConfig.getjMeterParams());
+  }
 
+  private String convertMapToJMeterArgs(final Map<String, String> jMeterParamMap) {
+    List<String> argList = jMeterParamMap.entrySet()
+                                      .stream()
+                                      .map(e -> String.format("-J%s=%s", e.getKey(), e.getValue()))
+                                      .collect(Collectors.toList());
+    return String.join(" ", argList);
   }
 
 }
