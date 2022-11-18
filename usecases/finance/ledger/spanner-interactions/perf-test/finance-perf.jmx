@@ -20,7 +20,7 @@
           </elementProp>
           <elementProp name="db" elementType="Argument">
             <stringProp name="Argument.name">db</stringProp>
-            <stringProp name="Argument.value">finance-ledger</stringProp>
+            <stringProp name="Argument.value">test-google</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="threads" elementType="Argument">

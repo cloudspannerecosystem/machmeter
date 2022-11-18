@@ -1,28 +1,59 @@
 package com.google.cloud.machmeter.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class SpannerInstanceConfig {
 
-  private String instanceName;
-  private String databaseName;
+  @SerializedName(value = "instance_name", alternate = "instanceId")
+  @Expose
+  private String instanceId;
+
+  @SerializedName(value = "database_name", alternate = "dbName")
+  @Expose
+  private String dbName;
+
+  @Expose(serialize = false)
+  private String projectId;
+
+  @SerializedName(value = "configuration")
+  @Expose
   private String configuration;
+
+  @SerializedName(value = "display_name", alternate = "displayName")
+  @Expose
   private String displayName;
-  private String processingUnits;
+
+  @SerializedName(value = "processing_units", alternate = "processingUnits")
+  @Expose
+  private int processingUnits;
+
+  @SerializedName(value = "environment")
+  @Expose
   private String environment;
 
-  public String getInstanceName() {
-    return instanceName;
+  public String getInstanceId() {
+    return instanceId;
   }
 
-  public void setInstanceName(String instanceName) {
-    this.instanceName = instanceName;
+  public void setInstanceId(String instanceId) {
+    this.instanceId = instanceId;
   }
 
-  public String getDatabaseName() {
-    return databaseName;
+  public String getDbName() {
+    return dbName;
   }
 
-  public void setDatabaseName(String databaseName) {
-    this.databaseName = databaseName;
+  public void setDbName(String dbName) {
+    this.dbName = dbName;
+  }
+
+  public String getProjectId() {
+    return projectId;
+  }
+
+  public void setProjectId(String projectId) {
+    this.projectId = projectId;
   }
 
   public String getConfiguration() {
@@ -41,11 +72,11 @@ public class SpannerInstanceConfig {
     this.displayName = displayName;
   }
 
-  public String getProcessingUnits() {
+  public int getProcessingUnits() {
     return processingUnits;
   }
 
-  public void setProcessingUnits(String processingUnits) {
+  public void setProcessingUnits(int processingUnits) {
     this.processingUnits = processingUnits;
   }
 

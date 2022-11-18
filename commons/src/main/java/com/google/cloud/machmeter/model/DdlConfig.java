@@ -2,15 +2,15 @@ package com.google.cloud.machmeter.model;
 
 public class DdlConfig {
 
-  private InstanceConfig instanceConfig;
+  private SpannerInstanceConfig spannerInstanceConfig;
   private String schemaFilePath;
 
-  public InstanceConfig getInstanceConfig() {
-    return instanceConfig;
+  public SpannerInstanceConfig getInstanceConfig() {
+    return spannerInstanceConfig;
   }
 
-  public void setInstanceConfig(InstanceConfig instanceConfig) {
-    this.instanceConfig = instanceConfig;
+  public void setInstanceConfig(SpannerInstanceConfig spannerInstanceConfig) {
+    this.spannerInstanceConfig = spannerInstanceConfig;
   }
 
   public String getSchemaFilePath() {

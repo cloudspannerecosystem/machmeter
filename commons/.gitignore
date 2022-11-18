@@ -5,6 +5,7 @@ target/
 *.class
 *.lst
 output.txt
+machmeter_output/*
 
 src/test/golang/**/*.h
 src/test/golang/**/*.so

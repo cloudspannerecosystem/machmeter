@@ -19,10 +19,8 @@ public class Orchestrator {
   private final PluginController pluginController = new PluginController();
 
   /**
-   *
-   * @param parameters Contains list of command line arguments in the following structure
-   * [0]: setup / execute
-   * [1]: path to json machMeterConfig
+   * @param parameters Contains list of command line arguments in the following structure [0]: setup
+   *     / execute [1]: path to json machMeterConfig
    */
   public static void main(String[] parameters) {
     if (parameters.length != 2) {
@@ -64,5 +62,4 @@ public class Orchestrator {
       throw new IllegalArgumentException("Json File is not of the expected format.", e);
     }
   }
-
 }

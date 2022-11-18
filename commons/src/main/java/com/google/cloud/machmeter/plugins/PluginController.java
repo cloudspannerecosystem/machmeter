@@ -14,8 +14,8 @@ public class PluginController {
     pluginCommandMap = new HashMap<>();
     pluginCommandMap.put(ExecutionCommand.SETUP, getOrderedSetupCommand());
     pluginCommandMap.put(ExecutionCommand.EXECUTE, getOrderedExecuteCommand());
+    pluginCommandMap.put(ExecutionCommand.CLEANUP, getOrderedCleanupCommand());
   }
-
 
   public List<PluginInterface> getSequentialOfPlugins(ExecutionCommand executionCommand) {
     return pluginCommandMap.get(executionCommand);
@@ -23,6 +23,8 @@ public class PluginController {
 
   private List<PluginInterface> getOrderedSetupCommand() {
     List<PluginInterface> setupCommandList = new ArrayList<>();
+    setupCommandList.add(new MachmeterStatePlugin());
+    setupCommandList.add(new InfraSetup());
     setupCommandList.add(new DdlPlugin());
     return setupCommandList;
   }
@@ -32,4 +34,9 @@ public class PluginController {
     return executeCommandList;
   }
 
+  private List<PluginInterface> getOrderedCleanupCommand() {
+    List<PluginInterface> cleanupCommandList = new ArrayList<>();
+    cleanupCommandList.add(new Cleanup());
+    return cleanupCommandList;
+  }
 }

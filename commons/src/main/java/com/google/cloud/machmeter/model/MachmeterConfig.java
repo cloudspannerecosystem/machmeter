@@ -1,18 +1,8 @@
 package com.google.cloud.machmeter.model;
 
 public class MachmeterConfig {
-
+  private InfraConfig infraConfig;
   private DdlConfig ddlConfig;
-  private SpannerInstanceConfig spannerInstanceConfig;
-  private GKEConfig gkeConfig;
-
-  public GKEConfig getGkeConfig() {
-    return gkeConfig;
-  }
-
-  public void setGkeConfig(GKEConfig gkeConfig) {
-    this.gkeConfig = gkeConfig;
-  }
 
   public DdlConfig getDdlConfig() {
     return ddlConfig;
@@ -22,11 +12,11 @@ public class MachmeterConfig {
     this.ddlConfig = ddlConfig;
   }
 
-  public SpannerInstanceConfig getSpannerInstanceConfig() {
-    return spannerInstanceConfig;
+  public InfraConfig getInfraConfig() {
+    return infraConfig;
   }
 
-  public void setSpannerInstanceConfig(SpannerInstanceConfig spannerInstanceConfig) {
-    this.spannerInstanceConfig = spannerInstanceConfig;
+  public void setInfraConfig(InfraConfig infraConfig) {
+    this.infraConfig = infraConfig;
   }
 }
