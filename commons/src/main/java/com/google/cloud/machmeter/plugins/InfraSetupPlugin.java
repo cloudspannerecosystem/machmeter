@@ -1,5 +1,6 @@
 package com.google.cloud.machmeter.plugins;
 
+import com.google.cloud.machmeter.helpers.ShellExecutor;
 import com.google.cloud.machmeter.model.ConfigInterface;
 import com.google.cloud.machmeter.model.GKEConfig;
 import com.google.cloud.machmeter.model.SetupConfig;
@@ -28,6 +29,7 @@ public class InfraSetupPlugin implements PluginInterface {
     else {
       throw new RuntimeException("Cast error!");
     }
+    ShellExecutor shellExecutor = new ShellExecutor();
     Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     SpannerInstanceConfig spannerInstanceConfig =
         setupConfig.getInfraConfig().getSpannerInstanceConfig();
@@ -49,38 +51,15 @@ public class InfraSetupPlugin implements PluginInterface {
             gson.toJson(gkeConfig));
     try {
       logger.log(Level.INFO, "Executing terraform init");
-      run("terraform init");
+      shellExecutor.run("terraform init", "machmeter_output/terraform");
       logger.log(Level.INFO, "Executing {0}", terraformPlanCMD);
-      run(terraformPlanCMD);
+      shellExecutor.run(terraformPlanCMD, "machmeter_output/terraform");
       logger.log(Level.INFO, "Executing {0}", terraformApplyCMD);
-      run(terraformApplyCMD);
+      shellExecutor.run(terraformApplyCMD, "machmeter_output/terraform");
     } catch (IOException | InterruptedException e) {
       e.printStackTrace();
     } catch (Exception e) {
       throw new RuntimeException(e);
-    }
-  }
-
-  public void run(String executeCommand) throws Exception {
-    ProcessBuilder processBuilder = new ProcessBuilder(executeCommand.split(" "));
-    processBuilder.inheritIO();
-    processBuilder.directory(new File("machmeter_output/terraform"));
-    Process process = processBuilder.start();
-    StringBuilder output = new StringBuilder();
-    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    String line;
-    while ((line = reader.readLine()) != null) {
-      output.append(line + "\n");
-    }
-
-    int exitVal = process.waitFor();
-    if (exitVal == 0) {
-      System.out.println("Success!");
-      System.out.println(output);
-    } else {
-      System.out.println("Fail!");
-      System.out.println(output);
-      System.exit(1);
     }
   }
 }
