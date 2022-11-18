@@ -24,8 +24,7 @@ public class CleanupPlugin implements PluginInterface {
     SetupConfig setupConfig;
     if (config instanceof SetupConfig) {
       setupConfig = (SetupConfig) config;
-    }
-    else {
+    } else {
       throw new RuntimeException("Cast error!");
     }
     ShellExecutor shellExecutor = new ShellExecutor();

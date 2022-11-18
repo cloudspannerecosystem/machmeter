@@ -31,6 +31,7 @@ public class PluginController {
 
   private List<PluginInterface> getOrderedExecuteCommand() {
     List<PluginInterface> executeCommandList = new ArrayList<>();
+    executeCommandList.add(new ExecutePlugin());
     return executeCommandList;
   }
 

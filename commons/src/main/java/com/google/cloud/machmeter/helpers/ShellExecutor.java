@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 public class ShellExecutor {
 
   public void run(String executeCommand, String directory) throws Exception {
-    ProcessBuilder processBuilder = new ProcessBuilder(executeCommand.split(" "));
+    ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", executeCommand);
     processBuilder.inheritIO();
     processBuilder.directory(new File(directory));
     Process process = processBuilder.start();

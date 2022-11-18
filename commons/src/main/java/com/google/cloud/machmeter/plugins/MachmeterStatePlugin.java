@@ -2,7 +2,6 @@ package com.google.cloud.machmeter.plugins;
 
 import com.google.cloud.machmeter.helpers.ResourceHandler;
 import com.google.cloud.machmeter.model.ConfigInterface;
-import com.google.cloud.machmeter.model.SetupConfig;
 import java.io.File;
 import java.nio.file.Paths;
 

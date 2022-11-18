@@ -51,14 +51,16 @@ public class Orchestrator {
     return ExecutionCommand.parseCommand(command);
   }
 
-  private ConfigInterface validateJsonFile(ExecutionCommand executionCommand, String pathToJsonFile) {
+  private ConfigInterface validateJsonFile(
+      ExecutionCommand executionCommand, String pathToJsonFile) {
 
     Gson gson = new Gson();
     try (JsonReader reader = new JsonReader(new FileReader(pathToJsonFile))) {
-      if (executionCommand.equals(ExecutionCommand.SETUP) || executionCommand.equals(ExecutionCommand.CLEANUP)) {
+      if (executionCommand.equals(ExecutionCommand.SETUP)
+          || executionCommand.equals(ExecutionCommand.CLEANUP)) {
         return gson.fromJson(reader, SetupConfig.class);
       }
-       return gson.fromJson(reader, ExecuteConfig.class);
+      return gson.fromJson(reader, ExecuteConfig.class);
     } catch (FileNotFoundException e) {
       throw new IllegalArgumentException("Invalid Json File.");
     } catch (IOException e) {
