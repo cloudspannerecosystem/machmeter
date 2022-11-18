@@ -9,12 +9,12 @@ import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Cleanup implements PluginInterface {
-  private static final Logger logger = Logger.getLogger(InfraSetup.class.getName());
+public class InfraSetupPlugin implements PluginInterface {
+  private static final Logger logger = Logger.getLogger(InfraSetupPlugin.class.getName());
 
   @Override
   public String getName() {
-    return "cleanup";
+    return "infraSetup";
   }
 
   @Override
@@ -27,15 +27,25 @@ public class Cleanup implements PluginInterface {
     if (gkeConfig.getServiceAccountJson().isEmpty()) {
       gkeConfig.setServiceAccountJson(System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
     }
-    String terraformDestroyCMD =
+    String terraformPlanCMD =
         String.format(
-            "terraform destroy -var=gcp_project=%s -var=spanner_config=%s -var=gke_config=%s",
+            "terraform plan -var=gcp_project=%s -var=spanner_config=%s -var=gke_config=%s",
+            spannerInstanceConfig.getProjectId(),
+            gson.toJson(spannerInstanceConfig),
+            gson.toJson(gkeConfig));
+    String terraformApplyCMD =
+        String.format(
+            "terraform apply -var=gcp_project=%s -var=spanner_config=%s -var=gke_config=%s --auto-approve",
             spannerInstanceConfig.getProjectId(),
             gson.toJson(spannerInstanceConfig),
             gson.toJson(gkeConfig));
     try {
-      logger.log(Level.INFO, "Executing {0}", terraformDestroyCMD);
-      run(terraformDestroyCMD);
+      logger.log(Level.INFO, "Executing terraform init");
+      run("terraform init");
+      logger.log(Level.INFO, "Executing {0}", terraformPlanCMD);
+      run(terraformPlanCMD);
+      logger.log(Level.INFO, "Executing {0}", terraformApplyCMD);
+      run(terraformApplyCMD);
     } catch (IOException | InterruptedException e) {
       e.printStackTrace();
     } catch (Exception e) {

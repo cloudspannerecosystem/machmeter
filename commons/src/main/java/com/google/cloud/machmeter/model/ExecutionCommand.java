@@ -3,7 +3,6 @@ package com.google.cloud.machmeter.model;
 public enum ExecutionCommand {
   SETUP,
   EXECUTE,
-
   CLEANUP;
 
   public static ExecutionCommand parseCommand(String command) {

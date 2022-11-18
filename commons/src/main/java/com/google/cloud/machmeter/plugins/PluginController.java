@@ -24,7 +24,7 @@ public class PluginController {
   private List<PluginInterface> getOrderedSetupCommand() {
     List<PluginInterface> setupCommandList = new ArrayList<>();
     setupCommandList.add(new MachmeterStatePlugin());
-    setupCommandList.add(new InfraSetup());
+    setupCommandList.add(new InfraSetupPlugin());
     setupCommandList.add(new DdlPlugin());
     return setupCommandList;
   }
@@ -36,7 +36,7 @@ public class PluginController {
 
   private List<PluginInterface> getOrderedCleanupCommand() {
     List<PluginInterface> cleanupCommandList = new ArrayList<>();
-    cleanupCommandList.add(new Cleanup());
+    cleanupCommandList.add(new CleanupPlugin());
     return cleanupCommandList;
   }
 }
