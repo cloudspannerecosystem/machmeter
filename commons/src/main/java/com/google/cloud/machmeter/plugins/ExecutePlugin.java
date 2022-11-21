@@ -67,7 +67,7 @@ public class ExecutePlugin implements PluginInterface {
   private String convertMapToJMeterArgs(final Map<String, String> jMeterParamMap) {
     List<String> argList =
         jMeterParamMap.entrySet().stream()
-            .map(e -> String.format("-J%s=%s", e.getKey(), e.getValue()))
+            .map(e -> String.format("-G%s=%s", e.getKey(), e.getValue()))
             .collect(Collectors.toList());
     return String.join(" ", argList);
   }
