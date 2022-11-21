@@ -27,6 +27,6 @@
       "configuration": "regional-us-central1",
       "projectId" : "span-cloud-testing"
     },
-    "schemaFilePath" : "cloud-spanner-poc-validation/commons/resource/finance-sql.sql"
+    "schemaFilePath" : "cloud-spanner-poc-validation/usecases/finance/ledger/spanner-interactions/schema/schema.sql"
   }
 }
