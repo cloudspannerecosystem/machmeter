@@ -14,7 +14,7 @@ CREATE TABLE roles (
   movie_id INT64 NOT NULL,
   role STRING(100) NOT NULL,
 ) PRIMARY KEY(id, movie_id, role),
-  INTERLEAVE IN PARENT actors ON DELETE NO ACTION;
+  INTERLEAVE IN PARENT actors ON DELETE CASCADE;
 
 CREATE INDEX actor_id ON roles(id);
 
@@ -35,7 +35,7 @@ CREATE TABLE directors_genres (
   genre STRING(100) NOT NULL,
   prob FLOAT64,
 ) PRIMARY KEY(id, genre),
-  INTERLEAVE IN PARENT directors ON DELETE NO ACTION;
+  INTERLEAVE IN PARENT directors ON DELETE CASCADE;
 
 CREATE INDEX directors_genres_director_id ON directors_genres(id);
 
@@ -43,7 +43,7 @@ CREATE TABLE movies_directors (
   id INT64 NOT NULL,
   movie_id INT64 NOT NULL,
 ) PRIMARY KEY(id, movie_id),
-  INTERLEAVE IN PARENT directors ON DELETE NO ACTION;
+  INTERLEAVE IN PARENT directors ON DELETE CASCADE;
 
 CREATE INDEX movies_directors_director_id ON movies_directors(id);
 
@@ -66,6 +66,6 @@ CREATE TABLE movies_genres (
   id INT64 NOT NULL,
   genre STRING(100) NOT NULL,
 ) PRIMARY KEY(id, genre),
-  INTERLEAVE IN PARENT movies ON DELETE NO ACTION;
+  INTERLEAVE IN PARENT movies ON DELETE CASCADE;
 
 CREATE INDEX movies_genres_movie_id ON movies_genres(id);
