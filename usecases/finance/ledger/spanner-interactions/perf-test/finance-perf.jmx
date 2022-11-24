@@ -10,17 +10,17 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="project_id" elementType="Argument">
             <stringProp name="Argument.name">project_id</stringProp>
-            <stringProp name="Argument.value">span-cloud-testing</stringProp>
+            <stringProp name="Argument.value">${__P(project, span-cloud-testing)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="instance" elementType="Argument">
             <stringProp name="Argument.name">instance</stringProp>
-            <stringProp name="Argument.value">spanner-load-test</stringProp>
+            <stringProp name="Argument.value">${__P(instance, default)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="db" elementType="Argument">
             <stringProp name="Argument.name">db</stringProp>
-            <stringProp name="Argument.value">test-google</stringProp>
+            <stringProp name="Argument.value">${__P(database, default)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="threads" elementType="Argument">
@@ -50,12 +50,12 @@
           </elementProp>
           <elementProp name="grpc_channel" elementType="Argument">
             <stringProp name="Argument.name">grpc_channel</stringProp>
-            <stringProp name="Argument.value">50</stringProp>
+            <stringProp name="Argument.value">${__P(grpc_channel,50)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="connections" elementType="Argument">
             <stringProp name="Argument.name">connections</stringProp>
-            <stringProp name="Argument.value">1000</stringProp>
+            <stringProp name="Argument.value">${__P(connections, 1000)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
