@@ -3,8 +3,8 @@
 ## Overview
 
 Machmeter is an open source tool for performance benchmarking of Cloud Spanner.
-This repository contains Machmeter code, usage instructions and few example
-use-cases. User can clone any of these use-case and edit them to imitate their 
+This repository contains Machmeter code, usage instructions and a few example
+use-cases. Users can clone any of these use-case and edit them to imitate their 
 specific use-case.
 
 ## Use-cases
@@ -58,13 +58,13 @@ __Following tools will need to be installed:__
 
 ## Project structure
 - [Machmeter](./commons): this is a maven project containing the code for the tools.
-It has broadly 2 modules, __Orchestrator layer__ and __Plugins__. 
+It has broadly 2 modules, an __Orchestrator layer__ and __Plugins__. 
   - __Orchestrator Layer__: this layer handles the input and reads the provided 
   config. Further, based on the input, it decides which plugins need to be
   executed.
   - __Plugins__: this layer contains plugins for various stages of the benchmarking.
     - [MachmeterStatePlugin](./commons/src/main/java/com/google/cloud/machmeter/plugins/MachmeterStatePlugin.java):
-    This plugin setups the local directories for preserving __Machmeter__ state.
+    This plugin sets up the local directories for preserving __Machmeter__ state.
     - [InfraSetupPlugin](./commons/src/main/java/com/google/cloud/machmeter/plugins/InfraSetupPlugin.java):
     This plugin executes terraform scripts to setup the Spanner Instances
     and GKE cluster for Jmeter clients.
@@ -73,10 +73,10 @@ It has broadly 2 modules, __Orchestrator layer__ and __Plugins__.
     - [ExecutePlugin](./commons/src/main/java/com/google/cloud/machmeter/plugins/ExecutePlugin.java):
     This plugin executes the benchmarking tests provided in the use-case.
   - [Terraform](./commons/src/main/resources/terraform): This folder contains
-  terraform script for setting up Spanner Instances and GKE clusters. It also, 
-  contains config files the Grafana Dashboard.
-- [Use-caes](./usecases): all the sample use-cases reside into this folder
-categorised into different folders.
+  a terraform script for setting up Spanner Instances and GKE clusters. It also 
+  contains config files for the Grafana Dashboard.
+- [Use-cases](./usecases): all the sample use-cases reside into this folder
+categorized into different folders.
 
 ## How to execute a benchmark test
 
@@ -111,9 +111,9 @@ __Executing a benchmark involve 4 independent steps:__
 ##### Instances setup
 
 Instances setup involve executing the __setup__ command of machmeter with
-spanner instaces config, GKE cluster config and path to Schema file
+spanner instances config, GKE cluster config and path to Schema file
 containing SQL command describing the database structure.
-One important thing to remember is that the spanner config will need to remain
+One important thing to remember is that the spanner config will need to remain the
 same in all these steps.
 
 ###### Execution Command
@@ -151,12 +151,12 @@ $ java -jar target/machmeter/machmeter.jar setup path-to-config-file.json
 
 ##### Data Load
 
-Data load involve executing the __execute__ command of machmeter with
-data load jmeter script as input. This script when executed, will load a 
-randomized set of data onto given mentioned spanner database.
+Data load involves executing the __execute__ command of machmeter with
+data load jmeter script as input. This script, when executed, will load a 
+randomized set of data onto a given mentioned spanner database.
 
 This will also create CSV files containing the keys for created data. These
-CSV will be used as source for parameters in queries in the Perf test.
+CSV will be used as a source for parameters in queries in the Perf test.
 
 ###### Execution Command
 ```bash
@@ -165,21 +165,21 @@ $ java -jar target/machmeter/machmeter.jar execute path-to-config-file.json
 
 ###### Config File ([Sample file](./commons/resource/sample-machmeter-execute-data-load-config.json))
 
-|                          |                                     | 
-|--------------------------|-------------------------------------| 
-| Key name                 | Description                         | 
-| namespace                | Name fo the test                    | 
-| jMeterTemplatePath       | Path to Data load Jmeter Script     | 
-| jMeterParams.project     | Google Cloud Project Id             | 
-| jMeterParams.instance    | Name of the instance to be created  | 
-| jMeterParams.database    | Name of the database to be created  | 
-| jMeterParams.connections | Spanner Connection Counts           |
+|                          |                                    | 
+|--------------------------|------------------------------------| 
+| Key name                 | Description                        | 
+| namespace                | Name of the test                   | 
+| jMeterTemplatePath       | Path to Data load Jmeter Script    | 
+| jMeterParams.project     | Google Cloud Project Id            | 
+| jMeterParams.instance    | Name of the instance to be created | 
+| jMeterParams.database    | Name of the database to be created | 
+| jMeterParams.connections | Spanner Connection Counts          |
 ** Please refer to the sample file for example values
 
 ##### Executing Perf Test
 
-Executing perf test involve executing the __execute__ command of machmeter with
-perf jmeter script as input. This script when executed, will execute the input
+Executing perf test involves executing the __execute__ command of machmeter with
+perf jmeter script as input. This script, when executed, will execute the input
 jmeter script.
 
 This will execute the Performance test distributed across the GKE cluster
@@ -209,10 +209,10 @@ $ java -jar target/machmeter/machmeter.jar execute path-to-config-file.json
 
 ##### Cleanup
 
-Cleanup involve executing the __cleanup__ command of machmeter with
+Cleanup involves executing the __cleanup__ command of machmeter with
 spanner instances config, GKE cluster config and path to the data load SQL script
 created in the earlier steps. Here, the config file remains the same as in Setup.
-This steps deletes the instances and clusters created.
+This step deletes the instances and clusters created.
 
 ###### Execution Command
 ```bash
@@ -254,37 +254,37 @@ $ open http://localhost:3443
 
 Users can customize the sample use-cases to imitate the requirements. This 
 requires cloning the use-case that is closest to their requirements and modifying
-it's components 
+its components.
 
-### Components of any Use-case
+### Components of a Use-case
 
 To demonstrate this, we will be using [Ledger](./usecases/finance/ledger) as a
 sample use-case.
 
 - [Schema](./usecases/finance/ledger/spanner-interactions/schema/schema.sql):
-This describes the database structure and should contain all your DDL command.
+This describes the database structure and should contain all your DDL commands.
 This needs to be modified containing the DDL command of the respective application
 to be tested.
 - [Data load Jmeter Script](./usecases/finance/ledger/spanner-interactions/data-load/scenario-1-initial-load.jmx):
-This Jmeter script performs 2 task. One it insert randomized data into spanner database
+This Jmeter script performs 2 tasks. One it inserts randomized data into the spanner database
 and second it creates CSV files containing keys required in queries in perf execution.
   - For these, there are 2 thread groups. First thread group, `Insert Data` is responsible
-  for inserting data into the database. This contains `JDBC Request` which have
+  for inserting data into the database. This contains `JDBC Requests` which have
   `insert` statements for all the tables needed to be populated.
   - For any computed data within the tables, `update` statements post all the insert statements
-  is to be added.
+  to be added.
   - Number of Rows to be added can be controlled by `users` and `iterations`. 
-  `users` control the number of threads. `iterations` control number of iterations
+  `users` control the number of threads. `iterations` control the number of iterations
   within a single thread. So, the total rows added will be `users * iterations`.
   - Second thread group, `Create Sampled CSV Data` is responsible for querying all
   the keys required in the perf test and dumping them into CSV files.
 - [Perf Test Jmeter Script](./usecases/finance/ledger/spanner-interactions/perf-test/finance-perf.jmx):
 This has the following components:
-  - `create spanner client(setup Thread Group)`: Spanner connections is created in this group.
+  - `create spanner client(setup Thread Group)`: Spanner connections are created in this group.
   - `Master Thread Group`: this group contains all the read/write queries for the test.
-  - `Throughput Controller`: these controllers controls the percentage of queries in total
+  - `Throughput Controller`: these controllers control the percentage of queries in total
   queries sent to the database.
-  - `CSV Data Set Config`: these configs imports the CSV files created in earlier script.
+  - `CSV Data Set Config`: these configs import the CSV files created in earlier scripts.
 
 ## Reference
 
