@@ -1,0 +1,43 @@
+package com.google.cloud.machmeter.plugins;
+
+import com.google.cloud.machmeter.model.ExecutionCommand;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class PluginController {
+
+  private final Map<ExecutionCommand, List<PluginInterface>> pluginCommandMap;
+
+  public PluginController() {
+    pluginCommandMap = new HashMap<>();
+    pluginCommandMap.put(ExecutionCommand.SETUP, getOrderedSetupCommand());
+    pluginCommandMap.put(ExecutionCommand.EXECUTE, getOrderedExecuteCommand());
+    pluginCommandMap.put(ExecutionCommand.CLEANUP, getOrderedCleanupCommand());
+  }
+
+  public List<PluginInterface> getSequentialOfPlugins(ExecutionCommand executionCommand) {
+    return pluginCommandMap.get(executionCommand);
+  }
+
+  private List<PluginInterface> getOrderedSetupCommand() {
+    List<PluginInterface> setupCommandList = new ArrayList<>();
+    setupCommandList.add(new MachmeterStatePlugin());
+    setupCommandList.add(new InfraSetupPlugin());
+    setupCommandList.add(new DdlPlugin());
+    return setupCommandList;
+  }
+
+  private List<PluginInterface> getOrderedExecuteCommand() {
+    List<PluginInterface> executeCommandList = new ArrayList<>();
+    executeCommandList.add(new ExecutePlugin());
+    return executeCommandList;
+  }
+
+  private List<PluginInterface> getOrderedCleanupCommand() {
+    List<PluginInterface> cleanupCommandList = new ArrayList<>();
+    cleanupCommandList.add(new CleanupPlugin());
+    return cleanupCommandList;
+  }
+}
