@@ -7,7 +7,8 @@ import java.nio.file.Paths;
 
 /*
 This plugin creates a local directory on the user system to preserve machmeter state.
-1. `terraform` directory which forms the execution environment for terraform CLI to run.
+Currently only the `machmeter_output/terraform` directory which forms the execution environment for terraform CLI to run.
+In future, this directory can be used to store credentials, session information, metadata etc.
  */
 public class MachmeterStatePlugin implements PluginInterface {
 

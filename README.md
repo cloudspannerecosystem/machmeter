@@ -10,7 +10,7 @@ specific use-case.
 ## Use-cases
 
 - [Ledger](./usecases/finance/ledger)
-- [Moview Database](./usecases/entertainment/imdb)
+- [Movies Database](./usecases/entertainment/movies-database)
 - [Ecommerce Cart](./usecases/shopping/cart)
 
 ## Requirements

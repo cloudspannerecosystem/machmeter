@@ -10,7 +10,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="project" elementType="Argument">
             <stringProp name="Argument.name">project</stringProp>
-            <stringProp name="Argument.value">${__P(project, span-cloud-testing)}</stringProp>
+            <stringProp name="Argument.value">${__P(project, default)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="instance" elementType="Argument">
