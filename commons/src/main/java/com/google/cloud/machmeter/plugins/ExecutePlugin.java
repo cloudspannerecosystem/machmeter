@@ -12,14 +12,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-/*
-Logic to create the commands for the following:
-1. Forms the command to read the supplied JMeter file and upload it to GKE master -> forms a new path for JMX
-file that is on the master.
-2. Create the jmeter command to be executed - takes input from the jMeterParams and the location of the JMX
-file inside the cluster.
+/**
+ * Logic to create the commands for the following:
+ * 1. Forms the command to read the supplied JMeter file and upload it to GKE master -> forms a new
+ * path for JMX file that is on the master.
+ * 2. Create the jmeter command to be executed - takes input from the jMeterParams and the location
+ * of the JMX file inside the cluster.
  */
 public class ExecutePlugin implements PluginInterface {
+
   private static final Logger logger = Logger.getLogger(InfraSetupPlugin.class.getName());
 
   @Override

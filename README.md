@@ -51,7 +51,6 @@ $ gcloud iam service-accounts keys create $KEY_FILE \
 
 __Following tools will need to be installed:__
 - [JDV & JVM](https://openjdk.org/) (auther version >= 8)
-- [Jmeter](https://jmeter.apache.org/) (auther version >= 5.5)
 - [Terraform Cli](https://developer.hashicorp.com/terraform/downloads) (auther version >= 1.3.5)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/) (auther version >= v1.25.4)
 - [Maven](https://maven.apache.org/) (auther version >= 3.6.3)
@@ -85,7 +84,7 @@ categorized into different folders.
 __You should set own environment by followings:__
 
 ```bash
-$ git clone https://github.com/kazu0716/spanner-stress-test-demo.git
+$ git clone https://github.com/cloudspannerecosystem/cloud-spanner-poc-validation.git
 $ cd cloud-spanner-poc-validation/commons
 
 # Building the maven project
