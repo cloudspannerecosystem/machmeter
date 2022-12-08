@@ -224,29 +224,21 @@ Refer to the Setup section for details on the config file.
 
 ### Watch the result
 
-__You can check the result in real time by followings:__
+__You can check the result in real time by following methods:__
 
-- [Google Cloud's operations suite](https://cloud.google.com/products/operations)
-    - [Cloud Monitoring](https://cloud.google.com/monitoring/charts/metrics-selector)
-    - [Cloud Logging](https://cloud.google.com/logging/docs/view/logs-explorer-interface#getting_started)
-    - [Cloud Trace](https://cloud.google.com/trace/docs/viewing-details)
+- [Cloud Monitoring](https://cloud.google.com/monitoring/charts/metrics-selector): for server side monitoring.
+- [Grafana](https://grafana.com/): for client side monitoring.
 
-- [Locust plugin dashboard](https://github.com/SvenskaSpel/locust-plugins/blob/master/locust_plugins/dashboards/README.md)
-
-![](https://github.com/SvenskaSpel/locust-plugins/raw/master/locust_plugins/dashboards/screenshots/main_dashboard.png)
+-![](./docs/grafana-dashboard.png)
 
 #### How to connect to grafana dashboard
 
 ```bash
 # SSH port-forwording to grafana
-$ make open.grafana
-Grafana dashboard: https://3443-xxxxyyyzzzz
+$ kubectl port-forward -n spanner-test $(kubectl get po -n spanner-test | grep jmeter-grafana | awk '{print $1}') 3001:3000
 
-# Cloud Shell envronment(You can access via proxy)
-$ open https://3443-xxxxyyyzzzz
-
-# Other environment
-$ open http://localhost:3443
+# Grafana Dashboard
+$ open http://localhost:3001
 ```
 
 ## Customizing Use-case
