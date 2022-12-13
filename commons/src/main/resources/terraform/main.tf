@@ -167,8 +167,25 @@ resource "kubernetes_config_map" "configmap_jmeter_load_test" {
   data = {
     "load_test" = <<-EOT
       #!/bin/bash
-      #Script created to invoke jmeter test script with the slave POD IP addresses
-      #Script should be run like: ./load_test "path to the test script in jmx format"
+      # Copyright 2022 Google LLC
+      #
+      # Licensed under the Apache License, Version 2.0 (the "License");
+      # you may not use this file except in compliance with the License.
+      # You may obtain a copy of the License at
+      #
+      #      http://www.apache.org/licenses/LICENSE-2.0
+      #
+      # Unless required by applicable law or agreed to in writing, software
+      # distributed under the License is distributed on an "AS IS" BASIS,
+      # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      # See the License for the specific language governing permissions and
+      # limitations under the License.
+
+      # This script finds and moves sponge logs so that they can be found by placer
+      # and are not flagged as flaky by sponge.
+      #
+      # Script created to invoke jmeter test script with the slave POD IP addresses
+      # Script should be run like: ./load_test "path to the test script in jmx format"
       /jmeter/apache-jmeter-*/bin/jmeter -n -t "$@" -Dserver.rmi.ssl.disable=true -R `getent ahostsv4 jmeter-slaves-svc | cut -d' ' -f1 | sort -u | awk -v ORS=, '{print $1}' | sed 's/,$//'`
 
       EOT
