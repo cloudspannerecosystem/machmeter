@@ -1,6 +1,6 @@
 ---
 layout: default
-title: New Usecase
+title: Adding a New Usecase
 parent: Guides
 nav_order: 1
 ---
