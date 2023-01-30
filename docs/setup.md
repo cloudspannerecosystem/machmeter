@@ -49,11 +49,13 @@ same in all these steps.
 | jMeterParams.spannerInstanceConfig.configuration  | Region in which the spanner instance is to be created                   | 
 | jMeterParams.schemaFilePath                       | Path to the Schema file.                                                |
 
-
-** Please refer to the sample file for example values
 </div>
 
-This is a [sample file](./commons/resource/sample-machmeter-setup-config.json) with the above defined configuration.
+{: .note }
+Please refer to the sample file for example values
+
+
+This is a [sample file](../commons/resource/sample-machmeter-setup-config.json) with the above defined configuration.
 
 ### Execution Command
 ```bash
@@ -69,8 +71,9 @@ randomized set of data onto a given mentioned spanner database.
 This will also create CSV files containing the keys for created data. These
 CSV will be used as a source for parameters in queries in the Perf test.
 
-<div class="data-load-config" markdown="2">
-| Key name                 | Description                        |
+<div class="data-load-config" markdown="1">
+
+| Key name                 | Description                        | 
 |:-------------------------|:-----------------------------------| 
 | namespace                | Name of the test                   | 
 | jMeterTemplatePath       | Path to Data load Jmeter Script    | 
@@ -81,9 +84,10 @@ CSV will be used as a source for parameters in queries in the Perf test.
 
 </div>
 
-** Please refer to the sample file for example values
+{: .note }
+Please refer to the sample file for example values
 
-This is a [Sample file](./commons/resource/sample-machmeter-execute-data-load-config.json) ith the above defined configuration.
+This is a [sample file](../commons/resource/sample-machmeter-execute-data-load-config.json) with the above defined configuration.
 
 ### Execution Command
 ```bash
