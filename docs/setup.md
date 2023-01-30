@@ -24,6 +24,7 @@ containing SQL command describing the database structure.
 One important thing to remember is that the spanner config will need to remain the
 same in all these steps.
 
+### Configuration File Definition 
 <div class="resource-config" markdown="1">
  
 | Key name                                          | Description                                                             | 
@@ -71,6 +72,7 @@ randomized set of data onto a given mentioned spanner database.
 This will also create CSV files containing the keys for created data. These
 CSV will be used as a source for parameters in queries in the Perf test.
 
+### Configuration File Definition 
 <div class="data-load-config" markdown="1">
 
 | Key name                 | Description                        | 
