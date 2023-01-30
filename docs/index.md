@@ -40,6 +40,8 @@ $ export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
 
 ### Execute an existing template
 
+Machmeter exposes three CLI commands: `setup`, `execute` and `cleanup`. All of these commands follow similar syntax and can be executed as follows:
+
 ```bash
 $ java -jar target/machmeter/machmeter.jar <command> <Path To Json Config>
 ```
