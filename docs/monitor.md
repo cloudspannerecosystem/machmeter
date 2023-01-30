@@ -17,6 +17,7 @@ Once the performance POC is in progress, use the following steps and resources t
 {:toc}
 
 ## Server Side
+
 You can use the [Cloud Monitoring](https://cloud.google.com/monitoring/charts/metrics-selector) for server side monitoring.
 
 ## Client Side
