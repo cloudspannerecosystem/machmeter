@@ -3,7 +3,6 @@ layout: default
 title: Prerequisites and Setup
 nav_order: 2
 description: "Prerequisites and Setup."
-permalink: /
 ---
 
 # Requirements
@@ -18,6 +17,13 @@ Setting up Machmeter for execution.
 {:toc}
 
 ---
+
+## Pre-requisites
+Machmeter uses several tools under the hood. Please ensure the following are installed where Machmeter will run:
+- [JDV & JVM](https://openjdk.org/) (auther version >= 8)
+- [Terraform Cli](https://developer.hashicorp.com/terraform/downloads) (auther version >= 1.3.5)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/) (auther version >= v1.25.4)
+- [Maven](https://maven.apache.org/) (auther version >= 3.6.3)
 
 ## Setting up the Cloud Environment
 
@@ -50,9 +56,3 @@ $ gcloud iam service-accounts keys create $KEY_FILE \
 # We recommend key file type is JSON
 ```
 
-### Pre-requisites
-Machmeter uses several tools under the hood. Please ensure the following are installed where Machmeter will run:
-- [JDV & JVM](https://openjdk.org/) (auther version >= 8)
-- [Terraform Cli](https://developer.hashicorp.com/terraform/downloads) (auther version >= 1.3.5)
-- [kubectl](https://kubernetes.io/docs/tasks/tools/) (auther version >= v1.25.4)
-- [Maven](https://maven.apache.org/) (auther version >= 3.6.3)

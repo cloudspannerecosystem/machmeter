@@ -45,6 +45,13 @@ Machmeter exposes three CLI commands: `setup`, `execute` and `cleanup`. All of t
 ```bash
 $ java -jar target/machmeter/machmeter.jar <command> <Path To Json Config>
 ```
+Each Machmeter run consists of the following three phases:
+
+1. `setup` - Create the necessary resources required to execute a POC.
+2. `execute` - Execute the acutal performance POC test.
+3. `cleanup` - Delete the created resources. 
+
+Click on each step to understand how to perform it.
 
 ## About the project
 
