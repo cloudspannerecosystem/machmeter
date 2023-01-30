@@ -1,14 +1,14 @@
 ---
 layout: default
-title: Prerequisites and Setup
-nav_order: 2
-description: "Prerequisites and Setup."
+title: Setting up a POC
+nav_order: 3
+description: "Setting up a POC."
 ---
 
 # Setup
 {: .no_toc }
 
-Setting up Machmeter for execution.
+Using the Machmeter `setup` command to start creating resources and the `execute` command to load randomised data into Cloud Spanner with the help of a JMeter template.
 
 ## Table of contents
 {: .no_toc .text-delta }
@@ -16,43 +16,76 @@ Setting up Machmeter for execution.
 1. TOC
 {:toc}
 
----
+## Resource Creation using IaaC
 
-## Pre-Requisites
-Machmeter uses several tools under the hood. Please ensure the following are installed where Machmeter will run:
-- [JDV & JVM](https://openjdk.org/) (auther version >= 8)
-- [Terraform Cli](https://developer.hashicorp.com/terraform/downloads) (auther version >= 1.3.5)
-- [kubectl](https://kubernetes.io/docs/tasks/tools/) (auther version >= v1.25.4)
-- [Maven](https://maven.apache.org/) (auther version >= 3.6.3)
+Required resources involve executing the `setup` command of machmeter with
+spanner instance config, GKE cluster config and path to Schema file
+containing SQL command describing the database structure.
+One important thing to remember is that the spanner config will need to remain the
+same in all these steps.
 
-## Setting up the Cloud Environment
+<div class="resource-config" markdown="1">
+ 
+| Key name                                          | Description                                                             | 
+|:--------------------------------------------------|:------------------------------------------------------------------------|
+| infraConfig.spannerInstanceConfig.projectId       | Google Cloud Project Id                                                 | 
+| infraConfig.spannerInstanceConfig.instanceId      | Name of the instance to be created                                      | 
+| infraConfig.spannerInstanceConfig.dbName          | Name of the database to be created                                      | 
+| infraConfig.spannerInstanceConfig.configuration   | Region in which the spanner instance is to be created                   | 
+| infraConfig.spannerInstanceConfig.displayName     | Instance display name                                                   | 
+| infraConfig.spannerInstanceConfig.processingUnits | Number of processing units                                              | 
+| infraConfig.spannerInstanceConfig.environment     | Creation environment                                                    | 
+| gkeConfig.clusterName                             | GKE cluster name                                                        | 
+| gkeConfig.namespace                               | GKE cluster name space                                                  | 
+| gkeConfig.region                                  | GKE cluster region                                                      | 
+| gkeConfig.network                                 | GKE cluster network                                                     | 
+| gkeConfig.subnetwork                              | GKE cluster sub network                                                 | 
+| gkeConfig.ipRangePodsName                         | GKE cluster IP range Pod's Name                                         | 
+| gkeConfig.ipRangeServicesName                     | GKE cluster IP range Services Name                                      | 
+| gkeConfig.service_account_json                    | Path to service account's json file                                     | 
+| jMeterParams.spannerInstanceConfig.projectId      | Google Cloud Project Id (Should be same as in previoud keys)            | 
+| jMeterParams.spannerInstanceConfig.instanceId     | Name of the instance to be created (Should be same as in previoud keys) | 
+| jMeterParams.spannerInstanceConfig.dbName         | Name of the database to be created (Should be same as in previoud keys) | 
+| jMeterParams.spannerInstanceConfig.configuration  | Region in which the spanner instance is to be created                   | 
+| jMeterParams.schemaFilePath                       | Path to the Schema file.                                                |
 
-We expect to set organization policy by default.
 
-- [Google Cloud Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects)
-- [Google Account](https://cloud.google.com/iam/docs/overview?hl=ja#google_account) - It needs roles/owner permission on your project
+** Please refer to the sample file for example values
+</div>
 
-{: .warning }
-Currently, we only support Service Account for authentication.
+This is a [sample file](./commons/resource/sample-machmeter-setup-config.json) with the above defined configuration.
 
-- [Service Account](https://cloud.google.com/iam/docs/creating-managing-service-accounts#creating) - It needs roles/owner permission on your project
-- [Service Account Key file](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating)
-
+### Execution Command
 ```bash
-# Example to create account and keyfile
-$ export SA_NAME=terraformer
-$ export PROJECT_ID=test
-# Create Service Account
-$ gcloud iam service-accounts create $SA_NAME \
-    --description="Operation service account for spanner stress demo" \
-    --display-name=$SA_NAME
-$ gcloud projects add-iam-policy-binding $PROJECT_ID \
-    --member="serviceAccount:${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com" \
-    --role="roles/owner"
-# Download a key file
-$ export KEY_FILE=terraformer.json
-$ gcloud iam service-accounts keys create $KEY_FILE \
-    --iam-account=${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com
-# We recommend key file type is JSON
+$ java -jar target/machmeter/machmeter.jar setup path-to-config-file.json
 ```
 
+## Data Load
+
+Data load involves executing the `execute` command of machmeter with
+data load jmeter script as input. This script, when executed, will load a 
+randomized set of data onto a given mentioned spanner database.
+
+This will also create CSV files containing the keys for created data. These
+CSV will be used as a source for parameters in queries in the Perf test.
+
+<div class="data-load-config" markdown="2">
+| Key name                 | Description                        |
+|:-------------------------|:-----------------------------------| 
+| namespace                | Name of the test                   | 
+| jMeterTemplatePath       | Path to Data load Jmeter Script    | 
+| jMeterParams.project     | Google Cloud Project Id            | 
+| jMeterParams.instance    | Name of the instance to be created | 
+| jMeterParams.database    | Name of the database to be created | 
+| jMeterParams.connections | Spanner Connection Counts          |
+
+</div>
+
+** Please refer to the sample file for example values
+
+This is a [Sample file](./commons/resource/sample-machmeter-execute-data-load-config.json) ith the above defined configuration.
+
+### Execution Command
+```bash
+$ java -jar target/machmeter/machmeter.jar execute path-to-config-file.json
+```
