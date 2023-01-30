@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Setting up a POC
+title: Infrastructure and Data Setup
 nav_order: 3
 description: "Setting up a POC."
 ---
@@ -25,6 +25,7 @@ One important thing to remember is that the spanner config will need to remain t
 same in all these steps.
 
 ### Configuration File Definition 
+
 <div class="resource-config" markdown="1">
  
 | Key name                                          | Description                                                             | 
@@ -53,7 +54,7 @@ same in all these steps.
 </div>
 
 {: .note }
-Please refer to the sample file for example values
+Please refer to the sample file for example values.
 
 
 This is a [sample file](../commons/resource/sample-machmeter-setup-config.json) with the above defined configuration.
@@ -73,6 +74,7 @@ This will also create CSV files containing the keys for created data. These
 CSV will be used as a source for parameters in queries in the Perf test.
 
 ### Configuration File Definition 
+
 <div class="data-load-config" markdown="1">
 
 | Key name                 | Description                        | 
@@ -87,7 +89,7 @@ CSV will be used as a source for parameters in queries in the Perf test.
 </div>
 
 {: .note }
-Please refer to the sample file for example values
+Please refer to the sample file for example values.
 
 This is a [sample file](../commons/resource/sample-machmeter-execute-data-load-config.json) with the above defined configuration.
 
