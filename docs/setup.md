@@ -5,7 +5,7 @@ nav_order: 2
 description: "Prerequisites and Setup."
 ---
 
-# Requirements
+# Setup
 {: .no_toc }
 
 Setting up Machmeter for execution.
@@ -18,7 +18,7 @@ Setting up Machmeter for execution.
 
 ---
 
-## Pre-requisites
+## Pre-Requisites
 Machmeter uses several tools under the hood. Please ensure the following are installed where Machmeter will run:
 - [JDV & JVM](https://openjdk.org/) (auther version >= 8)
 - [Terraform Cli](https://developer.hashicorp.com/terraform/downloads) (auther version >= 1.3.5)
