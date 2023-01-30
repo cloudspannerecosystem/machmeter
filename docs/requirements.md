@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Installation
+title: Pre-requisites
 nav_order: 2
 description: "Prerequisites and Setup."
 ---

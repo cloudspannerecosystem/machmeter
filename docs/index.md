@@ -23,7 +23,7 @@ Machmeter is an open source tool for performance benchmarking of Cloud Spanner. 
 
 It's very easy to quickly start experimenting with Machmeter. Use on of the existing usecase templates to get started.
 
-### Checkout and build Machmeter
+### Installation
 
 Create a clone of the Github repository of Machmeter and create export your gCloud service account credentials as follows:
 
