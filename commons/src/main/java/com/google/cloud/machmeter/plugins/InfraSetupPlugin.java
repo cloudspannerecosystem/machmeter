@@ -54,13 +54,13 @@ public class InfraSetupPlugin implements PluginInterface {
     }
     String terraformPlanCMD =
         String.format(
-            "terraform plan -var=gcp_project=%s -var=spanner_config=%s -var=gke_config=%s",
+            "terraform plan -var=gcp_project=%s -var='spanner_config=%s' -var='gke_config=%s'",
             spannerInstanceConfig.getProjectId(),
             gson.toJson(spannerInstanceConfig),
             gson.toJson(gkeConfig));
     String terraformApplyCMD =
         String.format(
-            "terraform apply -var=gcp_project=%s -var=spanner_config=%s -var=gke_config=%s --auto-approve",
+            "terraform apply -var=gcp_project=%s -var='spanner_config=%s' -var='gke_config=%s' --auto-approve",
             spannerInstanceConfig.getProjectId(),
             gson.toJson(spannerInstanceConfig),
             gson.toJson(gkeConfig));

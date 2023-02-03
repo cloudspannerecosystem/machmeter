@@ -167,6 +167,59 @@
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
+        <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
+          <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="influxdbMetricsSender" elementType="Argument">
+                <stringProp name="Argument.name">influxdbMetricsSender</stringProp>
+                <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="influxdbUrl" elementType="Argument">
+                <stringProp name="Argument.name">influxdbUrl</stringProp>
+                <stringProp name="Argument.value">http://jmeter-influxdb:8086/write?db=jmeter</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="application" elementType="Argument">
+                <stringProp name="Argument.name">application</stringProp>
+                <stringProp name="Argument.value">application name</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="measurement" elementType="Argument">
+                <stringProp name="Argument.name">measurement</stringProp>
+                <stringProp name="Argument.value">jmeter</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="summaryOnly" elementType="Argument">
+                <stringProp name="Argument.name">summaryOnly</stringProp>
+                <stringProp name="Argument.value">true</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="samplersRegex" elementType="Argument">
+                <stringProp name="Argument.name">samplersRegex</stringProp>
+                <stringProp name="Argument.value">.*</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="percentiles" elementType="Argument">
+                <stringProp name="Argument.name">percentiles</stringProp>
+                <stringProp name="Argument.value">99;95;90</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="testTitle" elementType="Argument">
+                <stringProp name="Argument.name">testTitle</stringProp>
+                <stringProp name="Argument.value">Test name</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="eventTags" elementType="Argument">
+                <stringProp name="Argument.name">eventTags</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient</stringProp>
+        </BackendListener>
+        <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create Sampled CSV Data" enabled="true">
         <stringProp name="TestPlan.comments">Fetches sampled data from Spanner for the load test</stringProp>
@@ -187,7 +240,7 @@
           <stringProp name="TestPlan.comments">Create CSV for sample UserIds to be used for perf test.</stringProp>
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Select Statement</stringProp>
-          <stringProp name="query">SELECT UserId FROM user_bal TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
+          <stringProp name="query">SELECT UserId FROM user_bal TABLESAMPLE BERNOULLI (50 PERCENT) limit 50000;</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="variableNames"></stringProp>
@@ -200,7 +253,7 @@
           <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="JDBC PreProcessor" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
             <stringProp name="queryType">Select Statement</stringProp>
-            <stringProp name="query">SELECT UserId FROM user_bal TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
+            <stringProp name="query">SELECT UserId FROM user_bal TABLESAMPLE BERNOULLI (50 PERCENT) limit 50000;</stringProp>
             <stringProp name="queryArguments"></stringProp>
             <stringProp name="queryArgumentsTypes"></stringProp>
             <stringProp name="variableNames"></stringProp>
@@ -223,12 +276,11 @@ for (Object row : resultSet ) {
     while (iter.hasNext()) {
         pair = iter.next();
         result.append(pair.getValue());
-        result.append(&quot;,&quot;);
     }
     result.append(System.getProperty(&quot;line.separator&quot;));
 }
 
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/Users/manitgupta/userIds.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/userId.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>
@@ -236,7 +288,7 @@ org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/Users/manitgup
           <stringProp name="TestPlan.comments">Create CSV for sample UserIds, TransactionIds to be used for perf test.</stringProp>
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Select Statement</stringProp>
-          <stringProp name="query">SELECT UserId, TransactionId FROM user_txns TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
+          <stringProp name="query">SELECT TransactionId FROM user_txns TABLESAMPLE BERNOULLI (50 PERCENT) limit 50000;</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="variableNames"></stringProp>
@@ -249,7 +301,7 @@ org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/Users/manitgup
           <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="JDBC PreProcessor" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
             <stringProp name="queryType">Select Statement</stringProp>
-            <stringProp name="query">SELECT UserId, TransactionId FROM user_txns TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
+            <stringProp name="query">SELECT TransactionId FROM user_txns TABLESAMPLE BERNOULLI (50 PERCENT) limit 50000;</stringProp>
             <stringProp name="queryArguments"></stringProp>
             <stringProp name="queryArgumentsTypes"></stringProp>
             <stringProp name="variableNames"></stringProp>
@@ -264,27 +316,19 @@ org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/Users/manitgup
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script">resultSet = vars.getObject(&quot;resultSet&quot;)
-result = new StringBuilder()
-
-def randomRow = resultSet.get(org.apache.commons.lang3.RandomUtils.nextInt(0,resultSet.size()))
-
-randomRow.each { k, v -&gt; 
-    result.append(&quot;${k}&quot;).append(&quot;,&quot;)
-}
-result.append(System.getProperty(&quot;line.separator&quot;))
+            <stringProp name="script">resultSet = vars.getObject(&quot;resultSet&quot;);
+StringBuilder result = new StringBuilder();
 
 for (Object row : resultSet ) {
-    iter = row.entrySet().iterator()
+    iter = row.entrySet().iterator();
     while (iter.hasNext()) {
-        pair = iter.next()
-        result.append(pair.getValue())
-        result.append(&quot;,&quot;)
+        pair = iter.next();
+        result.append(pair.getValue());
     }
-    result.append(System.getProperty(&quot;line.separator&quot;))
+    result.append(System.getProperty(&quot;line.separator&quot;));
 }
 
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/Users/manitgupta/transactionIds.csv&quot;), result.toString(), &quot;UTF-8&quot;)</stringProp>
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/txnId.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>
