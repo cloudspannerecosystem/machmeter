@@ -19,39 +19,10 @@ Machmeter is a tool to bootstrap POCs on Cloud Spanner quickly and easily.
 
 Machmeter is an open source tool for performance benchmarking of Cloud Spanner. This repository contains Machmeter code, usage instructions and a few example use-cases. Users can clone any of these use-case and edit them to imitate their specific use-case.
 
-## Getting started
-
-It's very easy to quickly start experimenting with Machmeter. Use on of the existing usecase templates to get started.
-
-### Installation
-
-Create a clone of the Github repository of Machmeter and create export your gCloud service account credentials as follows:
-
-```bash
-$ git clone https://github.com/cloudspannerecosystem/machmeter.git
-$ cd machmeter/commons
-
-# Building the maven project
-$ mvn clean package -P assembly
-
-# You provide the path to service accounts key.
-$ export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
-```
-
-### Execute an existing template
-
-Machmeter exposes three CLI commands: `setup`, `execute` and `cleanup`. All of these commands follow similar syntax and can be executed as follows:
-
-```bash
-$ java -jar target/machmeter/machmeter.jar <command> <Path To Json Config>
-```
-Each Machmeter run consists of the following three phases:
-
-1. `setup` - Create the necessary resources required to execute a POC.
-2. `execute` - Execute the acutal performance POC test.
-3. `cleanup` - Delete the created resources. 
-
-Click on each step to understand how to perform it.
+### What does Machmeter do?
+ - Simplifying setup for performance test: This tool provides an easy-to-use CLI which can set up an integrated environment to test on Spanner quickly with pre-built sample test scenarios. It simplifies operations such as setting up a Spanner instance, setting up client metrics collection, setting up a Kubernetes cluster and running an at-scale JMeter template using leader-follower configuration.
+ - Randomized data generation for complex schema: Machmeter provides samples for common use-cases to configure JMeter to generate randomized data for a given schema. These templates use JMeter APIs and are GUI driven.
+ - Extensible templates for new use cases: Templates can easily be extended/modified to adapt to a customer’s specific use case.  Moreover, you can also quickly implement custom scenarios within this tool with little java code/editing existing scenarios.
 
 ### Project Structure
 
