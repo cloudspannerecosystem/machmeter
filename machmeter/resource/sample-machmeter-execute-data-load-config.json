@@ -1,6 +1,6 @@
 {
   "namespace": "spanner-test",
-  "jMeterTemplatePath" : "/Users/manitgupta/machmeter_repos/machmeter_main/machmeter/usecases/finance/ledger/spanner-interactions/data-load/scenario-1-initial-load.jmx",
+  "jMeterTemplatePath" : "usecases/finance/ledger/spanner-interactions/data-load/scenario-1-initial-load.jmx",
   "jMeterParams" : {
     "project": "span-cloud-testing",
     "instance": "spanner-load-test",
