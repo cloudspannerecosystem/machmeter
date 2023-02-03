@@ -19,10 +19,10 @@ Machmeter is a tool to bootstrap POCs on Cloud Spanner quickly and easily.
 
 Machmeter is an open source tool for performance benchmarking of Cloud Spanner. This repository contains Machmeter code, usage instructions and a few example use-cases. Users can clone any of these use-case and edit them to imitate their specific use-case.
 
-### What does Machmeter do?
- - Simplifying setup for performance test: This tool provides an easy-to-use CLI which can set up an integrated environment to test on Spanner quickly with pre-built sample test scenarios. It simplifies operations such as setting up a Spanner instance, setting up client metrics collection, setting up a Kubernetes cluster and running an at-scale JMeter template using leader-follower configuration.
- - Randomized data generation for complex schema: Machmeter provides samples for common use-cases to configure JMeter to generate randomized data for a given schema. These templates use JMeter APIs and are GUI driven.
- - Extensible templates for new use cases: Templates can easily be extended/modified to adapt to a customer’s specific use case.  Moreover, you can also quickly implement custom scenarios within this tool with little java code/editing existing scenarios.
+## What does Machmeter do?
+ - **Simplifying setup for performance test**: This tool provides an easy-to-use CLI which can set up an integrated environment to test on Spanner quickly with pre-built sample test scenarios. It simplifies operations such as setting up a Spanner instance, setting up client metrics collection, setting up a Kubernetes cluster and running an at-scale JMeter template using leader-follower configuration.
+ - **Randomized data generation for complex schema(s)**: Machmeter provides samples for common use-cases to configure JMeter to generate randomized data for a given schema. These templates use JMeter APIs and are GUI driven.
+ - **Base templates for new use cases**: Templates can easily be extended/modified to adapt to a customer’s specific use case.  Moreover, you can also quickly implement custom scenarios within this tool with little java code/editing existing scenarios.
 
 ### Project Structure
 
