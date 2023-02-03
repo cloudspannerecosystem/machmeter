@@ -2,8 +2,8 @@
   "infraConfig": {
     "spannerInstanceConfig": {
       "projectId" : "span-cloud-testing",
-      "instanceId": "spanner-load-test",
-      "dbName": "test-google",
+      "instanceId": "machmeter-ledger-test",
+      "dbName": "finance-ledger",
       "configuration": "regional-us-central1",
       "displayName": "load_test_instance",
       "processingUnits": 1000,
@@ -22,11 +22,11 @@
   },
   "ddlConfig" : {
     "spannerInstanceConfig" : {
-      "instanceId" : "spanner-load-test",
-      "dbName" : "test-google",
+      "instanceId" : "machmeter-ledger-test",
+      "dbName" : "finance-ledger",
       "configuration": "regional-us-central1",
       "projectId" : "span-cloud-testing"
     },
-    "schemaFilePath" : "machmeter/usecases/finance/ledger/spanner-interactions/schema/schema.sql"
+    "schemaFilePath" : "usecases/finance/ledger/templates/schema.sql"
   }
 }
