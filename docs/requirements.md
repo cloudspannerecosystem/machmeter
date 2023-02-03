@@ -18,6 +18,13 @@ Setting up Machmeter for execution.
 
 ---
 
+## Pre-Requisites
+Machmeter uses several tools under the hood. Please ensure the following are installed where Machmeter will run:
+- [JDV & JVM](https://openjdk.org/) (auther version >= 8)
+- [Terraform Cli](https://developer.hashicorp.com/terraform/downloads) (auther version >= 1.3.5)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/) (auther version >= v1.25.4)
+- [Maven](https://maven.apache.org/) (auther version >= 3.6.3)
+
 ## Getting Started
 
 It's very easy to quickly start experimenting with Machmeter. Use on of the existing usecase templates to get started.
@@ -51,13 +58,6 @@ Each Machmeter run consists of the following three phases:
 3. `cleanup` - Delete the created resources.
 
 Click on each step to understand how to perform it.
-
-## Pre-Requisites
-Machmeter uses several tools under the hood. Please ensure the following are installed where Machmeter will run:
-- [JDV & JVM](https://openjdk.org/) (auther version >= 8)
-- [Terraform Cli](https://developer.hashicorp.com/terraform/downloads) (auther version >= 1.3.5)
-- [kubectl](https://kubernetes.io/docs/tasks/tools/) (auther version >= v1.25.4)
-- [Maven](https://maven.apache.org/) (auther version >= 3.6.3)
 
 ## Setting up the Cloud Environment
 
