@@ -54,7 +54,7 @@ public class CleanupPlugin implements PluginInterface {
     }
     String terraformDestroyCMD =
         String.format(
-            "terraform destroy -var=gcp_project=%s -var=spanner_config=%s -var=gke_config=%s",
+            "terraform destroy -var=gcp_project=%s -var='spanner_config=%s' -var='gke_config=%s'",
             spannerInstanceConfig.getProjectId(),
             gson.toJson(spannerInstanceConfig),
             gson.toJson(gkeConfig));

@@ -72,7 +72,7 @@ resource "local_file" "kubeconfig" {
 module "gcp-network" {
   source       = "terraform-google-modules/network/google"
   project_id   = var.gcp_project
-  network_name = "gke-network"
+  network_name = var.gke_config.network
   subnets = [
     {
       subnet_name   = "${var.gke_config.subnetwork}"
@@ -115,6 +115,26 @@ module "gke" {
   grant_registry_access    = true
   remove_default_node_pool = false
   create_service_account   = false
+  node_pools = [
+    {
+      name                      = "default-node-pool"
+      machine_type              = "e2-standard-2"
+      node_locations            = "us-central1-a,us-central1-b,us-central1-c"
+      min_count                 = 5
+      max_count                 = 100
+      local_ssd_count           = 0
+      spot                      = false
+      disk_size_gb              = 100
+      disk_type                 = "pd-standard"
+      image_type                = "COS_CONTAINERD"
+      enable_gcfs               = false
+      enable_gvnic              = false
+      auto_repair               = true
+      auto_upgrade              = true
+      preemptible               = false
+      initial_node_count        = 5
+   },
+  ]
   node_pools_oauth_scopes = {
     all = [
       "https://www.googleapis.com/auth/logging.write",
@@ -339,12 +359,12 @@ resource "kubernetes_deployment" "jmeter-slave" {
           }
           resources {
             limits = {
-              cpu    = "200m"
+              cpu    = "1000m"
               memory = "2Gi"
             }
             requests = {
-              cpu    = "100m"
-              memory = "1Gi"
+              cpu    = "1000m"
+              memory = "2Gi"
             }
           }
           env {
