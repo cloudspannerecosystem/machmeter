@@ -1,0 +1,10 @@
+{
+  "namespace": "spanner-test",
+  "jMeterTemplatePath" : "machmeter/usecases/finance/ledger/spanner-interactions/perf-test/finance-perf.jmx",
+  "jMeterParams" : {
+    "project": "span-cloud-testing",
+    "instance": "spanner-load-test",
+    "database": "test-google",
+    "connections": 1000
+  }
+}
