@@ -47,7 +47,7 @@ variable "spanner_config" {
   }
 
   validation {
-    condition     = (var.spanner_config.processing_units <= 1000) && (var.spanner_config.processing_units%100) == 0
+    condition     = (var.spanner_config.processing_units <= 1000) || (var.spanner_config.processing_units%100) == 0
     error_message = "Processing units must be 1000 or less, and be a multiple of 100."
   }
 }
