@@ -54,13 +54,13 @@ public class ExecutePlugin implements PluginInterface {
     // TODO: Use Dependency Injection throughout Machmeter.
     ShellExecutor shellExecutor = new ShellExecutor();
     String jMeterArgs = convertMapToJMeterArgs(executeConfig.getjMeterParams());
-
-    Path path = Paths.get(executeConfig.getjMeterTemplatePath());
-    Path fileName = path.getFileName();
+    Path cwd = Paths.get(System.getProperty("user.dir"));
+    Path fullPath = Paths.get(cwd.toString(), executeConfig.getjMeterTemplatePath());
+    Path fileName = fullPath.getFileName();
     String kubectlCopy =
         String.format(
             "kubectl cp %s -n %s \"$(kubectl get po -n %s | grep jmeter-master | awk '{print $1}'):/%s\"",
-            executeConfig.getjMeterTemplatePath(),
+            fullPath,
             executeConfig.getNamespace(),
             executeConfig.getNamespace(),
             fileName);
