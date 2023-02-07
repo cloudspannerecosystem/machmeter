@@ -2,10 +2,10 @@
   "infraConfig": {
     "spannerInstanceConfig": {
       "projectId" : "span-cloud-testing",
-      "instanceId": "machmeter-finance-ledger-test",
-      "dbName": "finance-ledger",
+      "instanceId": "machmeter-shopping-cart-test",
+      "dbName": "shopping-cart",
       "configuration": "regional-us-central1",
-      "displayName": "load_test_instance",
+      "displayName": "machmeter-shopping-cart-test",
       "processingUnits": 1000,
       "environment": "testing"
     },
@@ -22,11 +22,11 @@
   },
   "ddlConfig" : {
     "spannerInstanceConfig" : {
-      "instanceId" : "machmeter-finance-ledger-test",
-      "dbName" : "finance-ledger",
+      "instanceId" : "machmeter-shopping-cart-test",
+      "dbName" : "shopping-cart",
       "configuration": "regional-us-central1",
       "projectId" : "span-cloud-testing"
     },
-    "schemaFilePath" : "usecases/finance/ledger/templates/schema.sql"
+    "schemaFilePath" : "usecases/shopping/cart/templates/schema.sql"
   }
 }
