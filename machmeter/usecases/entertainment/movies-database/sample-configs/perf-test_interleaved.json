@@ -1,0 +1,10 @@
+{
+  "namespace": "spanner-test",
+  "jMeterTemplatePath" : "usecases/entertainment/movies-database/templates/enter-db_interleaved.jmx",
+  "jMeterParams" : {
+    "project": "span-cloud-testing",
+    "instance": "machmeter-enter-db-test",
+    "database": "enter-db",
+    "connections": 1000
+  }
+}
