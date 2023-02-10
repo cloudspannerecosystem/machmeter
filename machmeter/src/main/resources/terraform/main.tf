@@ -277,7 +277,7 @@ resource "kubernetes_deployment" "jmeter-master" {
       }
       spec {
         container {
-          image = "gcr.io/span-cloud-testing/jmeter-master:latest"
+          image = "gcr.io/cloud-spanner-emulator/machmeter-jmeter-master:latest"
           name  = "jmmaster"
           image_pull_policy = "Always"
           command = [ "/bin/bash", "-c", "--" ]
@@ -344,7 +344,7 @@ resource "kubernetes_deployment" "jmeter-slave" {
       }
       spec {
         container {
-          image = "gcr.io/span-cloud-testing/jmeter-slave:latest"
+          image = "gcr.io/cloud-spanner-emulator/machmeter-jmeter-slave:latest"
           name  = "jmslave"
           image_pull_policy = "Always"
           volume_mount {
