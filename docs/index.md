@@ -26,25 +26,25 @@ Machmeter is an open source tool for performance benchmarking of Cloud Spanner. 
 
 ### Project Structure
 
-- [Machmeter](../machmeter): this is a maven project containing the code for the tools.
+- [Machmeter](https://github.com/cloudspannerecosystem/machmeter/tree/master/machmeter): this is a maven project containing the code for the tools.
 It has broadly 2 modules, an __Orchestrator layer__ and __Plugins__. 
   - __Orchestrator Layer__: this layer handles the input and reads the provided 
   config. Further, based on the input, it decides which plugins need to be
   executed.
   - __Plugins__: this layer contains plugins for various stages of the benchmarking.
-    - [MachmeterStatePlugin](../machmeter/src/main/java/com/google/cloud/machmeter/plugins/MachmeterStatePlugin.java):
+    - [MachmeterStatePlugin](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/src/main/java/com/google/cloud/machmeter/plugins/MachmeterStatePlugin.java):
     This plugin sets up the local directories for preserving __Machmeter__ state.
-    - [InfraSetupPlugin](../machmeter/src/main/java/com/google/cloud/machmeter/plugins/InfraSetupPlugin.java):
+    - [InfraSetupPlugin](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/src/main/java/com/google/cloud/machmeter/plugins/InfraSetupPlugin.java):
     This plugin executes terraform scripts to setup the Spanner Instances
     and GKE cluster for Jmeter clients.
-    - [DdlPlugin](../machmeter/src/main/java/com/google/cloud/machmeter/plugins/DdlPlugin.java):
+    - [DdlPlugin](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/src/main/java/com/google/cloud/machmeter/plugins/DdlPlugin.java):
     This plugin is for loading data into the Spanner Instances.
-    - [ExecutePlugin](../machmeter/src/main/java/com/google/cloud/machmeter/plugins/ExecutePlugin.java):
+    - [ExecutePlugin](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/src/main/java/com/google/cloud/machmeter/plugins/ExecutePlugin.java):
     This plugin executes the benchmarking tests provided in the use-case.
-  - [Terraform](../machmeter/src/main/resources/terraform): This folder contains
+  - [Terraform](https://github.com/cloudspannerecosystem/machmeter/tree/master/machmeter/src/main/resources/terraform): This folder contains
   a terraform script for setting up Spanner Instances and GKE clusters. It also 
   contains config files for the Grafana Dashboard.
-- [Use-cases](../machmeter/usecases): all the sample use-cases reside into this folder
+- [Use-cases](https://github.com/cloudspannerecosystem/machmeter/tree/master/machmeter/usecases): all the sample use-cases reside into this folder
 categorized into different folders.
 
 ## About the project
@@ -54,7 +54,7 @@ categorized into different folders.
 
 ## License
 
-This is [Apache 2.0 License](../LICENSE)
+This is [Apache 2.0 License](https://github.com/cloudspannerecosystem/machmeter/blob/master/LICENSE)
 
 {: .note }
 This is not an officially supported Google product.

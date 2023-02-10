@@ -47,7 +47,7 @@ for details.
 {: .note }
 Please refer to the sample file for example values.
 
-This is a [sample file](../machmeter/usecases/finance/ledger/sample-configs/perf-test.json) with the above defined configuration
+This is a [sample file](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/usecases/finance/ledger/sample-configs/perf-test.json) with the above defined configuration
 
 ### Execution Command
 ```bash
@@ -62,7 +62,7 @@ created in the earlier steps. Here, the config file remains the same as in Setup
 This step deletes the instances and clusters created.
 
 ### Configuration File Definition
-This is a [sample file](../machmeter/usecases/finance/ledger/sample-configs/setup.json) with the above defined configuration.
+This is a [sample file](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/usecases/finance/ledger/sample-configs/setup.json) with the above defined configuration.
 
 Refer to the Setup section for details on the config file.
 
