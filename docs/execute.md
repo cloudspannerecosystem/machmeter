@@ -47,7 +47,7 @@ for details.
 {: .note }
 Please refer to the sample file for example values.
 
-This is a [sample file](../commons/resource/sample-machmeter-execute-perf-test-config.json) with the above defined configuration
+This is a [sample file](../machmeter/resource/sample-machmeter-execute-perf-test-config.json) with the above defined configuration
 
 ### Execution Command
 ```bash
@@ -62,7 +62,7 @@ created in the earlier steps. Here, the config file remains the same as in Setup
 This step deletes the instances and clusters created.
 
 ### Configuration File Definition
-This is a [sample file](./commons/resource/sample-machmeter-setup-config.json) with the above defined configuration.
+This is a [sample file](../machmeter/resource/sample-machmeter-setup-config.json) with the above defined configuration.
 
 Refer to the Setup section for details on the config file.
 
