@@ -44,7 +44,7 @@ It has broadly 2 modules, an __Orchestrator layer__ and __Plugins__.
   - [Terraform](../machmeter/src/main/resources/terraform): This folder contains
   a terraform script for setting up Spanner Instances and GKE clusters. It also 
   contains config files for the Grafana Dashboard.
-- [Use-cases](../machmeter//usecases): all the sample use-cases reside into this folder
+- [Use-cases](../machmeter/usecases): all the sample use-cases reside into this folder
 categorized into different folders.
 
 ## About the project
