@@ -54,7 +54,7 @@ categorized into different folders.
 
 ## License
 
-This is [Apache 2.0 License](../machmeter/src/main/resources/terraform/main.tf)
+This is [Apache 2.0 License](../LICENSE)
 
 {: .note }
 This is not an officially supported Google product.

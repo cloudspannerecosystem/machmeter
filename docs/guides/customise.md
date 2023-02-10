@@ -25,21 +25,21 @@ its components.
 
 Machmeter currently provides three pre-built templates for you to get started:
 
-- [Ledger](./usecases/finance/ledger)
-- [Movies Database](./usecases/entertainment/movies-database)
-- [Ecommerce Cart](./usecases/shopping/cart)
+- [Ledger](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/usecases/finance/ledger/)
+- [Movies Database](https://github.com/cloudspannerecosystem/machmeter/tree/master/machmeter/usecases/entertainment/movies-database)
+- [Ecommerce Cart](https://github.com/cloudspannerecosystem/machmeter/tree/master/machmeter/usecases/shopping/cart)
 
 
 ## Components of a Use-case
 
-To demonstrate this, we will be using [Ledger](./usecases/finance/ledger) as a
+To demonstrate this, we will be using [Ledger](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/usecases/finance/ledger/) as a
 sample use-case.
 
-- [Schema](./usecases/finance/ledger/spanner-interactions/schema/schema.sql):
+- [Schema](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/usecases/finance/ledger/templates/schema.sql):
 This describes the database structure and should contain all your DDL commands.
 This needs to be modified containing the DDL command of the respective application
 to be tested.
-- [Data load Jmeter Script](./usecases/finance/ledger/spanner-interactions/data-load/scenario-1-initial-load.jmx):
+- [Data load Jmeter Script](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/usecases/finance/ledger/templates/data-load.jmx):
 This Jmeter script performs 2 tasks. One it inserts randomized data into the spanner database
 and second it creates CSV files containing keys required in queries in perf execution.
   - For these, there are 2 thread groups. First thread group, `Insert Data` is responsible
@@ -52,7 +52,7 @@ and second it creates CSV files containing keys required in queries in perf exec
   within a single thread. So, the total rows added will be `users * iterations`.
   - Second thread group, `Create Sampled CSV Data` is responsible for querying all
   the keys required in the perf test and dumping them into CSV files.
-- [Perf Test Jmeter Script](./usecases/finance/ledger/spanner-interactions/perf-test/finance-perf.jmx):
+- [Perf Test Jmeter Script](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/usecases/finance/ledger/templates/finance-ledger-perf.jmx):
 This has the following components:
   - `create spanner client(setup Thread Group)`: Spanner connections are created in this group.
   - `Master Thread Group`: this group contains all the read/write queries for the test.
