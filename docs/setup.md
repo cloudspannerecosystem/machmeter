@@ -57,7 +57,7 @@ same in all these steps.
 Please refer to the sample file for example values.
 
 
-This is a [sample file](../commons/resource/sample-machmeter-setup-config.json) with the above defined configuration.
+This is a [sample file](../machmeter/usecases/finance/ledger/sample-configs/setup.json) with the above defined configuration.
 
 ### Execution Command
 ```bash
@@ -91,7 +91,7 @@ CSV will be used as a source for parameters in queries in the Perf test.
 {: .note }
 Please refer to the sample file for example values.
 
-This is a [sample file](../commons/resource/sample-machmeter-execute-data-load-config.json) with the above defined configuration.
+This is a [sample file](../machmeter/usecases/finance/ledger/sample-configs/data-load.json) with the above defined configuration.
 
 ### Execution Command
 ```bash
