@@ -54,7 +54,7 @@ categorized into different folders.
 
 ## License
 
-This is [Apache 2.0 License](../LICENSE)
+This is [Apache 2.0 License](https://github.com/cloudspannerecosystem/machmeter/blob/master/LICENSE)
 
 {: .note }
 This is not an officially supported Google product.
