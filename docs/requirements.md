@@ -35,7 +35,7 @@ Create a clone of the Github repository of Machmeter and create export your gClo
 
 ```bash
 $ git clone https://github.com/cloudspannerecosystem/machmeter.git
-$ cd machmeter/commons
+$ cd machmeter/machmeter
 
 # Building the maven project
 $ mvn clean package -P assembly
