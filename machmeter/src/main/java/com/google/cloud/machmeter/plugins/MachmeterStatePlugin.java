@@ -18,6 +18,7 @@ package com.google.cloud.machmeter.plugins;
 
 import com.google.cloud.machmeter.helpers.ResourceHandler;
 import com.google.cloud.machmeter.model.SetupConfig;
+import com.google.inject.Inject;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -28,6 +29,13 @@ Currently, only the `machmeter_output/terraform` directory which forms the execu
 In the future, this directory can be used to store credentials, session information, metadata etc.
  */
 public class MachmeterStatePlugin implements Plugin<SetupConfig> {
+
+  private final ResourceHandler resourceCopy;
+
+  @Inject
+  public MachmeterStatePlugin(ResourceHandler resourceHandler) {
+    this.resourceCopy = resourceHandler;
+  }
 
   private static final String MACHMETER_OUTPUT_DIR = "machmeter_output";
   private static final String TERRAFORM_DIR = "terraform";
@@ -43,7 +51,6 @@ public class MachmeterStatePlugin implements Plugin<SetupConfig> {
     if (!machmeterDir.exists()) {
       machmeterDir.mkdirs();
     }
-    ResourceHandler resourceCopy = new ResourceHandler();
     resourceCopy.copyResourceDirectory(TERRAFORM_DIR, Paths.get(machmeterDir.getAbsolutePath()));
   }
 

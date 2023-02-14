@@ -22,12 +22,21 @@ import com.google.cloud.machmeter.model.SetupConfig;
 import com.google.cloud.machmeter.model.SpannerInstanceConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.inject.Inject;
+
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CleanupPlugin implements Plugin<SetupConfig> {
   private static final Logger logger = Logger.getLogger(InfraSetupPlugin.class.getName());
+
+  private final ShellExecutor shellExecutor;
+
+  @Inject
+  public CleanupPlugin(ShellExecutor shellExecutor) {
+    this.shellExecutor = shellExecutor;
+  }
 
   @Override
   public String getPluginName() {
@@ -36,7 +45,6 @@ public class CleanupPlugin implements Plugin<SetupConfig> {
 
   @Override
   public void execute(SetupConfig config) {
-    ShellExecutor shellExecutor = new ShellExecutor();
     // Spanner instance and database config
     Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     SpannerInstanceConfig spannerInstanceConfig =

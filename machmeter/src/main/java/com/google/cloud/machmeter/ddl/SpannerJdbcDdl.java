@@ -26,18 +26,12 @@ import java.sql.SQLException;
 
 public class SpannerJdbcDdl {
 
-  public static void main(String[] arg) throws SQLException, FileNotFoundException {
-    executeSqlFile();
-  }
-
   /**
    * Executing this will require setting the environment variable GOOGLE_APPLICATION_CREDENTIALS to
    * the service accounts credential path.
    *
-   * @throws SQLException
-   * @throws FileNotFoundException
    */
-  static void executeSqlFile() throws SQLException, FileNotFoundException {
+  public void executeSqlFile() throws SQLException, FileNotFoundException {
     String projectId = "span-cloud-testing";
     String instanceId = "alpha-test";
     String databaseId = "test-google";
@@ -49,10 +43,8 @@ public class SpannerJdbcDdl {
    * Executing this will require setting the environment variable GOOGLE_APPLICATION_CREDENTIALS to
    * the service accounts credential path.
    *
-   * @throws SQLException
-   * @throws FileNotFoundException
    */
-  public static void executeSqlFile(
+  public void executeSqlFile(
       String projectId, String instanceId, String databaseId, String sqlFile)
       throws SQLException, FileNotFoundException {
     String connectionUrl =

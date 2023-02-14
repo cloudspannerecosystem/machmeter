@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Google Inc.
+ * Copyright 2023 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
-package com.google.cloud.machmeter.model;
+package com.google.cloud.machmeter.modules;
 
-public interface ConfigInterface {}
+import com.google.inject.AbstractModule;
+
+public class MachmeterModule extends AbstractModule {
+
+  @Override
+  protected void configure() {
+  }
+}

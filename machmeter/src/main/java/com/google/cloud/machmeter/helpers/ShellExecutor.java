@@ -16,10 +16,13 @@
 
 package com.google.cloud.machmeter.helpers;
 
+import com.google.inject.Singleton;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 
+@Singleton
 public class ShellExecutor {
 
   public void run(String executeCommand, String directory) throws Exception {
