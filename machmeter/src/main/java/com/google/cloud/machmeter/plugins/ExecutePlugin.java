@@ -17,7 +17,6 @@
 package com.google.cloud.machmeter.plugins;
 
 import com.google.cloud.machmeter.helpers.ShellExecutor;
-import com.google.cloud.machmeter.model.ConfigInterface;
 import com.google.cloud.machmeter.model.ExecuteConfig;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -34,37 +33,31 @@ import java.util.stream.Collectors;
  * Create the jmeter command to be executed - takes input from the jMeterParams and the location of
  * the JMX file inside the cluster.
  */
-public class ExecutePlugin implements PluginInterface {
+public class ExecutePlugin implements Plugin<ExecuteConfig> {
 
   private static final Logger logger = Logger.getLogger(InfraSetupPlugin.class.getName());
 
   @Override
-  public String getName() {
+  public String getPluginName() {
     return "execute-plugin";
   }
 
   @Override
-  public void execute(ConfigInterface config) {
-    ExecuteConfig executeConfig;
-    if (config instanceof ExecuteConfig) {
-      executeConfig = (ExecuteConfig) config;
-    } else {
-      throw new RuntimeException("Cast error!");
-    }
+  public void execute(ExecuteConfig config) {
     // TODO: Use Dependency Injection throughout Machmeter.
     ShellExecutor shellExecutor = new ShellExecutor();
-    String jMeterArgs = convertMapToJMeterArgs(executeConfig.getjMeterParams());
+    String jMeterArgs = convertMapToJMeterArgs(config.getjMeterParams());
     Path cwd = Paths.get(System.getProperty("user.dir"));
-    Path fullPath = Paths.get(cwd.toString(), executeConfig.getjMeterTemplatePath());
+    Path fullPath = Paths.get(cwd.toString(), config.getjMeterTemplatePath());
     Path fileName = fullPath.getFileName();
     String kubectlCopy =
         String.format(
             "kubectl cp %s -n %s \"$(kubectl get po -n %s | grep jmeter-master | awk '{print $1}'):/%s\"",
-            fullPath, executeConfig.getNamespace(), executeConfig.getNamespace(), fileName);
+            fullPath, config.getNamespace(), config.getNamespace(), fileName);
     String kubectlExec =
         String.format(
             "kubectl exec -ti -n %s $(kubectl get po -n %s | grep jmeter-master | awk '{print $1}') -- /bin/bash /load_test %s %s",
-            executeConfig.getNamespace(), executeConfig.getNamespace(), fileName, jMeterArgs);
+            config.getNamespace(), config.getNamespace(), fileName, jMeterArgs);
     try {
       logger.log(Level.INFO, "Executing {0}", kubectlCopy);
       shellExecutor.run(kubectlCopy, "machmeter_output/terraform");
@@ -75,6 +68,11 @@ public class ExecutePlugin implements PluginInterface {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public Class<ExecuteConfig> getPluginConfigClass() {
+    return ExecuteConfig.class;
   }
 
   private String convertMapToJMeterArgs(final Map<String, String> jMeterParamMap) {
