@@ -1,11 +1,10 @@
-commons/target/
-/target
+*/target
 .idea/
 *.iml
 *.class
 *.lst
-commons/output.txt
-commons/machmeter_output/*
+*/output.txt
+*/machmeter_output/*
 
-commons/src/test/golang/**/*.h
-commons/src/test/golang/**/*.so
+*/src/test/golang/**/*.h
+*/src/test/golang/**/*.so

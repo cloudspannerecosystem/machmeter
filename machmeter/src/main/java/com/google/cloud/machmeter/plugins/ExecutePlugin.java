@@ -60,10 +60,7 @@ public class ExecutePlugin implements PluginInterface {
     String kubectlCopy =
         String.format(
             "kubectl cp %s -n %s \"$(kubectl get po -n %s | grep jmeter-master | awk '{print $1}'):/%s\"",
-            fullPath,
-            executeConfig.getNamespace(),
-            executeConfig.getNamespace(),
-            fileName);
+            fullPath, executeConfig.getNamespace(), executeConfig.getNamespace(), fileName);
     String kubectlExec =
         String.format(
             "kubectl exec -ti -n %s $(kubectl get po -n %s | grep jmeter-master | awk '{print $1}') -- /bin/bash /load_test %s %s",
