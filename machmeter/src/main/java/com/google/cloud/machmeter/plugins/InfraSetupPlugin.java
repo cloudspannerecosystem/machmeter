@@ -17,7 +17,6 @@
 package com.google.cloud.machmeter.plugins;
 
 import com.google.cloud.machmeter.helpers.ShellExecutor;
-import com.google.cloud.machmeter.model.ConfigInterface;
 import com.google.cloud.machmeter.model.GKEConfig;
 import com.google.cloud.machmeter.model.SetupConfig;
 import com.google.cloud.machmeter.model.SpannerInstanceConfig;
@@ -27,28 +26,22 @@ import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class InfraSetupPlugin implements PluginInterface {
+public class InfraSetupPlugin implements Plugin<SetupConfig> {
   private static final Logger logger = Logger.getLogger(InfraSetupPlugin.class.getName());
 
   @Override
-  public String getName() {
+  public String getPluginName() {
     return "infraSetup";
   }
 
   @Override
-  public void execute(ConfigInterface config) {
+  public void execute(SetupConfig config) {
     // Spanner instance and database config
-    SetupConfig setupConfig;
-    if (config instanceof SetupConfig) {
-      setupConfig = (SetupConfig) config;
-    } else {
-      throw new RuntimeException("Cast error!");
-    }
     ShellExecutor shellExecutor = new ShellExecutor();
     Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     SpannerInstanceConfig spannerInstanceConfig =
-        setupConfig.getInfraConfig().getSpannerInstanceConfig();
-    GKEConfig gkeConfig = setupConfig.getInfraConfig().getGkeConfig();
+        config.getInfraConfig().getSpannerInstanceConfig();
+    GKEConfig gkeConfig = config.getInfraConfig().getGkeConfig();
     if (gkeConfig.getServiceAccountJson().isEmpty()) {
       gkeConfig.setServiceAccountJson(System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
     }
@@ -76,5 +69,10 @@ public class InfraSetupPlugin implements PluginInterface {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public Class<SetupConfig> getPluginConfigClass() {
+    return SetupConfig.class;
   }
 }

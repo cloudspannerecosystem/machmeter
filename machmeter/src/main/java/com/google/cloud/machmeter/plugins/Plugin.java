@@ -16,13 +16,13 @@
 
 package com.google.cloud.machmeter.plugins;
 
-import com.google.cloud.machmeter.model.ConfigInterface;
-
-public interface PluginInterface {
+public interface Plugin<C> {
 
   /** @return return the unique name of the plugin. */
-  String getName();
+  String getPluginName();
 
   /** Executes the underlying plugin */
-  void execute(ConfigInterface configInterface);
+  void execute(C config);
+
+  Class<C> getPluginConfigClass();
 }

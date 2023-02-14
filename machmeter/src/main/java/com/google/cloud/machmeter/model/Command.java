@@ -16,15 +16,15 @@
 
 package com.google.cloud.machmeter.model;
 
-public enum ExecutionCommand {
+public enum Command {
   SETUP,
   EXECUTE,
   CLEANUP;
 
-  public static ExecutionCommand parseCommand(String command) {
-    for (ExecutionCommand executionCommand : ExecutionCommand.values()) {
-      if (executionCommand.name().equalsIgnoreCase(command)) {
-        return executionCommand;
+  public static Command parseCommand(String command) {
+    for (Command possibleCommands : Command.values()) {
+      if (possibleCommands.name().equalsIgnoreCase(command)) {
+        return possibleCommands;
       }
     }
     throw new IllegalArgumentException("Invalid Command Received");

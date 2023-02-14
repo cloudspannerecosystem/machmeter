@@ -17,28 +17,21 @@
 package com.google.cloud.machmeter.plugins;
 
 import com.google.cloud.machmeter.ddl.SpannerJdbcDdl;
-import com.google.cloud.machmeter.model.ConfigInterface;
 import com.google.cloud.machmeter.model.DdlConfig;
 import com.google.cloud.machmeter.model.SetupConfig;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
-public class DdlPlugin implements PluginInterface {
+public class DdlPlugin implements Plugin<SetupConfig> {
 
   @Override
-  public String getName() {
+  public String getPluginName() {
     return "ddlPlugin";
   }
 
   @Override
-  public void execute(ConfigInterface config) {
-    SetupConfig setupConfig;
-    if (config instanceof SetupConfig) {
-      setupConfig = (SetupConfig) config;
-    } else {
-      throw new RuntimeException("Cast error!");
-    }
-    DdlConfig ddlConfig = setupConfig.getDdlConfig();
+  public void execute(SetupConfig config) {
+    DdlConfig ddlConfig = config.getDdlConfig();
     try {
       SpannerJdbcDdl.executeSqlFile(
           ddlConfig.getInstanceConfig().getProjectId(),
@@ -50,5 +43,10 @@ public class DdlPlugin implements PluginInterface {
     } catch (FileNotFoundException e) {
       throw new IllegalArgumentException("Invalid schema file path.", e);
     }
+  }
+
+  @Override
+  public Class<SetupConfig> getPluginConfigClass() {
+    return SetupConfig.class;
   }
 }
