@@ -19,10 +19,19 @@ package com.google.cloud.machmeter.plugins;
 import com.google.cloud.machmeter.ddl.SpannerJdbcDdl;
 import com.google.cloud.machmeter.model.DdlConfig;
 import com.google.cloud.machmeter.model.SetupConfig;
+import com.google.inject.Inject;
+
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
 public class DdlPlugin implements Plugin<SetupConfig> {
+
+  private final SpannerJdbcDdl spannerJdbcDdl;
+
+  @Inject
+  public DdlPlugin(SpannerJdbcDdl spannerJdbcDdl) {
+    this.spannerJdbcDdl = spannerJdbcDdl;
+  }
 
   @Override
   public String getPluginName() {
@@ -33,7 +42,7 @@ public class DdlPlugin implements Plugin<SetupConfig> {
   public void execute(SetupConfig config) {
     DdlConfig ddlConfig = config.getDdlConfig();
     try {
-      SpannerJdbcDdl.executeSqlFile(
+      spannerJdbcDdl.executeSqlFile(
           ddlConfig.getInstanceConfig().getProjectId(),
           ddlConfig.getInstanceConfig().getInstanceId(),
           ddlConfig.getInstanceConfig().getDbName(),

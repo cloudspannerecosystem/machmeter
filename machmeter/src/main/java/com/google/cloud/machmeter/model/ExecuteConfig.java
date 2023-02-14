@@ -18,7 +18,7 @@ package com.google.cloud.machmeter.model;
 
 import java.util.Map;
 
-public class ExecuteConfig implements ConfigInterface {
+public class ExecuteConfig {
   private String namespace;
 
   private String jMeterTemplatePath;

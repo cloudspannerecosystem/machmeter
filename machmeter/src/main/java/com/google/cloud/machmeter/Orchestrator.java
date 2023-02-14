@@ -17,10 +17,14 @@
 package com.google.cloud.machmeter;
 
 import com.google.cloud.machmeter.model.Command;
+import com.google.cloud.machmeter.modules.MachmeterModule;
 import com.google.cloud.machmeter.plugins.Plugin;
 import com.google.cloud.machmeter.plugins.PluginController;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -30,7 +34,13 @@ import java.util.logging.Logger;
 
 public class Orchestrator {
   private static final Logger logger = Logger.getLogger(Orchestrator.class.getName());
-  private final PluginController pluginController = new PluginController();
+  private final PluginController pluginController;
+
+  @Inject
+  public Orchestrator(PluginController pluginController) {
+    this.pluginController = pluginController;
+  }
+
   private static final Gson gson = new Gson();
 
   /**
@@ -41,7 +51,8 @@ public class Orchestrator {
     if (parameters.length != 2) {
       throw new IllegalArgumentException("Command and config path required.");
     }
-    Orchestrator orchestrator = new Orchestrator();
+    Injector injector = Guice.createInjector(new MachmeterModule());
+    Orchestrator orchestrator = injector.getInstance(Orchestrator.class);
     orchestrator.executeOrchestrator(parameters[0], parameters[1]);
   }
 

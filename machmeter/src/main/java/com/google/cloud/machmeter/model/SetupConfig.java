@@ -16,7 +16,7 @@
 
 package com.google.cloud.machmeter.model;
 
-public class SetupConfig implements ConfigInterface {
+public class SetupConfig {
   private InfraConfig infraConfig;
   private DdlConfig ddlConfig;
 

@@ -17,6 +17,9 @@
 package com.google.cloud.machmeter.plugins;
 
 import com.google.cloud.machmeter.model.Command;
+import com.google.cloud.machmeter.model.DdlConfig;
+import com.google.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +29,19 @@ public class PluginController {
 
   private final Map<Command, List<Plugin<?>>> pluginCommandMap;
 
-  public PluginController() {
+  private final MachmeterStatePlugin machmeterStatePlugin;
+  private final InfraSetupPlugin infraSetupPlugin;
+  private final DdlPlugin ddlPlugin;
+  private final ExecutePlugin executePlugin;
+  private final CleanupPlugin cleanupPlugin;
+
+  @Inject
+  public PluginController(MachmeterStatePlugin machmeterStatePlugin, InfraSetupPlugin infraSetupPlugin, DdlPlugin ddlPlugin, ExecutePlugin executePlugin, CleanupPlugin cleanupPlugin) {
+    this.machmeterStatePlugin = machmeterStatePlugin;
+    this.infraSetupPlugin = infraSetupPlugin;
+    this.ddlPlugin = ddlPlugin;
+    this.executePlugin = executePlugin;
+    this.cleanupPlugin = cleanupPlugin;
     pluginCommandMap = new HashMap<>();
     pluginCommandMap.put(Command.SETUP, getOrderedSetupCommand());
     pluginCommandMap.put(Command.EXECUTE, getOrderedExecuteCommand());
@@ -39,21 +54,21 @@ public class PluginController {
 
   private List<Plugin<?>> getOrderedSetupCommand() {
     List<Plugin<?>> setupCommandList = new ArrayList<>();
-    setupCommandList.add(new MachmeterStatePlugin());
-    setupCommandList.add(new InfraSetupPlugin());
-    setupCommandList.add(new DdlPlugin());
+    setupCommandList.add(machmeterStatePlugin);
+    setupCommandList.add(infraSetupPlugin);
+    setupCommandList.add(ddlPlugin);
     return setupCommandList;
   }
 
   private List<Plugin<?>> getOrderedExecuteCommand() {
     List<Plugin<?>> executeCommandList = new ArrayList<>();
-    executeCommandList.add(new ExecutePlugin());
+    executeCommandList.add(executePlugin);
     return executeCommandList;
   }
 
   private List<Plugin<?>> getOrderedCleanupCommand() {
     List<Plugin<?>> cleanupCommandList = new ArrayList<>();
-    cleanupCommandList.add(new CleanupPlugin());
+    cleanupCommandList.add(cleanupPlugin);
     return cleanupCommandList;
   }
 }

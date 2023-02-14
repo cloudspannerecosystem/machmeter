@@ -18,6 +18,8 @@ package com.google.cloud.machmeter.plugins;
 
 import com.google.cloud.machmeter.helpers.ShellExecutor;
 import com.google.cloud.machmeter.model.ExecuteConfig;
+import com.google.inject.Inject;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,6 +39,13 @@ public class ExecutePlugin implements Plugin<ExecuteConfig> {
 
   private static final Logger logger = Logger.getLogger(InfraSetupPlugin.class.getName());
 
+  private final ShellExecutor shellExecutor;
+
+  @Inject
+  public ExecutePlugin(ShellExecutor shellExecutor) {
+    this.shellExecutor = shellExecutor;
+  }
+
   @Override
   public String getPluginName() {
     return "execute-plugin";
@@ -44,8 +53,6 @@ public class ExecutePlugin implements Plugin<ExecuteConfig> {
 
   @Override
   public void execute(ExecuteConfig config) {
-    // TODO: Use Dependency Injection throughout Machmeter.
-    ShellExecutor shellExecutor = new ShellExecutor();
     String jMeterArgs = convertMapToJMeterArgs(config.getjMeterParams());
     Path cwd = Paths.get(System.getProperty("user.dir"));
     Path fullPath = Paths.get(cwd.toString(), config.getjMeterTemplatePath());
