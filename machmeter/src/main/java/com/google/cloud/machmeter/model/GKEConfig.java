@@ -53,6 +53,26 @@ public class GKEConfig {
   @Expose
   private String serviceAccountJson;
 
+  @SerializedName(value = "machine_type", alternate = "machineType")
+  @Expose
+  private String machineType;
+
+  @SerializedName(value = "node_locations", alternate = "nodeLocations")
+  @Expose
+  private String nodeLocations;
+
+  @SerializedName(value = "min_count", alternate = "minCount")
+  @Expose
+  private int minCount;
+
+  @SerializedName(value = "max_count", alternate = "maxCount")
+  @Expose
+  private int maxCount;
+
+  @SerializedName(value = "initial_node_count", alternate = "initialNodeCount")
+  @Expose
+  private int initialNodeCount;
+
   public String getClusterName() {
     return clusterName;
   }
@@ -115,5 +135,45 @@ public class GKEConfig {
 
   public void setServiceAccountJson(String serviceAccountJson) {
     this.serviceAccountJson = serviceAccountJson;
+  }
+
+  public String getMachineType() {
+    return machineType;
+  }
+
+  public void setMachineType(String machineType) {
+    this.machineType = machineType;
+  }
+
+  public String getNodeLocations() {
+    return nodeLocations;
+  }
+
+  public void setNodeLocations(String nodeLocations) {
+    this.nodeLocations = nodeLocations;
+  }
+
+  public int getMinCount() {
+    return minCount;
+  }
+
+  public void setMinCount(int minCount) {
+    this.minCount = minCount;
+  }
+
+  public int getMaxCount() {
+    return maxCount;
+  }
+
+  public void setMaxCount(int maxCount) {
+    this.maxCount = maxCount;
+  }
+
+  public int getInitialNodeCount() {
+    return initialNodeCount;
+  }
+
+  public void setInitialNodeCount(int initialNodeCount) {
+    this.initialNodeCount = initialNodeCount;
   }
 }

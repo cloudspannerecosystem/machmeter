@@ -26,6 +26,11 @@ variable "gke_config" {
     ip_range_pods_name      = string
     ip_range_services_name  = string
     service_account_json    = string
+    machine_type            = string
+    node_locations          = string
+    min_count               = number
+    max_count               = number
+    initial_node_count      = number
   })
   description = "The configuration specifications for the GKE cluster"
 }
@@ -118,10 +123,10 @@ module "gke" {
   node_pools = [
     {
       name                      = "default-node-pool"
-      machine_type              = "e2-standard-2"
-      node_locations            = "us-central1-a,us-central1-b,us-central1-c"
-      min_count                 = 5
-      max_count                 = 100
+      machine_type              = var.gke_config.machine_type
+      node_locations            = var.gke_config.node_locations
+      min_count                 = var.gke_config.min_count
+      max_count                 = var.gke_config.max_count
       local_ssd_count           = 0
       spot                      = false
       disk_size_gb              = 100
@@ -132,7 +137,7 @@ module "gke" {
       auto_repair               = true
       auto_upgrade              = true
       preemptible               = false
-      initial_node_count        = 5
+      initial_node_count        = var.gke_config.initial_node_count
    },
   ]
   node_pools_oauth_scopes = {
