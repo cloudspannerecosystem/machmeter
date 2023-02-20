@@ -326,7 +326,7 @@ resource "kubernetes_deployment" "jmeter-master" {
   }
 }
 
-resource "kubernetes_deployment" "jmeter-slave" {
+resource "kubernetes_stateful_set" "jmeter-slave" {
   metadata {
     name = "jmeter-slaves"
     namespace =  kubernetes_namespace.namespace.metadata.0.name
@@ -335,6 +335,7 @@ resource "kubernetes_deployment" "jmeter-slave" {
     }
   }
   spec {
+    service_name = "jmeter-slaves"
     replicas = 2
     selector {
       match_labels = {
@@ -355,6 +356,10 @@ resource "kubernetes_deployment" "jmeter-slave" {
           volume_mount {
             mount_path = "/var/secrets/google"
             name       = "google-cloud-key"
+          }
+          volume_mount {
+            mount_path = "/data"
+            name       = "jmeter-data"
           }
           port {
             container_port = 1099
@@ -381,6 +386,30 @@ resource "kubernetes_deployment" "jmeter-slave" {
           name = "google-cloud-key"
           secret {
             secret_name = "sa-key"
+          }
+        }
+        volume {
+          name = "jmeter-data"
+          persistent_volume_claim {
+            claim_name = "jmeter-data"
+          }
+        }
+      }
+    }
+    volume_claim_template {
+      metadata {
+        name = "jmeter-data"
+        namespace =  kubernetes_namespace.namespace.metadata.0.name
+        labels = {
+          jmeter_mode = "slave"
+        }
+      }
+      spec {
+        access_modes       = ["ReadWriteOnce"]
+        storage_class_name = "standard-rwo"
+        resources {
+          requests = {
+            storage = "1Gi"
           }
         }
       }

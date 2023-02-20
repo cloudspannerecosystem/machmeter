@@ -17,9 +17,7 @@
 package com.google.cloud.machmeter.plugins;
 
 import com.google.cloud.machmeter.model.Command;
-import com.google.cloud.machmeter.model.DdlConfig;
 import com.google.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +34,12 @@ public class PluginController {
   private final CleanupPlugin cleanupPlugin;
 
   @Inject
-  public PluginController(MachmeterStatePlugin machmeterStatePlugin, InfraSetupPlugin infraSetupPlugin, DdlPlugin ddlPlugin, ExecutePlugin executePlugin, CleanupPlugin cleanupPlugin) {
+  public PluginController(
+      MachmeterStatePlugin machmeterStatePlugin,
+      InfraSetupPlugin infraSetupPlugin,
+      DdlPlugin ddlPlugin,
+      ExecutePlugin executePlugin,
+      CleanupPlugin cleanupPlugin) {
     this.machmeterStatePlugin = machmeterStatePlugin;
     this.infraSetupPlugin = infraSetupPlugin;
     this.ddlPlugin = ddlPlugin;

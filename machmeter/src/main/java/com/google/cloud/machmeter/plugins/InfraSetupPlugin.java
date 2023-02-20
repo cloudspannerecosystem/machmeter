@@ -23,7 +23,6 @@ import com.google.cloud.machmeter.model.SpannerInstanceConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
-
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;

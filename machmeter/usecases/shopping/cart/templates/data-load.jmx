@@ -21,6 +21,7 @@
           <elementProp name="database" elementType="Argument">
             <stringProp name="Argument.name">database</stringProp>
             <stringProp name="Argument.value">${__P(database, shopping_cart_test)}</stringProp>
+            <stringProp name="Argument.value">${__P(database, shopping_cart_test)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="connections" elementType="Argument">
@@ -244,7 +245,7 @@ for (Object row : resultSet ) {
     result.append(System.getProperty(&quot;line.separator&quot;));
 }
 
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;itemids.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/itemids.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>
@@ -300,7 +301,7 @@ for (Object row : resultSet ) {
     result.append(System.getProperty(&quot;line.separator&quot;))
 }
 
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;shoppingcartids.csv&quot;), result.toString(), &quot;UTF-8&quot;)</stringProp>
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/shoppingcartids.csv&quot;), result.toString(), &quot;UTF-8&quot;)</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>

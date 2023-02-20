@@ -17,7 +17,6 @@
 package com.google.cloud.machmeter.helpers;
 
 import com.google.inject.Singleton;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;

@@ -19,7 +19,6 @@ package com.google.cloud.machmeter.plugins;
 import com.google.cloud.machmeter.helpers.ShellExecutor;
 import com.google.cloud.machmeter.model.ExecuteConfig;
 import com.google.inject.Inject;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -65,6 +64,21 @@ public class ExecutePlugin implements Plugin<ExecuteConfig> {
         String.format(
             "kubectl exec -ti -n %s $(kubectl get po -n %s | grep jmeter-master | awk '{print $1}') -- /bin/bash /load_test %s %s",
             config.getNamespace(), config.getNamespace(), fileName, jMeterArgs);
+    Runtime.getRuntime()
+        .addShutdownHook(
+            new Thread(
+                () -> {
+                  logger.log(Level.INFO, "Executing {0}", kubectlExec);
+                  String kubectlStop =
+                      String.format(
+                          "kubectl delete po -n %s $( kubectl get po -n %s | grep jmeter-slave | awk '{print $1}')",
+                          config.getNamespace(), config.getNamespace());
+                  try {
+                    shellExecutor.run(kubectlStop, "machmeter_output/terraform");
+                  } catch (Exception e) {
+                    throw new RuntimeException(e);
+                  }
+                }));
     try {
       logger.log(Level.INFO, "Executing {0}", kubectlCopy);
       shellExecutor.run(kubectlCopy, "machmeter_output/terraform");

@@ -29,7 +29,6 @@ public class SpannerJdbcDdl {
   /**
    * Executing this will require setting the environment variable GOOGLE_APPLICATION_CREDENTIALS to
    * the service accounts credential path.
-   *
    */
   public void executeSqlFile() throws SQLException, FileNotFoundException {
     String projectId = "span-cloud-testing";
@@ -42,10 +41,8 @@ public class SpannerJdbcDdl {
   /**
    * Executing this will require setting the environment variable GOOGLE_APPLICATION_CREDENTIALS to
    * the service accounts credential path.
-   *
    */
-  public void executeSqlFile(
-      String projectId, String instanceId, String databaseId, String sqlFile)
+  public void executeSqlFile(String projectId, String instanceId, String databaseId, String sqlFile)
       throws SQLException, FileNotFoundException {
     String connectionUrl =
         String.format(
