@@ -20,7 +20,6 @@ import com.google.cloud.machmeter.ddl.SpannerJdbcDdl;
 import com.google.cloud.machmeter.model.DdlConfig;
 import com.google.cloud.machmeter.model.SetupConfig;
 import com.google.inject.Inject;
-
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 

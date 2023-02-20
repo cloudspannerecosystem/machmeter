@@ -21,6 +21,5 @@ import com.google.inject.AbstractModule;
 public class MachmeterModule extends AbstractModule {
 
   @Override
-  protected void configure() {
-  }
+  protected void configure() {}
 }

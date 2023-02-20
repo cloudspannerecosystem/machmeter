@@ -327,7 +327,7 @@ for (Object row : resultSet ) {
     result.append(System.getProperty(&quot;line.separator&quot;));
 }
 
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;actors.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/actors.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>
