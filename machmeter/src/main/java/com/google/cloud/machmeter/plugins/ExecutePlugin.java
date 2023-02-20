@@ -68,10 +68,10 @@ public class ExecutePlugin implements Plugin<ExecuteConfig> {
         .addShutdownHook(
             new Thread(
                 () -> {
-                  logger.log(Level.INFO, "Executing {0}", kubectlExec);
+                  logger.log(Level.INFO, "Shutting down the execute...");
                   String kubectlStop =
                       String.format(
-                          "kubectl delete po -n %s $( kubectl get po -n %s | grep jmeter-slave | awk '{print $1}')",
+                          "kubectl delete po -n %s $( kubectl get po -n %s | grep jmeter-slave | awk '{print $1}') --grace-period=0",
                           config.getNamespace(), config.getNamespace());
                   try {
                     shellExecutor.run(kubectlStop, "machmeter_output/terraform");
