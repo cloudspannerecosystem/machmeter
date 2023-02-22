@@ -24,6 +24,9 @@ $ mvn clean package -P assembly
 
 # You provide the path to service accounts key.
 $ export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
+
+# Install the gcloud gke plugin
+gcloud components install gke-gcloud-auth-plugin
 ```
 
 ## Documentation
