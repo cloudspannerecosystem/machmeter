@@ -11,6 +11,8 @@ specific use-case.
 
 ## Installation
 
+> Note: Machmeter is currently supported on Linux and MacOS platforms.
+
 Run the following steps to start using Machmeter:
 
 ```bash
