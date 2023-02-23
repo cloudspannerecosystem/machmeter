@@ -2,11 +2,11 @@
   "infraConfig": {
     "spannerInstanceConfig": {
       "projectId" : "span-cloud-testing",
-      "instanceId": "machmeter-shopping-cart-test",
-      "dbName": "shopping-cart",
+      "instanceId": "machmeter-enter-db-test",
+      "dbName": "enter-db",
       "configuration": "regional-us-central1",
-      "displayName": "machmeter-shopping-cart-test",
-      "processingUnits": 1000,
+      "displayName": "load_test_instance",
+      "processingUnits": 2000,
       "environment": "testing"
     },
     "gkeConfig": {
@@ -27,11 +27,11 @@
   },
   "ddlConfig" : {
     "spannerInstanceConfig" : {
-      "instanceId" : "machmeter-shopping-cart-test",
-      "dbName" : "shopping-cart",
+      "instanceId" : "machmeter-enter-db-test",
+      "dbName" : "enter-db",
       "configuration": "regional-us-central1",
       "projectId" : "span-cloud-testing"
     },
-    "schemaFilePath" : "usecases/shopping/cart/templates/schema.sql"
+    "schemaFilePath" : "usecases/entertainment/movies-database/templates/schema.sql"
   }
 }
