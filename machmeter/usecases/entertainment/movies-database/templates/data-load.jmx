@@ -45,7 +45,7 @@
           </elementProp>
         </collectionProp>
       </elementProp>
-      <stringProp name="TestPlan.user_define_classpath">/Users/manitgupta/temp</stringProp>
+      <stringProp name="TestPlan.user_define_classpath">/test/</stringProp>
     </TestPlan>
     <hashTree>
       <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection" enabled="true">
