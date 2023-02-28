@@ -14,7 +14,7 @@ FAQ capturing the common issues encountered while running Machmeter.
 {: .no_toc .text-delta }
 
 1. TOC
-   {:toc}
+{:toc}
 
 
 ## I get "Caller is missing IAM permission spanner.sessions.create" error while running `setup` command. What should I do?
