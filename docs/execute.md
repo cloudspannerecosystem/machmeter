@@ -50,6 +50,10 @@ Please refer to the sample file for example values.
 This is a [sample file](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/usecases/finance/ledger/sample-configs/perf-test.json) with the above defined configuration
 
 ### Execution Command
+
+{: .note }
+Ensure you have the GKE credentials configured via: `gcloud container clusters get-credentials CLUSTER_NAME --region=COMPUTE_REGION`
+
 ```bash
 $ java -jar target/machmeter/machmeter.jar execute path-to-config-file.json
 ```
