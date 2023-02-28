@@ -28,11 +28,10 @@ for additional information.
 
 ### Setting up Repository
 
-* Sure that you are authenticated and have the right permissions configured before getting started.
+* Ensure that you are authenticated and have the right permissions configured before getting started.
   Follow [this](../requirements.md) guide to ensure that all permissions are in place.
-* To set Machmeter up, first create a [fork]((https://docs.github.com/en/get-started/quickstart/fork-a-repo)) of the Machmeter repository. Use the following
-   [instructions] to create a fork.
-* Once a fork is setup, [clone](https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository) the project locally.
+* Create a [fork]((https://docs.github.com/en/get-started/quickstart/fork-a-repo)) of the Machmeter repository.
+* [Clone](https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository) the project locally.
 
 ### Machmeter Dependencies
 
