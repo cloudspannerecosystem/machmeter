@@ -21,7 +21,6 @@
           <elementProp name="database" elementType="Argument">
             <stringProp name="Argument.name">database</stringProp>
             <stringProp name="Argument.value">${__P(database, shopping_cart_test)}</stringProp>
-            <stringProp name="Argument.value">${__P(database, shopping_cart_test)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="connections" elementType="Argument">
@@ -46,7 +45,7 @@
           </elementProp>
         </collectionProp>
       </elementProp>
-      <stringProp name="TestPlan.user_define_classpath">/test/stringProp>
+      <stringProp name="TestPlan.user_define_classpath">/test/</stringProp>
     </TestPlan>
     <hashTree>
       <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection" enabled="true">
