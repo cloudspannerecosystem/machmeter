@@ -1,6 +1,6 @@
 {
   "namespace": "spanner-test",
-  "jMeterTemplatePath" : "usecases/finance/ledger/templates/shopping-cart-perf.jmx",
+  "jMeterTemplatePath" : "usecases/shopping/cart/templates/shopping-cart-perf.jmx",
   "jMeterParams" : {
     "project": "span-cloud-testing",
     "instance": "machmeter-shopping-cart-test",
