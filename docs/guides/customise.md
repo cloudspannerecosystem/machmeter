@@ -54,7 +54,7 @@ Machmeter has a number of starter templates are present in
 the [usecases](https://github.com/cloudspannerecosystem/machmeter/tree/master/machmeter/usecases) directory.
 Browse through the list of templates to identify a template closest to what you are looking for. 
 
-Each template folder contains a `.txt` file with the description of what the template does. 
+Each template folder contains a `README.md` file with the description of what the template does. 
 We will use this template as the basis to create our new template.
 
 ## Create a new folder and clone the contents
