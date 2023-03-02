@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Bio genes Cloud Spanner Initial Load" enabled="true">
+      <stringProp name="TestPlan.comments">Populates the Genes database with dummy data</stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="project" elementType="Argument">
+            <stringProp name="Argument.name">project</stringProp>
+            <stringProp name="Argument.value">${__P(project,span-cloud-testing)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="instance" elementType="Argument">
+            <stringProp name="Argument.name">instance</stringProp>
+            <stringProp name="Argument.value">${__P(instance,aks-mach-inst)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="database" elementType="Argument">
+            <stringProp name="Argument.name">database</stringProp>
+            <stringProp name="Argument.value">${__P(database,genes)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="connections" elementType="Argument">
+            <stringProp name="Argument.name">connections</stringProp>
+            <stringProp name="Argument.value">${__P(connections, 1000)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="channels" elementType="Argument">
+            <stringProp name="Argument.name">channels</stringProp>
+            <stringProp name="Argument.value">${__P(channels, 10)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="users" elementType="Argument">
+            <stringProp name="Argument.name">users</stringProp>
+            <stringProp name="Argument.value">${__P(users, 10)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="iterations" elementType="Argument">
+            <stringProp name="Argument.name">iterations</stringProp>
+            <stringProp name="Argument.value">${__P(iterations, 5)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath">/test/,/usr/local/google/home/aksharau/jmeter/spanner</stringProp>
+    </TestPlan>
+    <hashTree>
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection" enabled="true">
+        <boolProp name="autocommit">true</boolProp>
+        <stringProp name="checkQuery"></stringProp>
+        <stringProp name="connectionAge">5000</stringProp>
+        <stringProp name="connectionProperties"></stringProp>
+        <stringProp name="dataSource">conn_pool</stringProp>
+        <stringProp name="dbUrl">jdbc:cloudspanner:/projects/${project}/instances/${instance}/databases/${database}?minSessions=${connections};maxSessions=${connections};numChannels=${channels}</stringProp>
+        <stringProp name="driver">com.google.cloud.spanner.jdbc.JdbcDriver</stringProp>
+        <stringProp name="initQuery"></stringProp>
+        <boolProp name="keepAlive">true</boolProp>
+        <stringProp name="password"></stringProp>
+        <stringProp name="poolMax">${connections}</stringProp>
+        <boolProp name="preinit">false</boolProp>
+        <stringProp name="timeout">10000</stringProp>
+        <stringProp name="transactionIsolation">DEFAULT</stringProp>
+        <stringProp name="trimInterval">60000</stringProp>
+        <stringProp name="username"></stringProp>
+      </JDBCDataSource>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Insert Data" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${iterations}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${users}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Classification insert" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="query">insert into Classification (GeneID, Localization) values (?,?)</stringProp>
+          <stringProp name="queryArguments">${GeneID},${Localization}</stringProp>
+          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR</stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Prepared Update Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree>
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Classification Parameters" enabled="true">
+            <collectionProp name="UserParameters.names">
+              <stringProp name="2129321744">GeneID</stringProp>
+              <stringProp name="-647685447">Localization</stringProp>
+            </collectionProp>
+            <collectionProp name="UserParameters.thread_values">
+              <collectionProp name="-247621727">
+                <stringProp name="-1615605810">${__RandomString(7,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="1083759123">${__RandomString(255,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+              </collectionProp>
+            </collectionProp>
+            <boolProp name="UserParameters.per_iteration">false</boolProp>
+            <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
+          </UserParameters>
+          <hashTree/>
+        </hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Classification insert2" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="query">insert into Classification (GeneID, Localization) values (?,?)</stringProp>
+          <stringProp name="queryArguments">${GeneID2},${Localization2}</stringProp>
+          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR</stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Prepared Update Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree>
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Classification Parameters2" enabled="true">
+            <collectionProp name="UserParameters.names">
+              <stringProp name="1584464674">GeneID2</stringProp>
+              <stringProp name="1396587673">Localization2</stringProp>
+            </collectionProp>
+            <collectionProp name="UserParameters.thread_values">
+              <collectionProp name="-247621727">
+                <stringProp name="-1615605810">${__RandomString(7,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="1083759123">${__RandomString(255,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+              </collectionProp>
+            </collectionProp>
+            <boolProp name="UserParameters.per_iteration">false</boolProp>
+            <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
+          </UserParameters>
+          <hashTree/>
+        </hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Genes insert" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="query">insert into Genes (GeneID, Essential, Class, Complex, Phenotype, Motif, Chromosome, Function,Localization, synth_id) values (?,?,?,?,?,?,?,?,?,?)</stringProp>
+          <stringProp name="queryArguments">${GeneID},${Essential},${Class},${Complex},${Phenotype},${Motif},${Chromosome},${Function},${Localization},${synth_id}</stringProp>
+          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR,INTEGER,VARCHAR,VARCHAR,VARCHAR</stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Prepared Update Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree>
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Gene 1 Parameters" enabled="true">
+            <collectionProp name="UserParameters.names">
+              <stringProp name="379818798">Essential</stringProp>
+              <stringProp name="65190232">Class</stringProp>
+              <stringProp name="-1679819632">Complex</stringProp>
+              <stringProp name="700063752">Phenotype</stringProp>
+              <stringProp name="74532751">Motif</stringProp>
+              <stringProp name="493994392">Chromosome</stringProp>
+              <stringProp name="1445582840">Function</stringProp>
+              <stringProp name="1833016574">synth_id</stringProp>
+            </collectionProp>
+            <collectionProp name="UserParameters.thread_values">
+              <collectionProp name="310485014">
+                <stringProp name="1083759123">${__RandomString(255,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-964879980">${__RandomString(100,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="1083759123">${__RandomString(255,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="1083759123">${__RandomString(255,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="1083759123">${__RandomString(255,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-1226711333">${__Random(0,30)}</stringProp>
+                <stringProp name="-964879980">${__RandomString(100,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-116605424">${__RandomString(50,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+              </collectionProp>
+            </collectionProp>
+            <boolProp name="UserParameters.per_iteration">false</boolProp>
+            <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
+          </UserParameters>
+          <hashTree/>
+        </hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Genes insert 2" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="query">insert into Genes (GeneID, Essential, Class, Complex, Phenotype, Motif, Chromosome, Function,Localization, synth_id) values (?,?,?,?,?,?,?,?,?,?)</stringProp>
+          <stringProp name="queryArguments">${GeneID2},${Essential2},${Class2},${Complex2},${Phenotype2},${Motif2},${Chromosome2},${Function2},${Localization2},${synth_id2}</stringProp>
+          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR,INTEGER,VARCHAR,VARCHAR,VARCHAR</stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Prepared Update Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree>
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Gene2 Parameters" enabled="true">
+            <collectionProp name="UserParameters.names">
+              <stringProp name="-1110519100">Essential2</stringProp>
+              <stringProp name="2020897242">Class2</stringProp>
+              <stringProp name="-534800990">Complex2</stringProp>
+              <stringProp name="227139882">Phenotype2</stringProp>
+              <stringProp name="-1984451965">Motif2</stringProp>
+              <stringProp name="-1866042982">Chromosome2</stringProp>
+              <stringProp name="1863395130">Function2</stringProp>
+              <stringProp name="988938996">synth_id2</stringProp>
+            </collectionProp>
+            <collectionProp name="UserParameters.thread_values">
+              <collectionProp name="310485014">
+                <stringProp name="1083759123">${__RandomString(255,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-964879980">${__RandomString(100,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="1083759123">${__RandomString(255,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="1083759123">${__RandomString(255,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="1083759123">${__RandomString(255,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-1226711333">${__Random(0,30)}</stringProp>
+                <stringProp name="-964879980">${__RandomString(100,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-116605424">${__RandomString(50,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+              </collectionProp>
+            </collectionProp>
+            <boolProp name="UserParameters.per_iteration">false</boolProp>
+            <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
+          </UserParameters>
+          <hashTree/>
+        </hashTree>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">3</stringProp>
+        </LoopController>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Interactions insert" enabled="true">
+            <stringProp name="dataSource">conn_pool</stringProp>
+            <stringProp name="query">insert into Interactions (GeneID, GeneID2, InteractionId, InteractionType, Expression_Corr) values (?,?,?,?,?)</stringProp>
+            <stringProp name="queryArguments">${GeneID},${GeneID2},${InteractionId},${InteractionType},${Expression_Corr}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,VARCHAR,NUMERIC</stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="queryType">Prepared Update Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultSetMaxRows"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+          </JDBCSampler>
+          <hashTree>
+            <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Interactions Parameters" enabled="true">
+              <collectionProp name="UserParameters.names">
+                <stringProp name="-837891411">InteractionId</stringProp>
+                <stringProp name="-2054410164">InteractionType</stringProp>
+                <stringProp name="1086185715">Expression_Corr</stringProp>
+              </collectionProp>
+              <collectionProp name="UserParameters.thread_values">
+                <collectionProp name="-1716833778">
+                  <stringProp name="-1615605810">${__RandomString(7,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                  <stringProp name="1083759123">${__RandomString(255,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                  <stringProp name="-1308188757">${__Random(-1,1)}</stringProp>
+                </collectionProp>
+              </collectionProp>
+              <boolProp name="UserParameters.per_iteration">false</boolProp>
+            </UserParameters>
+            <hashTree/>
+          </hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Protein insert" enabled="true">
+            <stringProp name="dataSource">conn_pool</stringProp>
+            <stringProp name="query">insert into Protein (synth_id, ProteinID, ProteinName, Organism) values (?,?,?,?)</stringProp>
+            <stringProp name="queryArguments">${synth_id},${ProteinID},${ProteinName},${Organism}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,VARCHAR</stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="queryType">Prepared Update Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultSetMaxRows"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+          </JDBCSampler>
+          <hashTree>
+            <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Protein Parameters" enabled="true">
+              <collectionProp name="UserParameters.names">
+                <stringProp name="1395600318">ProteinID</stringProp>
+                <stringProp name="1142289550">ProteinName</stringProp>
+                <stringProp name="1381033202">Organism</stringProp>
+              </collectionProp>
+              <collectionProp name="UserParameters.thread_values">
+                <collectionProp name="-915858043">
+                  <stringProp name="-1615605810">${__RandomString(7,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                  <stringProp name="979704970">${__RandomString(1024,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                  <stringProp name="-964879980">${__RandomString(100,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                </collectionProp>
+              </collectionProp>
+              <boolProp name="UserParameters.per_iteration">false</boolProp>
+            </UserParameters>
+            <hashTree/>
+          </hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Protein insert 2" enabled="true">
+            <stringProp name="dataSource">conn_pool</stringProp>
+            <stringProp name="query">insert into Protein (synth_id, ProteinID, ProteinName, Organism) values (?,?,?,?)</stringProp>
+            <stringProp name="queryArguments">${synth_id2},${ProteinID2},${ProteinName2},${Organism2}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,VARCHAR</stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="queryType">Prepared Update Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultSetMaxRows"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+          </JDBCSampler>
+          <hashTree>
+            <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Protein2 Parameters" enabled="true">
+              <collectionProp name="UserParameters.names">
+                <stringProp name="313936948">ProteinID2</stringProp>
+                <stringProp name="1051237732">ProteinName2</stringProp>
+                <stringProp name="-137643648">Organism2</stringProp>
+              </collectionProp>
+              <collectionProp name="UserParameters.thread_values">
+                <collectionProp name="-915858043">
+                  <stringProp name="-1615605810">${__RandomString(7,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                  <stringProp name="979704970">${__RandomString(1024,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                  <stringProp name="-964879980">${__RandomString(100,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                </collectionProp>
+              </collectionProp>
+              <boolProp name="UserParameters.per_iteration">false</boolProp>
+            </UserParameters>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
+          <boolProp name="displayJMeterProperties">false</boolProp>
+          <boolProp name="displayJMeterVariables">true</boolProp>
+          <boolProp name="displaySystemProperties">false</boolProp>
+        </DebugSampler>
+        <hashTree/>
+        <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
+          <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="influxdbMetricsSender" elementType="Argument">
+                <stringProp name="Argument.name">influxdbMetricsSender</stringProp>
+                <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="influxdbUrl" elementType="Argument">
+                <stringProp name="Argument.name">influxdbUrl</stringProp>
+                <stringProp name="Argument.value">http://jmeter-influxdb:8086/write?db=jmeter</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="application" elementType="Argument">
+                <stringProp name="Argument.name">application</stringProp>
+                <stringProp name="Argument.value">application name</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="measurement" elementType="Argument">
+                <stringProp name="Argument.name">measurement</stringProp>
+                <stringProp name="Argument.value">jmeter</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="summaryOnly" elementType="Argument">
+                <stringProp name="Argument.name">summaryOnly</stringProp>
+                <stringProp name="Argument.value">true</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="samplersRegex" elementType="Argument">
+                <stringProp name="Argument.name">samplersRegex</stringProp>
+                <stringProp name="Argument.value">.*</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="percentiles" elementType="Argument">
+                <stringProp name="Argument.name">percentiles</stringProp>
+                <stringProp name="Argument.value">99;95;90</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="testTitle" elementType="Argument">
+                <stringProp name="Argument.name">testTitle</stringProp>
+                <stringProp name="Argument.value">Test name</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="eventTags" elementType="Argument">
+                <stringProp name="Argument.name">eventTags</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient</stringProp>
+        </BackendListener>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create Sampled CSV Data" enabled="true">
+        <stringProp name="TestPlan.comments">Fetches sampled data from Spanner for the load test</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Fetch GeneIDs" enabled="true">
+          <stringProp name="TestPlan.comments">Create CSV for sample GeneIDs to be used for perf test.</stringProp>
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="query">SELECT GeneID, synth_id FROM Genes limit 50000;</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+        </JDBCSampler>
+        <hashTree>
+          <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="JDBC PreProcessor" enabled="true">
+            <stringProp name="dataSource">conn_pool</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="query">SELECT GeneID, synth_id FROM Genes limit 50000;</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+            <stringProp name="resultVariable">resultSet</stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="resultSetMaxRows"></stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+          </JDBCPreProcessor>
+          <hashTree/>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
+            <stringProp name="scriptLanguage">java</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+            <stringProp name="script">resultSet = vars.getObject(&quot;resultSet&quot;);
+StringBuilder result = new StringBuilder();
+ 
+for (Object row : resultSet ) {
+    iter = row.entrySet().iterator();
+    while (iter.hasNext()) {
+        pair = iter.next();
+        result.append(pair.getValue());
+        result.append(&quot;,&quot;);
+    }
+    result.append(System.getProperty(&quot;line.separator&quot;));
+}
+ 
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/geneIds.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

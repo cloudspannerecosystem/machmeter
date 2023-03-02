@@ -1,0 +1,37 @@
+{
+  "infraConfig": {
+    "spannerInstanceConfig": {
+      "projectId" : "span-cloud-testing",
+      "instanceId": "test-mach-inst",
+      "dbName": "genes",
+      "configuration": "regional-us-central1",
+      "displayName": "load_test_instance",
+      "processingUnits": 1000,
+      "environment": "testing"
+    },
+    "gkeConfig": {
+      "clusterName": "test-mach-test",
+      "namespace": "spanner-test",
+      "region": "us-central1",
+      "network": "test-network",
+      "subnetwork": "test-subnet",
+      "ipRangePodsName": "ip-range-pods",
+      "ipRangeServicesName": "ip-range-services",
+      "service_account_json": "~/terraformertest.json",
+      "machineType": "e2-standard-2",
+      "nodeLocations": "us-central1-a,us-central1-b,us-central1-c",
+      "minCount": 3,
+      "maxCount": 3,
+      "initialNodeCount": 3
+    }
+  },
+  "ddlConfig" : {
+    "spannerInstanceConfig" : {
+      "instanceId" : "test-mach-inst",
+      "dbName" : "genes",
+      "configuration": "regional-us-central1",
+      "projectId" : "span-cloud-testing"
+    },
+    "schemaFilePath" : "usecases/bio/genes/templates/schema.sql"
+  }
+}
