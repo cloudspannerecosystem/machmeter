@@ -641,7 +641,7 @@ int number = randomNum.nextInt(high - low) + low;
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="create sampled csv data" enabled="false">
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="create sampled csv data" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -667,7 +667,7 @@ DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 
 // Create a list of sampling user_ref_id before testing
 // Note: Please change limit to 10000
-String readUserIdSql=&quot;SELECT user_ref_id FROM tbl_user_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 1000;&quot;;
+String readUserIdSql=&quot;SELECT userId FROM user_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 10000;&quot;;
 Statement stmt = Statement.newBuilder(readUserIdSql).build();
 
 ResultSet result = dbClient
@@ -683,7 +683,7 @@ while (result.next()) {
 	count = count+1;
 	//log.info(&quot;count({}), thread({}):{}&quot;,count, ${__threadNum},result.getString(&quot;user_ref_id&quot;));
 	//vars.put(&quot;UserId_&quot; + count.toString(),result.getString(&quot;user_ref_id&quot;) )
-	csv_result.append(result.getString(&quot;user_ref_id&quot;));
+	csv_result.append(result.getString(&quot;userId&quot;));
 	csv_result.append(System.getProperty(&quot;line.separator&quot;));
 
 }
@@ -691,7 +691,7 @@ org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/Users/jaru/use
 result.close();</stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Sampling SegmentID" enabled="false">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Sampling DeviceID" enabled="true">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -703,44 +703,7 @@ DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 
 // Create a list of sampling user_ref_id before testing
 // Note: Please change limit to 10000
-String readUserIdSql=&quot;SELECT segment FROM tbl_transaction_limit TABLESAMPLE BERNOULLI (50 PERCENT) limit 1000;&quot;;
-Statement stmt = Statement.newBuilder(readUserIdSql).build();
-
-ResultSet result = dbClient
-	.singleUseReadOnlyTransaction()
-	.executeQuery(stmt);
-
-
-StringBuilder csv_result = new StringBuilder();
-int count = 0;
-
-// Store sampling user_ref_id in the JmeterProperties for future use by other threads*
-while (result.next()) {
-	count = count+1;
-	//log.info(&quot;count({}), thread({}):{}&quot;,count, ${__threadNum},result.getString(&quot;segment&quot;));
-	//vars.put(&quot;UserId_&quot; + count.toString(),result.getString(&quot;segment&quot;) )
-	csv_result.append(result.getString(&quot;segment&quot;));
-	csv_result.append(System.getProperty(&quot;line.separator&quot;));
-
-}
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/Users/jaru/segmentId.csv&quot;), csv_result.toString(), &quot;UTF-8&quot;);
-result.close();
-</stringProp>
-        </JSR223Sampler>
-        <hashTree/>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Sampling DeviceID" enabled="false">
-          <stringProp name="scriptLanguage">groovy</stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">import com.google.cloud.spanner.*;
-
-
-DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
-
-// Create a list of sampling user_ref_id before testing
-// Note: Please change limit to 10000
-String readUserIdSql=&quot;SELECT device_id FROM tbl_device_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 1000;&quot;;
+String readUserIdSql=&quot;SELECT deviceId FROM device_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 10000;&quot;;
 Statement stmt = Statement.newBuilder(readUserIdSql).build();
 
 ResultSet result = dbClient
@@ -755,7 +718,7 @@ while (result.next()) {
 	count = count+1;
 	//log.info(&quot;count({}), thread({}):{}&quot;,count, ${__threadNum},result.getString(&quot;device_id&quot;));
 	//vars.put(&quot;DeviceId_&quot; + count.toString(),result.getString(&quot;device_id&quot;) )
-	csv_result.append(result.getString(&quot;device_id&quot;));
+	csv_result.append(result.getString(&quot;deviceId&quot;));
 	csv_result.append(System.getProperty(&quot;line.separator&quot;));
 
 }

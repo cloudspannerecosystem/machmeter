@@ -31,9 +31,34 @@ gcloud components install gke-gcloud-auth-plugin
 
 ## Loading Sample Data into Profile
 
-> Note: Machmeter is currently supported on Linux and MacOS platforms.
+> Note: Before loading sample data, you may want to (1) know how many rows in each table so that when the new data will be sum of .
 
-Run the following steps to start using Machmeter:
+Before loading, you may want to know how many rows existed so that you can settle the total rows with a new data. While loading, you may also want to know whether the template is working as expected, if it works then every time you run the count statement, the number is getting increased until completion:
+
+```bash
+# Running query in Spanner Query Console to validate new data 
+select
+(select count(*) from device_profile) as device_profile,
+(select count(*) from transaction_limit) as transaction_limit,
+(select count(*) from user_profile) as user_profile,
+(select count(*) from user_preference) as user_preference,
+(select count(*) from user_quick_actions) as user_quick_actions,
+(select count(*) from user_quick_actions_history) as user_quick_actions_history
+```
+
+Prior loading, you may want to cleanup all rows in each table so that it would be easy to validate and count based on the new data only. Total new rows added should be aligned with the configurations:
+
+```bash
+# Running delete in Spanner Query Console to remove existing data 
+DELETE FROM device_profile WHERE true ;
+DELETE FROM transaction_limit WHERE true ;
+DELETE FROM user_preference WHERE true ;
+DELETE FROM user_profile WHERE true ;
+DELETE FROM user_quick_actions WHERE true ;
+DELETE FROM user_quick_actions_history WHERE true ;
+```
+
+Run the following steps to start loading profile data:
 
 ```bash
 # Review configuration for loading sample data
@@ -48,42 +73,15 @@ $ cat profile-load.json
       "database": "profile-db",
       "connections": 1000,
       "channels": 10,
-      "users": 1,
-      "iterations": 1
+      "users": 10,
+      "iterations": 10
     }
 }
 ```
 
-Run the following steps to start using Machmeter:
-
 ```bash
 # Running machmeter execute to load sample data
-$ java -jar target/machmeter/machmeter.jar execute profile-load.json 
-```
-
-Run the following steps to start using Machmeter:
-
-```bash
-# Running query in Spanner Query Console to validate new data 
-select
-(select count(*) from device_profile) as device_profile,
-(select count(*) from transaction_limit) as transaction_limit,
-(select count(*) from user_profile) as user_profile,
-(select count(*) from user_preference) as user_preference,
-(select count(*) from user_quick_actions) as user_quick_actions,
-(select count(*) from user_quick_actions_history) as user_quick_actions_history
-```
-
-Run the following steps to start using Machmeter:
-
-```bash
-# Running delete in Spanner Query Console to remove existing data 
-DELETE FROM device_profile WHERE true ;
-DELETE FROM transaction_limit WHERE true ;
-DELETE FROM user_preference WHERE true ;
-DELETE FROM user_profile WHERE true ;
-DELETE FROM user_quick_actions WHERE true ;
-DELETE FROM user_quick_actions_history WHERE true ;
+$ java -jar target/machmeter/machmeter.jar execute profile-load-data.json 
 ```
 
 ## Documentation

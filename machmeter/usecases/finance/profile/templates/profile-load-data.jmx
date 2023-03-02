@@ -433,6 +433,91 @@ int number = randomNum.nextInt(high - low) + low;
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="create sampled csv data" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Sampling UserID" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+// Create a list of sampling user_ref_id before testing
+// Note: Please change limit to 10000
+String readUserIdSql=&quot;SELECT userId FROM user_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 1000;&quot;;
+Statement stmt = Statement.newBuilder(readUserIdSql).build();
+
+ResultSet result = dbClient
+	.singleUseReadOnlyTransaction()
+	.executeQuery(stmt);
+
+StringBuilder csv_result = new StringBuilder();
+int count = 0;
+
+// Store sampling user_ref_id in the JmeterProperties for future use by other threads*
+while (result.next()) {
+	count = count+1;
+	//log.info(&quot;count({}), thread({}):{}&quot;,count, ${__threadNum},result.getString(&quot;user_ref_id&quot;));
+	//vars.put(&quot;UserId_&quot; + count.toString(),result.getString(&quot;user_ref_id&quot;) )
+	csv_result.append(result.getString(&quot;userId&quot;));
+	csv_result.append(System.getProperty(&quot;line.separator&quot;));
+
+}
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/userId.csv&quot;), csv_result.toString(), &quot;UTF-8&quot;);
+result.close();</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Sampling DeviceID" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+// Create a list of sampling user_ref_id before testing
+// Note: Please change limit to 10000
+String readUserIdSql=&quot;SELECT deviceId FROM device_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 1000;&quot;;
+Statement stmt = Statement.newBuilder(readUserIdSql).build();
+
+ResultSet result = dbClient
+	.singleUseReadOnlyTransaction()
+	.executeQuery(stmt);
+
+StringBuilder csv_result = new StringBuilder();
+int count = 0;
+
+// Store sampling user_ref_id in the JmeterProperties for future use by other threads*
+while (result.next()) {
+	count = count+1;
+	//log.info(&quot;count({}), thread({}):{}&quot;,count, ${__threadNum},result.getString(&quot;device_id&quot;));
+	//vars.put(&quot;DeviceId_&quot; + count.toString(),result.getString(&quot;device_id&quot;) )
+	csv_result.append(result.getString(&quot;deviceId&quot;));
+	csv_result.append(System.getProperty(&quot;line.separator&quot;));
+
+}
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/deviceId.csv&quot;), csv_result.toString(), &quot;UTF-8&quot;);
+result.close();</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
       <PostThreadGroup guiclass="PostThreadGroupGui" testclass="PostThreadGroup" testname="tearDown Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
