@@ -79,7 +79,7 @@ CSV will be used as a source for parameters in queries in the Perf test.
 
 | Key name                 | Description                        | 
 |:-------------------------|:-----------------------------------| 
-| namespace                | Name of the test                   | 
+| namespace                | Name of the GKE namespace          | 
 | jMeterTemplatePath       | Path to Data load Jmeter Script    | 
 | jMeterParams.project     | Google Cloud Project Id            | 
 | jMeterParams.instance    | Name of the instance to be created | 
@@ -94,6 +94,11 @@ Please refer to the sample file for example values.
 This is a [sample file](https://github.com/cloudspannerecosystem/machmeter/blob/master/machmeter/usecases/finance/ledger/sample-configs/data-load.json) with the above defined configuration.
 
 ### Execution Command
+
+{: .note }
+Ensure you have the GKE credentials configured via: `gcloud container clusters get-credentials CLUSTER_NAME --region=COMPUTE_REGION`
+
 ```bash
+
 $ java -jar target/machmeter/machmeter.jar execute path-to-config-file.json
 ```
