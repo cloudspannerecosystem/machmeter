@@ -34,12 +34,12 @@
           </elementProp>
           <elementProp name="users" elementType="Argument">
             <stringProp name="Argument.name">users</stringProp>
-            <stringProp name="Argument.value">${__P(users, 2)}</stringProp>
+            <stringProp name="Argument.value">${__P(users, 5)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="iterations" elementType="Argument">
             <stringProp name="Argument.name">iterations</stringProp>
-            <stringProp name="Argument.value">${__P(iterations, 1)}</stringProp>
+            <stringProp name="Argument.value">${__P(iterations, 10)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -102,10 +102,10 @@
               <stringProp name="-1854235203">Rating</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="1623434856">
+              <collectionProp name="1920429734">
                 <stringProp name="118040362">${__UUID()}</stringProp>
-                <stringProp name="837591188">${__RandomString(5)} </stringProp>
-                <stringProp name="837591188">${__RandomString(5)} </stringProp>
+                <stringProp name="1623793987">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
+                <stringProp name="1623793987">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
                 <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
                 <stringProp name="-731382688">${__Random(1,5)}</stringProp>
               </collectionProp>
@@ -138,11 +138,11 @@
               <stringProp name="26637751">EmailId</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="-1215800201">
+              <collectionProp name="1559969181">
                 <stringProp name="118040362">${__UUID()}</stringProp>
-                <stringProp name="837591188">${__RandomString(5)} </stringProp>
-                <stringProp name="837591188">${__RandomString(5)} </stringProp>
-                <stringProp name="837591188">${__RandomString(5)} </stringProp>
+                <stringProp name="-1161236289">${__RandomString(5,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
+                <stringProp name="-1161236289">${__RandomString(5,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
+                <stringProp name="1623793987">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
                 <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
                 <stringProp name="-821717204">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}@gmail.com </stringProp>
               </collectionProp>
@@ -178,9 +178,9 @@
                 <stringProp name="115155230">Category</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="950341242">
+                <collectionProp name="347149187">
                   <stringProp name="118040362">${__UUID()}</stringProp>
-                  <stringProp name="118040362">${__UUID()}</stringProp>
+                  <stringProp name="1623793987">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
                   <stringProp name="-1198082182">${__Random(1,30)}</stringProp>
                   <stringProp name="837591188">${__RandomString(5)} </stringProp>
                 </collectionProp>
@@ -191,9 +191,9 @@
           </hashTree>
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="student_enrolled_courses insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="query">insert into student_enrolled_courses (enrollment_id, student_id, course_id) values (?,?,?);</stringProp>
-            <stringProp name="queryArguments">${EnrollmentId},${StudentId},${CourseId}</stringProp>
-            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR</stringProp>
+            <stringProp name="query">insert into student_enrolled_courses (enrollment_id, student_id, course_id,enrollment_date) values (?,?,?,?);</stringProp>
+            <stringProp name="queryArguments">${EnrollmentId},${StudentId},${CourseId},${EnrollmentDate}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,TIMESTAMP</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Prepared Update Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -330,7 +330,7 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Fetch UserIds" enabled="true">
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Student Queries" enabled="true">
           <stringProp name="TestPlan.comments">Create CSV for sample UserIds to be used for perf test.</stringProp>
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Select Statement</stringProp>
@@ -344,10 +344,10 @@
           <stringProp name="resultSetHandler">Store as String</stringProp>
         </JDBCSampler>
         <hashTree>
-          <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="JDBC PreProcessor" enabled="true">
+          <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="Select All" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
             <stringProp name="queryType">Select Statement</stringProp>
-            <stringProp name="query">SELECT UserId FROM user_bal TABLESAMPLE BERNOULLI (50 PERCENT) limit 50000;</stringProp>
+            <stringProp name="query">SELECT * FROM students limit 50000;</stringProp>
             <stringProp name="queryArguments"></stringProp>
             <stringProp name="queryArgumentsTypes"></stringProp>
             <stringProp name="variableNames"></stringProp>
@@ -374,15 +374,15 @@ for (Object row : resultSet ) {
     result.append(System.getProperty(&quot;line.separator&quot;));
 }
 
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/userId.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/all_students.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Fetch TransactionIds" enabled="true">
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Course Queries" enabled="true">
           <stringProp name="TestPlan.comments">Create CSV for sample UserIds, TransactionIds to be used for perf test.</stringProp>
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Select Statement</stringProp>
-          <stringProp name="query">SELECT TransactionId FROM user_txns TABLESAMPLE BERNOULLI (50 PERCENT) limit 50000;</stringProp>
+          <stringProp name="query">SELECT * FROM courses limit 50000;</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="variableNames"></stringProp>
@@ -392,10 +392,10 @@ org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/userId.cs
           <stringProp name="resultSetHandler">Store as String</stringProp>
         </JDBCSampler>
         <hashTree>
-          <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="JDBC PreProcessor" enabled="true">
+          <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="Select All" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
             <stringProp name="queryType">Select Statement</stringProp>
-            <stringProp name="query">SELECT TransactionId FROM user_txns TABLESAMPLE BERNOULLI (50 PERCENT) limit 50000;</stringProp>
+            <stringProp name="query">SELECT * FROM courses limit 50000;</stringProp>
             <stringProp name="queryArguments"></stringProp>
             <stringProp name="queryArgumentsTypes"></stringProp>
             <stringProp name="variableNames"></stringProp>
@@ -422,7 +422,7 @@ for (Object row : resultSet ) {
     result.append(System.getProperty(&quot;line.separator&quot;));
 }
 
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/txnId.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/all_courses.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>
