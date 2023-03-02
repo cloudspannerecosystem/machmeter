@@ -9,17 +9,17 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="project" elementType="Argument">
             <stringProp name="Argument.name">project</stringProp>
-            <stringProp name="Argument.value">${__P(project, default)}</stringProp>
+            <stringProp name="Argument.value">${__P(project, span-cloud-testing)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="instance" elementType="Argument">
             <stringProp name="Argument.name">instance</stringProp>
-            <stringProp name="Argument.value">${__P(instance, default)}</stringProp>
+            <stringProp name="Argument.value">${__P(instance, machmeter-lms-test)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="database" elementType="Argument">
             <stringProp name="Argument.name">database</stringProp>
-            <stringProp name="Argument.value">${__P(database, default)}</stringProp>
+            <stringProp name="Argument.value">${__P(database, lms-database)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="connections" elementType="Argument">
@@ -34,12 +34,12 @@
           </elementProp>
           <elementProp name="users" elementType="Argument">
             <stringProp name="Argument.name">users</stringProp>
-            <stringProp name="Argument.value">${__P(users, 10)}</stringProp>
+            <stringProp name="Argument.value">${__P(users, 2)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="iterations" elementType="Argument">
             <stringProp name="Argument.name">iterations</stringProp>
-            <stringProp name="Argument.value">${__P(iterations, 5)}</stringProp>
+            <stringProp name="Argument.value">${__P(iterations, 1)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -82,9 +82,9 @@
       <hashTree>
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="instructors insert" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">insert into instructors (id, first_name, rating) values (?,?,?)</stringProp>
-          <stringProp name="queryArguments">${InstructorId},${FirstName},${Rating}</stringProp>
-          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,INTEGER</stringProp>
+          <stringProp name="query">insert into instructors (id, first_name, last_name, enroll_date, rating) values (?,?,?,?,?)</stringProp>
+          <stringProp name="queryArguments">${InstructorId},${FirstName},${LastName},${EnrollDate},${Rating}</stringProp>
+          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,TIMESTAMP,BIGINT</stringProp>
           <stringProp name="queryTimeout"></stringProp>
           <stringProp name="queryType">Prepared Update Statement</stringProp>
           <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -97,12 +97,16 @@
             <collectionProp name="UserParameters.names">
               <stringProp name="921877176">InstructorId</stringProp>
               <stringProp name="2136803643">FirstName</stringProp>
+              <stringProp name="-1394955679">LastName</stringProp>
+              <stringProp name="2108329364">EnrollDate</stringProp>
               <stringProp name="-1854235203">Rating</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="82031869">
+              <collectionProp name="1623434856">
                 <stringProp name="118040362">${__UUID()}</stringProp>
-                <stringProp name="118040362">${__UUID()}</stringProp>
+                <stringProp name="837591188">${__RandomString(5)} </stringProp>
+                <stringProp name="837591188">${__RandomString(5)} </stringProp>
+                <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
                 <stringProp name="-731382688">${__Random(1,5)}</stringProp>
               </collectionProp>
             </collectionProp>
@@ -113,9 +117,9 @@
         </hashTree>
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="students insert" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">insert into students (id, first_name) values (?,?)</stringProp>
-          <stringProp name="queryArguments">${StudentId},${FirstName}</stringProp>
-          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR</stringProp>
+          <stringProp name="query">insert into students (id, first_name, last_name, location, enroll_date, email_id) values (?,?,?,?,?,?)</stringProp>
+          <stringProp name="queryArguments">${StudentId},${FirstName},${LastName},${Location},${EnrollDate},${EmailId}</stringProp>
+          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,VARCHAR,TIMESTAMP,VARCHAR</stringProp>
           <stringProp name="queryTimeout"></stringProp>
           <stringProp name="queryType">Prepared Update Statement</stringProp>
           <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -128,11 +132,19 @@
             <collectionProp name="UserParameters.names">
               <stringProp name="31000726">StudentId</stringProp>
               <stringProp name="2136803643">FirstName</stringProp>
+              <stringProp name="-1394955679">LastName</stringProp>
+              <stringProp name="1965687765">Location</stringProp>
+              <stringProp name="2108329364">EnrollDate</stringProp>
+              <stringProp name="26637751">EmailId</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="330154753">
+              <collectionProp name="-1215800201">
                 <stringProp name="118040362">${__UUID()}</stringProp>
-                <stringProp name="118040362">${__UUID()}</stringProp>
+                <stringProp name="837591188">${__RandomString(5)} </stringProp>
+                <stringProp name="837591188">${__RandomString(5)} </stringProp>
+                <stringProp name="837591188">${__RandomString(5)} </stringProp>
+                <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
+                <stringProp name="-821717204">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}@gmail.com </stringProp>
               </collectionProp>
             </collectionProp>
             <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -147,9 +159,9 @@
         <hashTree>
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="courses insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="query">insert into courses (course_id, instructor_id, course_name) values (?,?,?);</stringProp>
-            <stringProp name="queryArguments">${CourseId},${InstructorId},${CourseName}</stringProp>
-            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR</stringProp>
+            <stringProp name="query">insert into courses (course_id, instructor_id, course_name, course_duration, category) values (?,?,?,?,?);</stringProp>
+            <stringProp name="queryArguments">${CourseId},${InstructorId},${CourseName},${CourseDuration},${Category}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,BIGINT,VARCHAR</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Prepared Update Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -162,11 +174,15 @@
               <collectionProp name="UserParameters.names">
                 <stringProp name="-303713610">CourseId</stringProp>
                 <stringProp name="189146470">CourseName</stringProp>
+                <stringProp name="587207407">CourseDuration</stringProp>
+                <stringProp name="115155230">Category</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="330154753">
+                <collectionProp name="950341242">
                   <stringProp name="118040362">${__UUID()}</stringProp>
                   <stringProp name="118040362">${__UUID()}</stringProp>
+                  <stringProp name="-1198082182">${__Random(1,30)}</stringProp>
+                  <stringProp name="837591188">${__RandomString(5)} </stringProp>
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -189,10 +205,12 @@
             <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
               <collectionProp name="UserParameters.names">
                 <stringProp name="57282399">EnrollmentId</stringProp>
+                <stringProp name="-786337550">EnrollmentDate</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="681405977">
+                <collectionProp name="314045016">
                   <stringProp name="118040362">${__UUID()}</stringProp>
+                  <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
