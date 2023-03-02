@@ -10,17 +10,17 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="project" elementType="Argument">
             <stringProp name="Argument.name">project</stringProp>
-            <stringProp name="Argument.value">${__P(project, default)}</stringProp>
+            <stringProp name="Argument.value">${__P(instance, foundations-service)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="instance" elementType="Argument">
             <stringProp name="Argument.name">instance</stringProp>
-            <stringProp name="Argument.value">${__P(instance, default)}</stringProp>
+            <stringProp name="Argument.value">${__P(instance, machmeter-messaging-test)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="database" elementType="Argument">
             <stringProp name="Argument.name">database</stringProp>
-            <stringProp name="Argument.value">${__P(database, default)}</stringProp>
+            <stringProp name="Argument.value">${__P(database, messaging-app)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="connections" elementType="Argument">
@@ -35,17 +35,17 @@
           </elementProp>
           <elementProp name="users" elementType="Argument">
             <stringProp name="Argument.name">users</stringProp>
-            <stringProp name="Argument.value">${__P(users, 10)}</stringProp>
+            <stringProp name="Argument.value">${__P(users, 1000)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="iterations" elementType="Argument">
             <stringProp name="Argument.name">iterations</stringProp>
-            <stringProp name="Argument.value">${__P(iterations, 5)}</stringProp>
+            <stringProp name="Argument.value">${__P(iterations, 1)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
       </elementProp>
-      <stringProp name="TestPlan.user_define_classpath">/test/</stringProp>
+      <stringProp name="TestPlan.user_define_classpath">/Users/smidth/Hackathon/jmeter-test</stringProp>
     </TestPlan>
     <hashTree>
       <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection" enabled="true">
@@ -81,11 +81,11 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="user_bal insert" enabled="true">
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Users insert" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">insert into user_bal (UserId, Balance, CreationTime) values (?,?,?)</stringProp>
-          <stringProp name="queryArguments">${UserId},${Balance},${CreationTime}</stringProp>
-          <stringProp name="queryArgumentsTypes">VARCHAR,DOUBLE,TIMESTAMP</stringProp>
+          <stringProp name="query">insert into Users (userId, userName, dpUrl, status, firstName, lastName, creationDate) values (?,?,?,?,?,?,?)</stringProp>
+          <stringProp name="queryArguments">${userId},${userName},${dpUrl},${status},${firstName},${lastName},${creationDate}</stringProp>
+          <stringProp name="queryArgumentsTypes">INTEGER,VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR,TIMESTAMP</stringProp>
           <stringProp name="queryTimeout"></stringProp>
           <stringProp name="queryType">Prepared Update Statement</stringProp>
           <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -94,16 +94,24 @@
           <stringProp name="variableNames"></stringProp>
         </JDBCSampler>
         <hashTree>
-          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Users Parameters" enabled="true">
             <collectionProp name="UserParameters.names">
-              <stringProp name="-1752163738">UserId</stringProp>
-              <stringProp name="1325467324">Balance</stringProp>
-              <stringProp name="1750336108">CreationTime</stringProp>
+              <stringProp name="-836030906">userId</stringProp>
+              <stringProp name="-266666762">userName</stringProp>
+              <stringProp name="95774019">dpUrl</stringProp>
+              <stringProp name="-892481550">status</stringProp>
+              <stringProp name="132835675">firstName</stringProp>
+              <stringProp name="-1459599807">lastName</stringProp>
+              <stringProp name="1585531693">creationDate</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="1913419542">
-                <stringProp name="118040362">${__UUID()}</stringProp>
-                <stringProp name="48">0</stringProp>
+              <collectionProp name="1328836955">
+                <stringProp name="-1998372544">${__counter(false,)}</stringProp>
+                <stringProp name="-116605424">${__RandomString(50,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-468586992">${__RandomString(500,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-964879980">${__RandomString(100,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-116605424">${__RandomString(50,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-116605424">${__RandomString(50,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
                 <stringProp name="-1728534736">${__time(yyyy-MM-dd hh:mm:ss)}</stringProp>
               </collectionProp>
             </collectionProp>
@@ -112,7 +120,133 @@
           </UserParameters>
           <hashTree/>
         </hashTree>
-        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Spaces insert" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="query">insert into Spaces (spaceId, spaceName, spaceDescription, createdAt, creatorUserId) values (?,?,?,?,?)</stringProp>
+          <stringProp name="queryArguments">${spaceId},${spaceName},${spaceDescription},${createdAt},${userId}</stringProp>
+          <stringProp name="queryArgumentsTypes">INTEGER,VARCHAR,VARCHAR,TIMESTAMP,INTEGER</stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Prepared Update Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree>
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Spaces Parameters" enabled="true">
+            <collectionProp name="UserParameters.names">
+              <stringProp name="-2012163903">spaceId</stringProp>
+              <stringProp name="-954078031">spaceName</stringProp>
+              <stringProp name="2079292182">spaceDescription</stringProp>
+              <stringProp name="598371643">createdAt</stringProp>
+            </collectionProp>
+            <collectionProp name="UserParameters.thread_values">
+              <collectionProp name="25536519">
+                <stringProp name="-1998372544">${__counter(false,)}</stringProp>
+                <stringProp name="-116605424">${__RandomString(50,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-468586992">${__RandomString(500,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-1728534736">${__time(yyyy-MM-dd hh:mm:ss)}</stringProp>
+              </collectionProp>
+            </collectionProp>
+            <boolProp name="UserParameters.per_iteration">false</boolProp>
+            <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
+          </UserParameters>
+          <hashTree/>
+        </hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="SpaceMembership insert" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="query">insert into SpaceMembership (spaceId, userId, isAdmin) values (?,?,?)</stringProp>
+          <stringProp name="queryArguments">${spaceId},${userId},${isAdmin}</stringProp>
+          <stringProp name="queryArgumentsTypes">INTEGER,INTEGER,BOOLEAN</stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Prepared Update Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree>
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Spaces Parameters" enabled="true">
+            <collectionProp name="UserParameters.names">
+              <stringProp name="2054074437">isAdmin</stringProp>
+            </collectionProp>
+            <collectionProp name="UserParameters.thread_values">
+              <collectionProp name="1202738134">
+                <stringProp name="1202738103">${__javaScript(Math.round(Math.random())==1 ? &quot;true&quot; : &quot;false&quot;;)}</stringProp>
+              </collectionProp>
+            </collectionProp>
+            <boolProp name="UserParameters.per_iteration">false</boolProp>
+            <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
+          </UserParameters>
+          <hashTree/>
+        </hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Messages insert" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="query">	insert into Messages (messageId, senderId, spaceId, text, createdAt, updatedAt,isDeleted,attachmentUrl) values (?,?,?,?,?,?,?,?)</stringProp>
+          <stringProp name="queryArguments">${messageId},${userId},${spaceId},${text},${createdAt},${updatedAt},${isDeleted},${attachmentUrl}</stringProp>
+          <stringProp name="queryArgumentsTypes">INTEGER,INTEGER,INTEGER,VARCHAR,TIMESTAMP,TIMESTAMP,BOOLEAN,VARCHAR</stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Prepared Update Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree>
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Messages Parameters" enabled="true">
+            <collectionProp name="UserParameters.names">
+              <stringProp name="-1440013438">messageId</stringProp>
+              <stringProp name="3556653">text</stringProp>
+              <stringProp name="598371643">createdAt</stringProp>
+              <stringProp name="-1949194674">updatedAt</stringProp>
+              <stringProp name="970684303">isDeleted</stringProp>
+              <stringProp name="-1506853556">attachmentUrl</stringProp>
+            </collectionProp>
+            <collectionProp name="UserParameters.thread_values">
+              <collectionProp name="1089059125">
+                <stringProp name="-1998372544">${__counter(false,)}</stringProp>
+                <stringProp name="-96367251">${__RandomString(800,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+                <stringProp name="-1728534736">${__time(yyyy-MM-dd hh:mm:ss)}</stringProp>
+                <stringProp name="-1728534736">${__time(yyyy-MM-dd hh:mm:ss)}</stringProp>
+                <stringProp name="1202738103">${__javaScript(Math.round(Math.random())==1 ? &quot;true&quot; : &quot;false&quot;;)}</stringProp>
+                <stringProp name="-468586992">${__RandomString(500,abcdefghijklmnopqrstuvwxyz1234567890)}</stringProp>
+              </collectionProp>
+            </collectionProp>
+            <boolProp name="UserParameters.per_iteration">false</boolProp>
+            <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
+          </UserParameters>
+          <hashTree/>
+        </hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="MessageStatus insert" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="query">	insert into MessageStatus (spaceId, messageId, receiverId, isDelivered, isRead) values (?,?,?,?,?)</stringProp>
+          <stringProp name="queryArguments">${spaceId},${messageId},${userId},${isDelivered},${isRead}</stringProp>
+          <stringProp name="queryArgumentsTypes">INTEGER,INTEGER,INTEGER,BOOLEAN,BOOLEAN</stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Prepared Update Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree>
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="MessageStatus Parameters" enabled="true">
+            <collectionProp name="UserParameters.names">
+              <stringProp name="936092282">isDelivered</stringProp>
+              <stringProp name="-1180158496">isRead</stringProp>
+            </collectionProp>
+            <collectionProp name="UserParameters.thread_values">
+              <collectionProp name="283183265">
+                <stringProp name="1202738103">${__javaScript(Math.round(Math.random())==1 ? &quot;true&quot; : &quot;false&quot;;)}</stringProp>
+                <stringProp name="1202738103">${__javaScript(Math.round(Math.random())==1 ? &quot;true&quot; : &quot;false&quot;;)}</stringProp>
+              </collectionProp>
+            </collectionProp>
+            <boolProp name="UserParameters.per_iteration">false</boolProp>
+            <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
+          </UserParameters>
+          <hashTree/>
+        </hashTree>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="false">
           <boolProp name="LoopController.continue_forever">true</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </LoopController>
@@ -167,7 +301,7 @@
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
+        <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="false">
           <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="influxdbMetricsSender" elementType="Argument">
@@ -221,7 +355,7 @@
         </BackendListener>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create Sampled CSV Data" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create Sampled CSV Data" enabled="false">
         <stringProp name="TestPlan.comments">Fetches sampled data from Spanner for the load test</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
