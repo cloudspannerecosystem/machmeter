@@ -2,19 +2,19 @@
   "infraConfig": {
     "spannerInstanceConfig": {
       "projectId" : "span-cloud-testing",
-      "instanceId": "machmeter-finance-ledger-test",
-      "dbName": "finance-ledger",
+      "instanceId": "stock-trading-template-test",
+      "dbName": "stock-trading",
       "configuration": "regional-us-central1",
-      "displayName": "load_test_instance",
+      "displayName": "Stock Trading Template",
       "processingUnits": 1000,
       "environment": "testing"
     },
     "gkeConfig": {
-      "clusterName": "jmeter-load-test",
-      "namespace": "spanner-test",
+      "clusterName": "stock-trading-template-cluster",
+      "namespace": "stock-trading-template-spanner-test",
       "region": "us-central1",
-      "network": "gke-network",
-      "subnetwork": "gke-subnet",
+      "network": "stock-trading-template-network",
+      "subnetwork": "stock-trading-template-subnet",
       "ipRangePodsName": "ip-range-pods",
       "ipRangeServicesName": "ip-range-services",
       "service_account_json": "sa.json",
@@ -27,11 +27,11 @@
   },
   "ddlConfig" : {
     "spannerInstanceConfig" : {
-      "instanceId" : "machmeter-finance-ledger-test",
-      "dbName" : "finance-ledger",
+      "instanceId" : "stock-trading-template-test",
+      "dbName" : "stock-trading",
       "configuration": "regional-us-central1",
       "projectId" : "span-cloud-testing"
     },
-    "schemaFilePath" : "usecases/finance/ledger/templates/schema.sql"
+    "schemaFilePath" : "usecases/finance/stock-trading/templates/schema.sql"
   }
 }
