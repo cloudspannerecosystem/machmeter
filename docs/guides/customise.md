@@ -28,11 +28,10 @@ for additional information.
 
 ### Setting up Repository
 
-* Sure that you are authenticated and have the right permissions configured before getting started.
+* Ensure that you are authenticated and have the right permissions configured before getting started.
   Follow [this](../requirements.md) guide to ensure that all permissions are in place.
-* To set Machmeter up, first create a [fork]((https://docs.github.com/en/get-started/quickstart/fork-a-repo)) of the Machmeter repository. Use the following
-   [instructions] to create a fork.
-* Once a fork is setup, [clone](https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository) the project locally.
+* Create a [fork]((https://docs.github.com/en/get-started/quickstart/fork-a-repo)) of the Machmeter repository.
+* [Clone](https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository) the project locally.
 
 ### Machmeter Dependencies
 
@@ -55,7 +54,7 @@ Machmeter has a number of starter templates are present in
 the [usecases](https://github.com/cloudspannerecosystem/machmeter/tree/master/machmeter/usecases) directory.
 Browse through the list of templates to identify a template closest to what you are looking for. 
 
-Each template folder contains a `.txt` file with the description of what the template does. 
+Each template folder contains a `README.md` file with the description of what the template does. 
 We will use this template as the basis to create our new template.
 
 ## Create a new folder and clone the contents
