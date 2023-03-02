@@ -1,0 +1,10 @@
+{
+    "namespace": "spanner-test",
+    "jMeterTemplatePath" : "templates/finance-ledger-perf.jmx",
+    "jMeterParams" : {
+      "project": "foundations-service",
+      "instance": "machmeter-finance-ledger-test",
+      "database": "finance-ledger",
+      "connections": 1000
+    }
+  }

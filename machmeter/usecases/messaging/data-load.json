@@ -1,0 +1,13 @@
+{
+    "namespace": "spanner-test",
+    "jMeterTemplatePath" : "templates/data-load.jmx",
+    "jMeterParams" : {
+      "project": "foundations-service",
+      "instance": "machmeter-messaging-test",
+      "database": "messaging-app",
+      "connections": 1000,
+      "channels": 10,
+      "users": 10,
+      "iterations": 10
+    }
+  }
