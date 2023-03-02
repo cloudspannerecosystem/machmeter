@@ -2,35 +2,35 @@
     "infraConfig": {
       "spannerInstanceConfig": {
         "projectId" : "jaru-ktb-spanner-ext",
-        "instanceId": "spanner-profile",
-        "dbName": "profile-db",
+        "instanceId": "jaru-spanner-profile",
+        "dbName": "jaru-profile-db",
         "configuration": "regional-asia-southeast1",
-        "displayName": "spanner_profile_instance",
+        "displayName": "jaru-spanner-profile",
         "processingUnits": 1000,
-        "environment": "testing"
+        "environment": "dev"
       },
       "gkeConfig": {
-        "clusterName": "mm-jmeter",
+        "clusterName": "jaru-mm-jmeter",
         "namespace": "machmeter",
         "machine_type": "c2-standard-4",
         "region": "asia-southeast1",
         "node_locations": "asia-southeast1-a,asia-southeast1-b,asia-southeast1-c",
         "min_count": 1,
         "max_count": 5,
-        "network": "mm-network",
-        "subnetwork": "mm-subnet",
-        "ipRangePodsName": "ip-range-pods",
-        "ipRangeServicesName": "ip-range-services",
+        "network": "jaru-mm-network",
+        "subnetwork": "jaru-mm-subnet",
+        "ipRangePodsName": "jaru-ip-range-pods",
+        "ipRangeServicesName": "jaru-ip-range-services",
         "service_account_json": "~/machmeter.json"
       }
     },
     "ddlConfig" : {
       "spannerInstanceConfig" : {
-        "instanceId" : "spanner-profile",
-        "dbName" : "profile-db",
+        "instanceId" : "jaru-spanner-profile",
+        "dbName" : "jaru-profile-db",
         "configuration": "regional-asia-southeast1",
         "projectId" : "jaru-ktb-spanner-ext"
       },
-      "schemaFilePath" : "usecases/finance/profile/templates/profile.sql"
+      "schemaFilePath" : "usecases/finance/profile/templates/profile-schema.sql"
     }
   }
