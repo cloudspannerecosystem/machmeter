@@ -9,9 +9,7 @@ Most of Web/Mobile application requires to gather customer-related information e
 
 ## Overview of Configurations 
 
-> Note: Machmeter is currently supported on Linux and MacOS platforms.
-
-
+> Note: 
 
 | Config | Template | Description |
 | --- | --- | --- |
@@ -19,6 +17,61 @@ Most of Web/Mobile application requires to gather customer-related information e
 | `profile-load-data.json` | profile-load-data.jmx |Configuration file for loading sample data into spanner database based on the the schema and create CSV file into the container to be used during the performance test <br />**[Default]** Sampling & create 1000 records/rows in userId.csv and deviceId.csv. |
 | `profile-init-csv.json` | profile-init-csv.jmx |  [Optinal] Configuration file for creating CSV file into the container without populating any new data into spanner  |
 | `profile-perf.json` | profile-perf.jmx | Configuration file for running performance load test based on the use case (e.g. read/write ratio). It may require pre-populated CSV file in the containers prior running. <br />**[Default]** <br/>- Use Case - 80% Stale Read, 10% Insert + Stale Read, 10% Update <br/> - maxSamplingSize = 1000 (matching with sampling size). This is Maximum numbers of Jmeter Variables dynamically created & stored new keys from insert | 
+
+## Deploying Environment
+
+> Note: 
+
+Machmeter provides a capabilities to easily deploy performance load test environment. There are 2 key components which needs to be addressed (1) Jmeter running on GKE - this is used for running custom load test based on Jmeter template (2) Spanner - this is used for running custom schema and operate database operations based on template. 
+
+
+Run the following steps to start deploying environment:
+
+```bash
+# Review configuration for loading sample data
+$ cat profile-infra-config.json 
+{
+    "infraConfig": {
+      "spannerInstanceConfig": {
+        "projectId" : "jaru-ktb-spanner-ext",
+        "instanceId": "jaru-spanner-profile",
+        "dbName": "jaru-profile-db",
+        "configuration": "regional-asia-southeast1",
+        "displayName": "jaru-spanner-profile",
+        "processingUnits": 1000,
+        "environment": "dev"
+      },
+      "gkeConfig": {
+        "clusterName": "jaru-mm-jmeter",
+        "namespace": "machmeter",
+        "machine_type": "c2-standard-4",
+        "region": "asia-southeast1",
+        "node_locations": "asia-southeast1-a,asia-southeast1-b,asia-southeast1-c",
+        "min_count": 1,
+        "max_count": 5,
+        "network": "jaru-mm-network",
+        "subnetwork": "jaru-mm-subnet",
+        "ipRangePodsName": "jaru-ip-range-pods",
+        "ipRangeServicesName": "jaru-ip-range-services",
+        "service_account_json": "~/machmeter.json"
+      }
+    },
+    "ddlConfig" : {
+      "spannerInstanceConfig" : {
+        "instanceId" : "jaru-spanner-profile",
+        "dbName" : "jaru-profile-db",
+        "configuration": "regional-asia-southeast1",
+        "projectId" : "jaru-ktb-spanner-ext"
+      },
+      "schemaFilePath" : "usecases/finance/profile/templates/profile-schema.sql"
+    }
+  }
+```
+
+```bash
+# Running machmeter setup to deploy environment
+$ java -jar target/machmeter/machmeter.jar setup profile-infra-config.json 
+```
 
 ## Loading Sample Data into Profile
 
@@ -170,7 +223,8 @@ $ cat profile-perf.json
 }
 ```
 
-**[Number of Slaves]** It is required to scale number of Jmeter Slaves (staefulsets replica) running in GKE to have more workers to perfom distributed load test for a given template. **Number of Jmeter Slaves will multiply with Number of Threds to form Total Concurrent Users**. Consequently, scaling more staefulsets replicas will require more GKE nodes. 
+**[Number of Jmeter Slaves]** It is required to scale number of Jmeter Slaves (staefulsets replica) running in GKE to have more workers to perfom distributed load test for a given template. **Number of Jmeter Slaves will multiply with Number of Threds to form Total Concurrent Users**. Consequently, scaling more staefulsets replicas will require more GKE nodes. 
+> Note: You can monitor the GKE & Jmeter Slave resources consumption via GKE Cluster/Workload Monitoring Console 
 
 ```bash
 # Number of 'Jmeter Slaves' running in GKE
@@ -188,6 +242,8 @@ jmeter-slaves   4/4     26h
 ```
 
 **[Number of Spanner Node]** Once you cannot get more QPS by increasing (1) Number of Threads and (2) Number of Slaves, then it is time to increase the size of Spanner Node. This could be done by using gcloud command or GCP Spanner Console which will immediate update the size in seconds. 
+
+> Note: You can monitor the Spanner resources consumption & Spanner metrics (e.g. Operations per Second, Latency ) via Spanner **System Insight** Monitoring Console
 
 ```bash
 # Increase Spanner Node to 2 x Nodes (or 2000 PUs)
