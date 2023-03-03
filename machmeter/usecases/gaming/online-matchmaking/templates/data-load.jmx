@@ -153,39 +153,6 @@
           </UserParameters>
           <hashTree/>
         </hashTree>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Insert game items" enabled="true">
-          <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">insert into game_items (item_uuid, item_name, item_value, available_time, duration) values (?, ?, ?, ?, 2)</stringProp>
-          <stringProp name="queryArguments">${item_uuid},${item_name},${item_value},${available_time}</stringProp>
-          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,DOUBLE,TIMESTAMP</stringProp>
-          <stringProp name="queryTimeout"></stringProp>
-          <stringProp name="queryType">Prepared Update Statement</stringProp>
-          <stringProp name="resultSetHandler">Store as String</stringProp>
-          <stringProp name="resultSetMaxRows"></stringProp>
-          <stringProp name="resultVariable"></stringProp>
-          <stringProp name="variableNames"></stringProp>
-        </JDBCSampler>
-        <hashTree>
-          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Game item parameters" enabled="true">
-            <collectionProp name="UserParameters.names">
-              <stringProp name="-2141117081">item_uuid</stringProp>
-              <stringProp name="-2053908861">available_time</stringProp>
-              <stringProp name="-2141344713">item_name</stringProp>
-              <stringProp name="-1949788859">item_value</stringProp>
-            </collectionProp>
-            <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="936280642">
-                <stringProp name="118040362">${__UUID()}</stringProp>
-                <stringProp name="-1728534736">${__time(yyyy-MM-dd hh:mm:ss)}</stringProp>
-                <stringProp name="1587203565">${__RandomString(${__Random(10,20,)},abcdefghijklmnopqrstuvwxyz,)}</stringProp>
-                <stringProp name="1626525">50.0</stringProp>
-              </collectionProp>
-            </collectionProp>
-            <boolProp name="UserParameters.per_iteration">false</boolProp>
-            <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
-          </UserParameters>
-          <hashTree/>
-        </hashTree>
       </hashTree>
     </hashTree>
   </hashTree>
