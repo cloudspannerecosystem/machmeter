@@ -10,37 +10,37 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="project" elementType="Argument">
             <stringProp name="Argument.name">project</stringProp>
-            <stringProp name="Argument.value">${__P(project, span-cloud-testing)}</stringProp>
+            <stringProp name="Argument.value">span-cloud-testing</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="instance" elementType="Argument">
             <stringProp name="Argument.name">instance</stringProp>
-            <stringProp name="Argument.value">${__P(instance, machmeter-erpemp-test)}</stringProp>
+            <stringProp name="Argument.value">machmeter-erpemp-test3</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="database" elementType="Argument">
             <stringProp name="Argument.name">database</stringProp>
-            <stringProp name="Argument.value">${__P(database, erp-emp)}</stringProp>
+            <stringProp name="Argument.value"> erp-emp</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="connections" elementType="Argument">
             <stringProp name="Argument.name">connections</stringProp>
-            <stringProp name="Argument.value">${__P(connections, 1000)}</stringProp>
+            <stringProp name="Argument.value">1000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="channels" elementType="Argument">
             <stringProp name="Argument.name">channels</stringProp>
-            <stringProp name="Argument.value">${__P(channels, 10)}</stringProp>
+            <stringProp name="Argument.value">10</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="users" elementType="Argument">
             <stringProp name="Argument.name">users</stringProp>
-            <stringProp name="Argument.value">${__P(users, 10)}</stringProp>
+            <stringProp name="Argument.value">10</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="iterations" elementType="Argument">
             <stringProp name="Argument.name">iterations</stringProp>
-            <stringProp name="Argument.value">${__P(iterations, 5)}</stringProp>
+            <stringProp name="Argument.value">5</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -54,7 +54,7 @@
         <stringProp name="connectionAge">5000</stringProp>
         <stringProp name="connectionProperties"></stringProp>
         <stringProp name="dataSource">conn_pool</stringProp>
-        <stringProp name="dbUrl">jdbc:cloudspanner:/projects/${project}/instances/${instance}/databases/${database}?minSessions=${connections};maxSessions=${connections};numChannels=${channels}</stringProp>
+        <stringProp name="dbUrl">jdbc:cloudspanner:/projects/span-cloud-testing/instances/machmeter-erpemp-test3/databases/erp-emp?minSessions=100;maxSessions=100;numChannels=10</stringProp>
         <stringProp name="driver">com.google.cloud.spanner.jdbc.JdbcDriver</stringProp>
         <stringProp name="initQuery"></stringProp>
         <boolProp name="keepAlive">true</boolProp>
@@ -83,7 +83,7 @@
       <hashTree>
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Departments insert" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">insert into departments (DeptNo, DeptName) values (?,?)</stringProp>
+          <stringProp name="query">insert into departments (dept_no, dept_name) values (?,?)</stringProp>
           <stringProp name="queryArguments">${DeptNo},${DeptName}</stringProp>
           <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR</stringProp>
           <stringProp name="queryTimeout"></stringProp>
@@ -234,54 +234,6 @@ for (Object row : resultSet ) {
 }
 
 org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/departments.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Fetch TransactionIds" enabled="true">
-          <stringProp name="TestPlan.comments">Create CSV for sample UserIds, TransactionIds to be used for perf test.</stringProp>
-          <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="queryType">Select Statement</stringProp>
-          <stringProp name="query">SELECT TransactionId FROM user_txns TABLESAMPLE BERNOULLI (50 PERCENT) limit 50000;</stringProp>
-          <stringProp name="queryArguments"></stringProp>
-          <stringProp name="queryArgumentsTypes"></stringProp>
-          <stringProp name="variableNames"></stringProp>
-          <stringProp name="resultVariable"></stringProp>
-          <stringProp name="queryTimeout"></stringProp>
-          <stringProp name="resultSetMaxRows"></stringProp>
-          <stringProp name="resultSetHandler">Store as String</stringProp>
-        </JDBCSampler>
-        <hashTree>
-          <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="JDBC PreProcessor" enabled="true">
-            <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="queryType">Select Statement</stringProp>
-            <stringProp name="query">SELECT TransactionId FROM user_txns TABLESAMPLE BERNOULLI (50 PERCENT) limit 50000;</stringProp>
-            <stringProp name="queryArguments"></stringProp>
-            <stringProp name="queryArgumentsTypes"></stringProp>
-            <stringProp name="variableNames"></stringProp>
-            <stringProp name="resultVariable">resultSet</stringProp>
-            <stringProp name="queryTimeout"></stringProp>
-            <stringProp name="resultSetMaxRows"></stringProp>
-            <stringProp name="resultSetHandler">Store as String</stringProp>
-          </JDBCPreProcessor>
-          <hashTree/>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">groovy</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script">resultSet = vars.getObject(&quot;resultSet&quot;);
-StringBuilder result = new StringBuilder();
-
-for (Object row : resultSet ) {
-    iter = row.entrySet().iterator();
-    while (iter.hasNext()) {
-        pair = iter.next();
-        result.append(pair.getValue());
-    }
-    result.append(System.getProperty(&quot;line.separator&quot;));
-}
-
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/txnId.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>
