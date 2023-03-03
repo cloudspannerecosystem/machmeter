@@ -23,6 +23,10 @@ CREATE TABLE courses (
     course_name STRING(100),
     course_duration INT64 NOT NULL,
     category STRING(100),
+    course_start_date TIMESTAMP,
+    course_end_date TIMESTAMP,
+    course_start_time TIMESTAMP,
+    course_end_time TIMESTAMP,
     CONSTRAINT instructors_courses_fk1 FOREIGN KEY(instructor_id) REFERENCES instructors(id),
 ) PRIMARY KEY(course_id);
 

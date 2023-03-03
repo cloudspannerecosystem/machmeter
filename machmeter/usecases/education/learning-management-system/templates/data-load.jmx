@@ -102,7 +102,7 @@
               <stringProp name="-1854235203">Rating</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="1920429734">
+              <collectionProp name="-1241713690">
                 <stringProp name="118040362">${__UUID()}</stringProp>
                 <stringProp name="1623793987">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
                 <stringProp name="1623793987">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
@@ -138,7 +138,7 @@
               <stringProp name="26637751">EmailId</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="1559969181">
+              <collectionProp name="304332015">
                 <stringProp name="118040362">${__UUID()}</stringProp>
                 <stringProp name="-1161236289">${__RandomString(5,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
                 <stringProp name="-1161236289">${__RandomString(5,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
@@ -159,9 +159,9 @@
         <hashTree>
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="courses insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="query">insert into courses (course_id, instructor_id, course_name, course_duration, category) values (?,?,?,?,?);</stringProp>
-            <stringProp name="queryArguments">${CourseId},${InstructorId},${CourseName},${CourseDuration},${Category}</stringProp>
-            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,BIGINT,VARCHAR</stringProp>
+            <stringProp name="query">insert into courses (course_id, instructor_id, course_name, course_duration, category, course_start_date, course_end_date, course_start_time, course_end_time) values (?,?,?,?,?,?,?,?,?);</stringProp>
+            <stringProp name="queryArguments">${CourseId},${InstructorId},${CourseName},${CourseDuration},${Category},${CourseStartDate},${CourseEndDate},${CourseStartTime},${CourseEndTime}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,BIGINT,VARCHAR,TIMESTAMP,TIMESTAMP,TIMESTAMP,TIMESTAMP</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Prepared Update Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -176,13 +176,21 @@
                 <stringProp name="189146470">CourseName</stringProp>
                 <stringProp name="587207407">CourseDuration</stringProp>
                 <stringProp name="115155230">Category</stringProp>
+                <stringProp name="516623669">CourseStartDate</stringProp>
+                <stringProp name="830777966">CourseEndDate</stringProp>
+                <stringProp name="517107796">CourseStartTime</stringProp>
+                <stringProp name="831262093">CourseEndTime</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="347149187">
+                <collectionProp name="1296100717">
                   <stringProp name="118040362">${__UUID()}</stringProp>
                   <stringProp name="1623793987">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
                   <stringProp name="-1198082182">${__Random(1,30)}</stringProp>
                   <stringProp name="837591188">${__RandomString(5)} </stringProp>
+                  <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
+                  <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
+                  <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
+                  <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
