@@ -84,7 +84,7 @@
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="query">insert into instructors (id, first_name, last_name, enroll_date, rating) values (?,?,?,?,?)</stringProp>
           <stringProp name="queryArguments">${InstructorId},${FirstName},${LastName},${EnrollDate},${Rating}</stringProp>
-          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,TIMESTAMP,BIGINT</stringProp>
+          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,TIMESTAMP,NUMERIC</stringProp>
           <stringProp name="queryTimeout"></stringProp>
           <stringProp name="queryType">Prepared Update Statement</stringProp>
           <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -138,7 +138,7 @@
               <stringProp name="26637751">EmailId</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="304332015">
+              <collectionProp name="-1074617113">
                 <stringProp name="118040362">${__UUID()}</stringProp>
                 <stringProp name="-1161236289">${__RandomString(5,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
                 <stringProp name="-1161236289">${__RandomString(5,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
@@ -199,9 +199,9 @@
           </hashTree>
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="student_enrolled_courses insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="query">insert into student_enrolled_courses (enrollment_id, student_id, course_id,enrollment_date) values (?,?,?,?);</stringProp>
-            <stringProp name="queryArguments">${EnrollmentId},${StudentId},${CourseId},${EnrollmentDate}</stringProp>
-            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,TIMESTAMP</stringProp>
+            <stringProp name="query">insert into student_enrolled_courses (enrollment_id, student_id, course_id,enrollment_date, status, rating) values (?,?,?,?,?,?);</stringProp>
+            <stringProp name="queryArguments">${EnrollmentId},${StudentId},${CourseId},${EnrollmentDate},${EnrollmentStatus},${EnrollmentRating}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,TIMESTAMP,VARCHAR,NUMERIC</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Prepared Update Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -214,11 +214,15 @@
               <collectionProp name="UserParameters.names">
                 <stringProp name="57282399">EnrollmentId</stringProp>
                 <stringProp name="-786337550">EnrollmentDate</stringProp>
+                <stringProp name="644674017">EnrollmentRating</stringProp>
+                <stringProp name="690294838">EnrollmentStatus</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="314045016">
+                <collectionProp name="20309511">
                   <stringProp name="118040362">${__UUID()}</stringProp>
                   <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
+                  <stringProp name="-731382688">${__Random(1,5)}</stringProp>
+                  <stringProp name="1842965237">${__RandomString(2,abc,)}</stringProp>
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -342,7 +346,7 @@
           <stringProp name="TestPlan.comments">Create CSV for sample UserIds to be used for perf test.</stringProp>
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Select Statement</stringProp>
-          <stringProp name="query">SELECT UserId FROM user_bal TABLESAMPLE BERNOULLI (50 PERCENT) limit 50000;</stringProp>
+          <stringProp name="query">SELECT * FROM students limit 50000;</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="variableNames"></stringProp>
@@ -387,7 +391,7 @@ org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/all_stude
           <hashTree/>
         </hashTree>
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Course Queries" enabled="true">
-          <stringProp name="TestPlan.comments">Create CSV for sample UserIds, TransactionIds to be used for perf test.</stringProp>
+          <stringProp name="TestPlan.comments">Create CSV for sample to be used for perf test.</stringProp>
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Select Statement</stringProp>
           <stringProp name="query">SELECT * FROM courses limit 50000;</stringProp>
