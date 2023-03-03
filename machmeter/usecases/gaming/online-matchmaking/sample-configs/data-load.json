@@ -8,6 +8,6 @@
     "connections": 1000,
     "channels": 10,
     "users": 10,
-    "iterations": 10
+    "iterations": 10000
   }
 }

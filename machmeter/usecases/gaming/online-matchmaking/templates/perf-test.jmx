@@ -25,27 +25,27 @@
           </elementProp>
           <elementProp name="threads" elementType="Argument">
             <stringProp name="Argument.name">threads</stringProp>
-            <stringProp name="Argument.value">${__P(threads,50)}</stringProp>
+            <stringProp name="Argument.value">5</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="rampUp_Time" elementType="Argument">
             <stringProp name="Argument.name">rampUp_Time</stringProp>
-            <stringProp name="Argument.value">${__P(rampUp_Time,5)}</stringProp>
+            <stringProp name="Argument.value">0</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="startUp_Delay" elementType="Argument">
             <stringProp name="Argument.name">startUp_Delay</stringProp>
-            <stringProp name="Argument.value">${__P(startUp_Delay,5)}</stringProp>
+            <stringProp name="Argument.value">0</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="duration" elementType="Argument">
             <stringProp name="Argument.name">duration</stringProp>
-            <stringProp name="Argument.value">${__P(duration,604800)}</stringProp>
+            <stringProp name="Argument.value">300</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="iterations" elementType="Argument">
             <stringProp name="Argument.name">iterations</stringProp>
-            <stringProp name="Argument.value">${__P(iterations,10)}</stringProp>
+            <stringProp name="Argument.value">10000000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="grpc_channel" elementType="Argument">
@@ -63,8 +63,8 @@
       <stringProp name="TestPlan.user_define_classpath">/test/</stringProp>
     </TestPlan>
     <hashTree>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
-        <boolProp name="ResultCollector.error_logging">false</boolProp>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">true</boolProp>
         <objProp>
           <name>saveConfig</name>
           <value class="SampleSaveConfiguration">
@@ -97,71 +97,10 @@
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename"></stringProp>
+        <stringProp name="filename">/jmeter-load-out.log</stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="false">
-        <boolProp name="ResultCollector.error_logging">false</boolProp>
-        <objProp>
-          <name>saveConfig</name>
-          <value class="SampleSaveConfiguration">
-            <time>true</time>
-            <latency>true</latency>
-            <timestamp>true</timestamp>
-            <success>true</success>
-            <label>true</label>
-            <code>true</code>
-            <message>true</message>
-            <threadName>true</threadName>
-            <dataType>true</dataType>
-            <encoding>false</encoding>
-            <assertions>true</assertions>
-            <subresults>true</subresults>
-            <responseData>false</responseData>
-            <samplerData>false</samplerData>
-            <xml>false</xml>
-            <fieldNames>true</fieldNames>
-            <responseHeaders>false</responseHeaders>
-            <requestHeaders>false</requestHeaders>
-            <responseDataOnError>false</responseDataOnError>
-            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
-            <assertionsResultsToSave>0</assertionsResultsToSave>
-            <bytes>true</bytes>
-            <sentBytes>true</sentBytes>
-            <url>true</url>
-            <threadCounts>true</threadCounts>
-            <idleTime>true</idleTime>
-            <connectTime>true</connectTime>
-          </value>
-        </objProp>
-        <stringProp name="filename"></stringProp>
-      </ResultCollector>
-      <hashTree/>
-      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
-        <stringProp name="delimiter">,</stringProp>
-        <stringProp name="fileEncoding"></stringProp>
-        <stringProp name="filename">/data/userId.csv</stringProp>
-        <boolProp name="ignoreFirstLine">false</boolProp>
-        <boolProp name="quotedData">false</boolProp>
-        <boolProp name="recycle">true</boolProp>
-        <stringProp name="shareMode">shareMode.all</stringProp>
-        <boolProp name="stopThread">false</boolProp>
-        <stringProp name="variableNames">userId</stringProp>
-      </CSVDataSet>
-      <hashTree/>
-      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
-        <stringProp name="filename">/data/txnId.csv</stringProp>
-        <stringProp name="fileEncoding"></stringProp>
-        <stringProp name="variableNames">loaded_txnId</stringProp>
-        <boolProp name="ignoreFirstLine">false</boolProp>
-        <stringProp name="delimiter">,</stringProp>
-        <boolProp name="quotedData">false</boolProp>
-        <boolProp name="recycle">true</boolProp>
-        <boolProp name="stopThread">false</boolProp>
-        <stringProp name="shareMode">shareMode.all</stringProp>
-      </CSVDataSet>
-      <hashTree/>
-      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="create spanner client" enabled="true">
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="Create Spanner Client" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -218,16 +157,16 @@ SampleResult.setRequestHeaders(spanner.toString());</stringProp>
       <hashTree>
         <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
           <intProp name="ThroughputController.style">1</intProp>
-          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <boolProp name="ThroughputController.perThread">true</boolProp>
           <intProp name="ThroughputController.maxThroughput">1</intProp>
           <FloatProperty>
             <name>ThroughputController.percentThroughput</name>
-            <value>12.0</value>
+            <value>60.0</value>
             <savedValue>0.0</savedValue>
           </FloatProperty>
         </ThroughputController>
         <hashTree>
-          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Write with Transactions" enabled="true">
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Create Game" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
@@ -236,121 +175,65 @@ SampleResult.setRequestHeaders(spanner.toString());</stringProp>
 import java.util.*;
 import com.google.cloud.Timestamp;
 
-
 DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
-String userId = vars.get(&quot;userId&quot;);
-String txnId = vars.get(&quot;txnId&quot;);
-double randomAmount = Double.parseDouble(vars.get(&quot;randomAmount&quot;));
+Timestamp gameCreatedAt = Timestamp.now();
 
 dbClient
 	.readWriteTransaction()
 	.run(transaction -&gt; {
-		String sql1 = &quot;Select Balance from user_bal where UserId = &apos;&quot;+userId+&quot;&apos;&quot;;
+		String sql1 = &quot;Select player_uuid from players where current_game IS NULL LIMIT 2&quot;;
 		ResultSet resultSet = transaction.executeQuery(Statement.of(sql1));
-		double balance = 0.0;
-
+		String[] players = [&quot;&quot;, &quot;&quot;];
+		i = 0;
 		while (resultSet.next()) {
-			balance = resultSet.getDouble(&quot;Balance&quot;);
+			players[i++] = resultSet.getString(&quot;player_uuid&quot;);
 		}
+		String gameId = UUID.randomUUID().toString();
 		transaction.buffer(
-			Mutation.newInsertBuilder(&quot;user_txns&quot;)
-				.set(&quot;UserId&quot;)
-				.to(userId)
-				.set(&quot;TransactionId&quot;)
-				.to(txnId)
-				.set(&quot;Amount&quot;)
-				.to(randomAmount)
-				.set(&quot;RewardType&quot;)
-				.to(&quot;COINS&quot;)
-				.set(&quot;TransactionSource&quot;)
-				.to(&quot;LOADTEST&quot;)
-				.set(&quot;TransactionStatus&quot;)
-				.to(&quot;SUCCESS&quot;)
-				.set(&quot;TransactionType&quot;)
-				.to(&quot;Credit&quot;)
+			Mutation.newInsertBuilder(&quot;games&quot;)
+				.set(&quot;player1&quot;)
+				.to(players[0])
+				.set(&quot;player2&quot;)
+				.to(players[1])
+				.set(&quot;game_uuid&quot;)
+				.to(gameId)
+				.set(&quot;created&quot;)
+				.to(gameCreatedAt)
 				.build());
 		transaction.buffer(
-			Mutation.newUpdateBuilder(&quot;user_bal&quot;)
-				.set(&quot;UserId&quot;)
-				.to(userId)
-				.set(&quot;Balance&quot;)
-				.to(balance + randomAmount)
+			Mutation.newUpdateBuilder(&quot;players&quot;)
+				.set(&quot;player_uuid&quot;)
+				.to(players[0])
+				.set(&quot;current_game&quot;)
+				.to(gameId)
 				.build());
+		transaction.buffer(
+			Mutation.newUpdateBuilder(&quot;players&quot;)
+				.set(&quot;player_uuid&quot;)
+				.to(players[1])
+				.set(&quot;current_game&quot;)
+				.to(gameId)
+				.build());
+		resultSet.close();
 		}
 	);
 
 </stringProp>
           </JSR223Sampler>
-          <hashTree>
-            <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
-              <collectionProp name="UserParameters.names">
-                <stringProp name="110811429">txnId</stringProp>
-                <stringProp name="-1076477189">randomAmount</stringProp>
-              </collectionProp>
-              <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="332914725">
-                  <stringProp name="118040362">${__UUID()}</stringProp>
-                  <stringProp name="-108146350">${__Random(0000,9999)}</stringProp>
-                </collectionProp>
-              </collectionProp>
-              <boolProp name="UserParameters.per_iteration">false</boolProp>
-            </UserParameters>
-            <hashTree/>
-          </hashTree>
-        </hashTree>
-        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
-          <intProp name="ThroughputController.style">1</intProp>
-          <boolProp name="ThroughputController.perThread">false</boolProp>
-          <intProp name="ThroughputController.maxThroughput">1</intProp>
-          <FloatProperty>
-            <name>ThroughputController.percentThroughput</name>
-            <value>24.06</value>
-            <savedValue>0.0</savedValue>
-          </FloatProperty>
-        </ThroughputController>
-        <hashTree>
-          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read balance" enabled="true">
-            <stringProp name="scriptLanguage">groovy</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script">import com.google.cloud.spanner.*;
-
-
-DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
-
-String userId = vars.get(&quot;userId&quot;);
-String readBalanceSql = &quot;Select Balance from user_bal where UserId = @userId&quot;;
-Statement stmt = Statement.newBuilder(readBalanceSql)
-      .bind(&quot;userId&quot;).to(userId)
-      .build();
-
-ResultSet result = dbClient
-	.singleUseReadOnlyTransaction()
-	.executeQuery(stmt);
-
-String responseHeader = &quot;&quot;;
-while (result.next()) {
-	responseHeader += &quot; Balance: &quot; +result.getDouble(&quot;Balance&quot;);
-}
-result.close();
-
-SampleResult.setRequestHeaders(responseHeader);</stringProp>
-          </JSR223Sampler>
           <hashTree/>
         </hashTree>
         <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
           <intProp name="ThroughputController.style">1</intProp>
-          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <boolProp name="ThroughputController.perThread">true</boolProp>
           <intProp name="ThroughputController.maxThroughput">1</intProp>
           <FloatProperty>
             <name>ThroughputController.percentThroughput</name>
-            <value>63.16</value>
+            <value>30.0</value>
             <savedValue>0.0</savedValue>
           </FloatProperty>
         </ThroughputController>
         <hashTree>
-          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Write update user" enabled="true">
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Finish Game" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
@@ -359,107 +242,93 @@ SampleResult.setRequestHeaders(responseHeader);</stringProp>
 import java.util.*;
 import com.google.cloud.Timestamp;
 
-
 DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
-String userId = vars.get(&quot;userId&quot;);
-String txnId = vars.get(&quot;txnId&quot;);
+Timestamp gameFinishedAt = Timestamp.now();
 
-Mutation mutation = Mutation.newUpdateBuilder(&quot;user_bal&quot;)
-					.set(&quot;UserId&quot;)
-					.to(userId)
-					.set(&quot;StreakDay&quot;)
-					.to(10)
-					.build();
+dbClient
+	.readWriteTransaction()
+	.run(transaction -&gt; {
+		String sql1 = &quot;Select game_uuid, player1, player2 from games WHERE finished IS NULL LIMIT 1&quot;;
+		ResultSet resultSet = transaction.executeQuery(Statement.of(sql1));
+		if (!resultSet.next()) return;
+		String gameId = resultSet.getString(&quot;game_uuid&quot;);
+		String player1 = resultSet.getString(&quot;player1&quot;);
+		String player2 = resultSet.getString(&quot;player2&quot;);
+		transaction.buffer(
+			Mutation.newUpdateBuilder(&quot;games&quot;)
+				.set(&quot;game_uuid&quot;)
+				.to(gameId)
+				.set(&quot;finished&quot;)
+				.to(gameFinishedAt)
+				.set(&quot;winner&quot;)
+				.to(player1)
+				.build());
+		transaction.buffer(
+			Mutation.newUpdateBuilder(&quot;players&quot;)
+				.set(&quot;current_game&quot;)
+				.to((String)null)
+				.set(&quot;player_uuid&quot;)
+				.to(player1)
+				.build());
+		transaction.buffer(
+			Mutation.newUpdateBuilder(&quot;players&quot;)
+				.set(&quot;current_game&quot;)
+				.to((String)null)
+				.set(&quot;player_uuid&quot;)
+				.to(player2)
+				.build());
+		transaction.buffer(
+			Mutation.newInsertBuilder(&quot;scores&quot;)
+				.set(&quot;player_uuid&quot;)
+				.to(player1)
+				.set(&quot;timestamp&quot;)
+				.to(gameFinishedAt)
+				.set(&quot;score&quot;)
+				.to(10)
+				.build());
+		resultSet.close();
+		}
+	);
 
-ArrayList&lt;Mutation&gt; mutations = new ArrayList&lt;&gt;();
-mutations.add(mutation);
-dbClient.write(mutations);
-
-SampleResult.setRequestHeaders(mutation.toString());</stringProp>
+</stringProp>
           </JSR223Sampler>
           <hashTree/>
         </hashTree>
         <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
           <intProp name="ThroughputController.style">1</intProp>
-          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <boolProp name="ThroughputController.perThread">true</boolProp>
           <intProp name="ThroughputController.maxThroughput">1</intProp>
           <FloatProperty>
             <name>ThroughputController.percentThroughput</name>
-            <value>0.12</value>
+            <value>10.0</value>
             <savedValue>0.0</savedValue>
           </FloatProperty>
         </ThroughputController>
         <hashTree>
-          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read Subgle Txns Request" enabled="true">
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Leaderboard" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey">true</stringProp>
             <stringProp name="script">import com.google.cloud.spanner.*;
 
-
 DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+String sql = &quot;SELECT p.player_uuid, s.score FROM players p JOIN scores s ON p.player_uuid = s.player_uuid ORDER BY s.Score DESC LIMIT 10&quot;;
 
-String loadedTxnId = vars.get(&quot;loaded_txnId&quot;);
-String sql = &quot;Select * from user_txns where transactionid = @loadedTxnId&quot;;
-Statement stmt = Statement.newBuilder(sql)
-				.bind(&quot;loadedTxnId&quot;)
-				.to(loadedTxnId)
-				.build();
-
-ResultSet result = dbClient
-				.singleUseReadOnlyTransaction()
-				.executeQuery(stmt);
-
-String responseHeader = &quot;&quot;;
-while (result.next()) {
-	responseHeader += &quot; Userid: &quot; +result.getString(0);
-}
-result.close();
-
-SampleResult.setRequestHeaders(responseHeader);</stringProp>
-          </JSR223Sampler>
-          <hashTree/>
-        </hashTree>
-        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
-          <intProp name="ThroughputController.style">1</intProp>
-          <boolProp name="ThroughputController.perThread">false</boolProp>
-          <intProp name="ThroughputController.maxThroughput">1</intProp>
-          <FloatProperty>
-            <name>ThroughputController.percentThroughput</name>
-            <value>0.62</value>
-            <savedValue>0.0</savedValue>
-          </FloatProperty>
-        </ThroughputController>
-        <hashTree>
-          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read aggregate txns read" enabled="true">
-            <stringProp name="scriptLanguage">groovy</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script">import com.google.cloud.spanner.*;
-
-
-DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
-String sql = &quot;select * from user_txns where UserId= @user_id&quot;;
-
-String userId = vars.get(&quot;userId&quot;);
-Statement stmt = Statement.newBuilder(sql)
-				.bind(&quot;user_id&quot;)
-				.to(userId)
-				.build();
+Statement stmt = Statement.newBuilder(sql).build();
 
 ResultSet result = dbClient
 					.singleUseReadOnlyTransaction()
 					.executeQuery(stmt);
 
-String responseHeader = &quot;&quot;;
+StringBuilder responseHeader = new StringBuilder();
 while (result.next()) {
-	responseHeader += &quot; Userid: &quot; +result.getString(0);
+	responseHeader.append(&quot;\n&quot;);
+	responseHeader.append(String.format(&quot;player:%s,score:%d&quot;, result.getString(0), result.getLong(1)));
 }
 result.close();
 
-SampleResult.setRequestHeaders(responseHeader);</stringProp>
+SampleResult.setRequestHeaders(responseHeader.toString());</stringProp>
           </JSR223Sampler>
           <hashTree/>
         </hashTree>
