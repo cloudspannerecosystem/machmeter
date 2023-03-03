@@ -10,14 +10,14 @@
       "environment": "testing"
     },
     "gkeConfig": {
-      "clusterName": "jmeter-load-test-lms",
+      "clusterName": "jmeter-lms-load-test",
       "namespace": "spanner-test",
       "region": "us-central1",
-      "network": "gke-network-lms",
-      "subnetwork": "gke-subnet-lms",
+      "network": "gke-network-machmeter-lms",
+      "subnetwork": "gke-subnet-machmeter-lms",
       "ipRangePodsName": "ip-range-pods",
       "ipRangeServicesName": "ip-range-services",
-      "service_account_json": "/usr/local/google/home/sriharshach/github/machmeter/machmeter/terraformer.json",
+      "service_account_json": "/usr/local/google/home/arpanmishra/machmeter/machmeter/terraformer.json",
       "machineType": "e2-standard-2",
       "nodeLocations": "us-central1-a,us-central1-b,us-central1-c",
       "minCount": 3,
