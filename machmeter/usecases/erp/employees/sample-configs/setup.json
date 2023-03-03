@@ -1,0 +1,37 @@
+{
+  "infraConfig": {
+    "spannerInstanceConfig": {
+      "projectId" : "span-cloud-testing",
+      "instanceId": "machmeter-erpemp-test3",
+      "dbName": "erp-emp",
+      "configuration": "regional-us-east1",
+      "displayName": "erpemp_test_instance",
+      "processingUnits": 1000,
+      "environment": "testing"
+    },
+    "gkeConfig": {
+      "clusterName": "erpemp-test3",
+      "namespace": "erpemp-test3",
+      "region": "us-east1",
+      "network": "erpemp-test3",
+      "subnetwork": "erp-subnet-test3",
+      "ipRangePodsName": "erp-range-pods-test3",
+      "ipRangeServicesName": "erp-range-services-test3",
+      "service_account_json": "/Users/dhruvdua/service_accounts.json",
+      "machineType": "e2-standard-2",
+      "nodeLocations": "us-east1-d,us-east1-b,us-east1-c",
+      "minCount": 3,
+      "maxCount": 3,
+      "initialNodeCount": 3
+    }
+  },
+  "ddlConfig" : {
+    "spannerInstanceConfig" : {
+      "instanceId" : "machmeter-erpemp-test3",
+      "dbName": "erp-emp",
+      "configuration": "regional-us-east1",
+      "projectId" : "span-cloud-testing"
+    },
+    "schemaFilePath" : "usecases/erp/employees/templates/schema.sql"
+  }
+}
