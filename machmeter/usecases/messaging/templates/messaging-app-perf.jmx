@@ -222,7 +222,7 @@ fWriter.close();</stringProp>
         <hashTree>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Random Reads" enabled="true"/>
           <hashTree>
-            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Find all spaces that a user is subscribed to" enabled="true">
+            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Find all spaces that a user is subscribed to" enabled="false">
               <stringProp name="scriptLanguage">groovy</stringProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
@@ -232,6 +232,58 @@ fWriter.close();</stringProp>
 
 Integer userId = vars.get(&quot;userId&quot;).toInteger();
 String readItemSql = &quot;SELECT sm.spaceId FROM SpaceMembership as sm WHERE sm.userId = @userId;&quot;;
+Statement stmt = Statement.newBuilder(readItemSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+while(result.next()) {
+	System.out.println(result.getInt(spaceId));
+}
+result.close();
+</stringProp>
+            </JSR223Sampler>
+            <hashTree/>
+            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Find the number of unread for the spaces" enabled="false">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+Integer userId = vars.get(&quot;userId&quot;).toInteger();
+Integer spaceId = vars.get(&quot;spaceId&quot;).toInteger();
+
+String readItemSql = &quot;Select count(*) as Unread_Count  from Spaces s Inner join Messages m On  s.spaceId = m.spaceId Inner join MessageStatus ms On m.messageId = ms.messageId Where  ms.isRead = FALSE AND ms.receiverId = @userId;&quot;;
+Statement stmt = Statement.newBuilder(readItemSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+while(result.next()) {
+	System.out.println(result);
+}
+result.close();
+</stringProp>
+            </JSR223Sampler>
+            <hashTree/>
+            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Find all messages for a chosen space" enabled="false">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+Integer userId = vars.get(&quot;userId&quot;).toInteger();
+Integer spaceId = vars.get(&quot;spaceId&quot;).toInteger();
+
+String readItemSql = &quot;SELECT m.senderId, m.updatedAt, m.text FROM Messages m WHERE spaceId = @spaceId ORDER BY m.updatedAt DESC;&quot;;
 Statement stmt = Statement.newBuilder(readItemSql)
  .bind(&quot;userId&quot;).to(userId)
  .build();
@@ -288,7 +340,33 @@ vars.put(&quot;randomSampler&quot;, &quot;&quot;+ number);
               <stringProp name="SwitchController.value">${__groovy(&quot;${randomSampler}&quot;.toInteger())}</stringProp>
             </SwitchController>
             <hashTree>
-              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Update Item" enabled="true">
+              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Update all messages as read for that space for that user" enabled="false">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="cacheKey">true</stringProp>
+                <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+Integer userId = vars.get(&quot;userId&quot;).toInteger();
+
+String readItemSql = &quot;SELECT sm.spaceId FROM SpaceMembership as sm WHERE sm.userId = @userId;&quot;;
+
+Statement stmt = Statement.newBuilder(readItemSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+while(result.next()) {
+	System.out.println(result);
+}
+result.close();
+</stringProp>
+              </JSR223Sampler>
+              <hashTree/>
+              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Update Item" enabled="false">
                 <stringProp name="scriptLanguage">groovy</stringProp>
                 <stringProp name="parameters"></stringProp>
                 <stringProp name="filename"></stringProp>
@@ -319,7 +397,7 @@ DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 dbClient.write(mutations);</stringProp>
               </JSR223Sampler>
               <hashTree/>
-              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Update ShoppingCart" enabled="true">
+              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Update ShoppingCart" enabled="false">
                 <stringProp name="scriptLanguage">groovy</stringProp>
                 <stringProp name="parameters"></stringProp>
                 <stringProp name="filename"></stringProp>
@@ -383,7 +461,33 @@ vars.put(&quot;randomSampler&quot;, &quot;&quot;+ number);
               <stringProp name="SwitchController.value">${__groovy(&quot;${randomSampler}&quot;.toInteger())}</stringProp>
             </SwitchController>
             <hashTree>
-              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Insert item" enabled="true">
+              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Add a new message to the space" enabled="false">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="cacheKey">true</stringProp>
+                <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+Integer userId = vars.get(&quot;userId&quot;).toInteger();
+
+String readItemSql = &quot;SELECT sm.spaceId FROM SpaceMembership as sm WHERE sm.userId = @userId;&quot;;
+
+Statement stmt = Statement.newBuilder(readItemSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+while(result.next()) {
+	System.out.println(result);
+}
+result.close();
+</stringProp>
+              </JSR223Sampler>
+              <hashTree/>
+              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Insert item" enabled="false">
                 <stringProp name="scriptLanguage">groovy</stringProp>
                 <stringProp name="parameters"></stringProp>
                 <stringProp name="filename"></stringProp>
@@ -422,7 +526,7 @@ dbClient.write(mutations);
 </stringProp>
               </JSR223Sampler>
               <hashTree/>
-              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Insert ShoppingCart" enabled="true">
+              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Insert ShoppingCart" enabled="false">
                 <stringProp name="scriptLanguage">groovy</stringProp>
                 <stringProp name="parameters"></stringProp>
                 <stringProp name="filename"></stringProp>
