@@ -442,6 +442,110 @@ DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
             </DebugSampler>
             <hashTree/>
           </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Random Reads On Instructors" enabled="true"/>
+          <hashTree>
+            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read Instructors By InstructorId" enabled="true">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+String instructorId = vars.get(&quot;instructorId&quot;);
+String sql = &quot;SELECT * FROM instructors WHERE id = @instructorId;&quot;;
+Statement stmt = Statement.newBuilder(sql)
+ .bind(&quot;instructorId&quot;).to(instructorId)
+ .build();
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+while(result.next()) {}
+result.close();
+</stringProp>
+            </JSR223Sampler>
+            <hashTree/>
+            <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+              <boolProp name="displayJMeterProperties">false</boolProp>
+              <boolProp name="displayJMeterVariables">true</boolProp>
+              <boolProp name="displaySystemProperties">false</boolProp>
+            </DebugSampler>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Random Reads On Enrolled Courses" enabled="true"/>
+          <hashTree>
+            <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+              <boolProp name="displayJMeterProperties">false</boolProp>
+              <boolProp name="displayJMeterVariables">true</boolProp>
+              <boolProp name="displaySystemProperties">false</boolProp>
+            </DebugSampler>
+            <hashTree/>
+            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read Enrolled Courses By EnrollmentId" enabled="true">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+String enrollmentId = vars.get(&quot;enrollmentId&quot;);
+String sql = &quot;SELECT * FROM student_enrolled_courses WHERE enrollment_id = @enrollmentId;&quot;;
+Statement stmt = Statement.newBuilder(sql)
+ .bind(&quot;enrollmentId&quot;).to(enrollmentId)
+ .build();
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+while(result.next()) {}
+result.close();
+</stringProp>
+            </JSR223Sampler>
+            <hashTree/>
+            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read enrollments by StudentID" enabled="true">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+ResultSet result = dbClient
+ .singleUse()
+ .readUsingIndex(
+              &quot;student_enrolled_courses&quot;,
+              &quot;GetCoursesForStudentID&quot;,
+              KeySet.all(),
+              Arrays.asList(&quot;student_id&quot;, &quot;enrollment_id&quot;));
+while(result.next()) {}
+result.close();
+</stringProp>
+            </JSR223Sampler>
+            <hashTree/>
+            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read enrollmentsfor by courseId" enabled="true">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+ResultSet result = dbClient
+ .singleUse()
+ .readUsingIndex(
+              &quot;student_enrolled_courses&quot;,
+              &quot;GetStudentsForEnrolledCourse&quot;,
+              KeySet.all(),
+              Arrays.asList(&quot;course_id&quot;, &quot;enrollment_id&quot;));
+while(result.next()) {}
+result.close();
+</stringProp>
+            </JSR223Sampler>
+            <hashTree/>
+          </hashTree>
         </hashTree>
         <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="TPC: Update" enabled="true">
           <intProp name="ThroughputController.style">1</intProp>
