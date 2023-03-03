@@ -2,24 +2,24 @@
   "infraConfig": {
     "spannerInstanceConfig": {
       "projectId" : "span-cloud-testing",
-      "instanceId": "machmeter-basketball-test",
-      "dbName": "nba-db",
-      "configuration": "regional-us-central1",
-      "displayName": "machmeter-basketball-test",
+      "instanceId": "machmeter-basketball",
+      "dbName": "basketball-db",
+      "configuration": "regional-us-east1",
+      "displayName": "machmeter-basketball",
       "processingUnits": 1000,
       "environment": "testing"
     },
     "gkeConfig": {
-      "clusterName": "jmeter-basketball-test",
-      "namespace": "basketball-spanner-test",
-      "region": "us-central1",
-      "network": "gke-basketball-network",
-      "subnetwork": "gke-basketball-subnet",
+      "clusterName": "machmeter-basketball",
+      "namespace": "basketball-spanner",
+      "region": "us-east1",
+      "network": "machmeter-basketball-network",
+      "subnetwork": "machmeter-basketball-subnet",
       "ipRangePodsName": "ip-range-pods",
       "ipRangeServicesName": "ip-range-services",
       "service_account_json": "/Users/gargsurbhi/Work/github/machmeter/machmeter-sercive-account.json",
       "machineType": "e2-standard-2",
-      "nodeLocations": "us-central1-a,us-central1-b,us-central1-c",
+      "nodeLocations": "us-east1-a,us-east1-b,us-east1-c",
       "minCount": 3,
       "maxCount": 3,
       "initialNodeCount": 3
@@ -27,11 +27,11 @@
   },
   "ddlConfig" : {
     "spannerInstanceConfig" : {
-      "instanceId" : "machmeter-basketball-test",
-      "dbName" : "nba-db",
-      "configuration": "regional-us-central1",
+      "instanceId" : "machmeter-basketball",
+      "dbName" : "basketball-db",
+      "configuration": "regional-us-east1",
       "projectId" : "span-cloud-testing"
     },
-    "schemaFilePath" : "usecases/sports/basketball/templates/schema.sql"
+    "schemaFilePath" : "usecases/sports/basketball/templates/schema1.sql"
   }
 }
