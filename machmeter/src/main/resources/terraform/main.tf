@@ -166,7 +166,7 @@ resource "google_spanner_database" "database" {
 
 resource "kubernetes_namespace" "namespace" {
   metadata  {
-    name = "spanner-test"
+    name = var.gke_config.namespace
   }
 }
 
