@@ -67,6 +67,60 @@
         <stringProp name="username"></stringProp>
       </JDBCDataSource>
       <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Clenaup Data" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="cleanup_team" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="queryType">Prepared Update Statement</stringProp>
+          <stringProp name="query">delete from team where id &gt;= 1</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+        </JDBCSampler>
+        <hashTree/>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="cleanup_country" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="queryType">Prepared Update Statement</stringProp>
+          <stringProp name="query">delete from country where id &gt;= 1</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+        </JDBCSampler>
+        <hashTree/>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="cleanup_players" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="queryType">Prepared Update Statement</stringProp>
+          <stringProp name="query">delete from player where id &gt;=1</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+        </JDBCSampler>
+        <hashTree/>
+      </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Insert Seed Data" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -85,21 +139,11 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="countries_csv" elementType="Argument">
               <stringProp name="Argument.name">countries_csv</stringProp>
-              <stringProp name="Argument.value">&quot;India&quot;,&quot;Nepal&quot;,&quot;Australia&quot;,&quot;United States&quot;</stringProp>
+              <stringProp name="Argument.value">&quot;India&quot;,&quot;Nepal&quot;,&quot;Australia&quot;,&quot;United States&quot;,&quot;Pakistan&quot;,&quot;Sweden&quot;,&quot;Russia&quot;</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
           </collectionProp>
         </Arguments>
-        <hashTree/>
-        <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="false">
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="script">String[] countries = (vars.get(&quot;countries_csv&quot;)).split(&quot;,&quot;);
-
-vars.put(&quot;countries&quot;, countries);</stringProp>
-          <stringProp name="scriptLanguage">groovy</stringProp>
-        </JSR223PostProcessor>
         <hashTree/>
         <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
@@ -115,17 +159,6 @@ for (int i = 1; i &lt;= countries.length; i++) {
 </stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
-        <hashTree/>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="false">
-          <stringProp name="BeanShellSampler.query">import java.util.Random;
-
-String[] countries = (vars.get(&quot;countries_csv&quot;)).split(&quot;,&quot;);
-
-vars.put(&quot;countries&quot;, countries);</stringProp>
-          <stringProp name="BeanShellSampler.filename"></stringProp>
-          <stringProp name="BeanShellSampler.parameters"></stringProp>
-          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-        </BeanShellSampler>
         <hashTree/>
         <ForeachController guiclass="ForeachControlPanel" testclass="ForeachController" testname="ForEach Controller" enabled="true">
           <stringProp name="ForeachController.inputVal">countries</stringProp>
@@ -191,14 +224,14 @@ vars.put(&quot;countries&quot;, countries);</stringProp>
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Insert Data" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Insert Players Data" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">${iterations}</stringProp>
+          <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">10</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">2</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -208,8 +241,8 @@ vars.put(&quot;countries&quot;, countries);</stringProp>
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="players_insert" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="query">insert into player (id, first_name, last_name) values (?,?,?)</stringProp>
-          <stringProp name="queryArguments">${movie_id},${movie_name},${year}</stringProp>
-          <stringProp name="queryArgumentsTypes">INTEGER,VARCHAR,INTEGER</stringProp>
+          <stringProp name="queryArguments">${player_id},${first_name},${last_name}</stringProp>
+          <stringProp name="queryArgumentsTypes">INTEGER,VARCHAR,VARCHAR</stringProp>
           <stringProp name="queryTimeout"></stringProp>
           <stringProp name="queryType">Prepared Update Statement</stringProp>
           <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -221,7 +254,7 @@ vars.put(&quot;countries&quot;, countries);</stringProp>
           <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
             <collectionProp name="UserParameters.names">
               <stringProp name="-1872044231">player_id</stringProp>
-              <stringProp name="-2048597524">frist_name</stringProp>
+              <stringProp name="-160985414">first_name</stringProp>
               <stringProp name="2013122196">last_name</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
@@ -236,16 +269,73 @@ vars.put(&quot;countries&quot;, countries);</stringProp>
           </UserParameters>
           <hashTree/>
         </hashTree>
-        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">5</stringProp>
-        </LoopController>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Insert Data" enabled="false">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${iterations}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${users}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="get_teams" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="query">select team_id from team</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames">team_id_results</stringProp>
+        </JDBCSampler>
+        <hashTree/>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="get_players" enabled="true">
+          <stringProp name="dataSource">conn_pool</stringProp>
+          <stringProp name="query">select player_id from player</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames">player_id_results</stringProp>
+        </JDBCSampler>
+        <hashTree/>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">var players = vars.get(&quot;player_id_results&quot;);
+
+for (int i = 1; i &lt;= countries.length; i++) {
+   log.info(countries[i-1]);
+   vars.put(&quot;countries_&quot; + i, countries[i-1]);
+}
+
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+        <ForeachController guiclass="ForeachControlPanel" testclass="ForeachController" testname="ForEach Controller" enabled="true">
+          <stringProp name="ForeachController.inputVal">team_id_results</stringProp>
+          <stringProp name="ForeachController.returnVal">team_loop_variable</stringProp>
+          <boolProp name="ForeachController.useSeparator">true</boolProp>
+        </ForeachController>
         <hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="roles_insert" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="team_players_insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="query">insert into roles (id, movie_id, role) values (?,?,?);</stringProp>
-            <stringProp name="queryArguments">${actor_id},${movie_id},${role}</stringProp>
-            <stringProp name="queryArgumentsTypes">INTEGER,INTEGER,VARCHAR</stringProp>
+            <stringProp name="query">insert into team_players (id, player_id, team_id) values (?,?,?)</stringProp>
+            <stringProp name="queryArguments">${team_player_id},${player_id_1},${team_id_1}</stringProp>
+            <stringProp name="queryArgumentsTypes">INTEGER,VARCHAR,VARCHAR</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Prepared Update Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -256,46 +346,17 @@ vars.put(&quot;countries&quot;, countries);</stringProp>
           <hashTree>
             <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
               <collectionProp name="UserParameters.names">
-                <stringProp name="3506294">role</stringProp>
+                <stringProp name="-108229673">team_player_id</stringProp>
+                <stringProp name="-176052561">team_id_1</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="681405977">
-                  <stringProp name="118040362">${__UUID()}</stringProp>
+                <collectionProp name="-1686321687">
+                  <stringProp name="-623245923">${__Random(0,100000)}</stringProp>
+                  <stringProp name="-1868520619">team_loop_variable</stringProp>
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
-            </UserParameters>
-            <hashTree/>
-          </hashTree>
-        </hashTree>
-        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">5</stringProp>
-        </LoopController>
-        <hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="director_genres_insert" enabled="true">
-            <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="query">insert into directors_genres (id, genre) values (?,?);</stringProp>
-            <stringProp name="queryArguments">${director_id},${genre}</stringProp>
-            <stringProp name="queryArgumentsTypes">INTEGER,VARCHAR</stringProp>
-            <stringProp name="queryTimeout"></stringProp>
-            <stringProp name="queryType">Prepared Update Statement</stringProp>
-            <stringProp name="resultSetHandler">Store as String</stringProp>
-            <stringProp name="resultSetMaxRows"></stringProp>
-            <stringProp name="resultVariable"></stringProp>
-            <stringProp name="variableNames"></stringProp>
-          </JDBCSampler>
-          <hashTree>
-            <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
-              <collectionProp name="UserParameters.names">
-                <stringProp name="98240899">genre</stringProp>
-              </collectionProp>
-              <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="681405977">
-                  <stringProp name="118040362">${__UUID()}</stringProp>
-                </collectionProp>
-              </collectionProp>
-              <boolProp name="UserParameters.per_iteration">false</boolProp>
+              <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
             </UserParameters>
             <hashTree/>
           </hashTree>
@@ -306,37 +367,6 @@ vars.put(&quot;countries&quot;, countries);</stringProp>
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="movies_insert" enabled="true">
-          <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">insert into movies (id, name, year) values (?,?,?)</stringProp>
-          <stringProp name="queryArguments">${movie_id},${movie_name},${year}</stringProp>
-          <stringProp name="queryArgumentsTypes">INTEGER,VARCHAR,INTEGER</stringProp>
-          <stringProp name="queryTimeout"></stringProp>
-          <stringProp name="queryType">Prepared Update Statement</stringProp>
-          <stringProp name="resultSetHandler">Store as String</stringProp>
-          <stringProp name="resultSetMaxRows"></stringProp>
-          <stringProp name="resultVariable"></stringProp>
-          <stringProp name="variableNames"></stringProp>
-        </JDBCSampler>
-        <hashTree>
-          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
-            <collectionProp name="UserParameters.names">
-              <stringProp name="-100227958">movie_id</stringProp>
-              <stringProp name="-1829637574">movie_name</stringProp>
-              <stringProp name="3704893">year</stringProp>
-            </collectionProp>
-            <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="-1011207171">
-                <stringProp name="-623245923">${__Random(0,100000)}</stringProp>
-                <stringProp name="118040362">${__UUID()}</stringProp>
-                <stringProp name="805371911">${__Random(1700,2030)}</stringProp>
-              </collectionProp>
-            </collectionProp>
-            <boolProp name="UserParameters.per_iteration">false</boolProp>
-            <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
-          </UserParameters>
-          <hashTree/>
-        </hashTree>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create Sampled CSV Data" enabled="false">
         <stringProp name="TestPlan.comments">Fetches sampled data from Spanner for the load test</stringProp>
