@@ -1,13 +1,16 @@
-### Financial Ledger Template
+### Erp Employteesi
 
-Implements a financial ledger database with containing two tables - `user_bal` and `user_txn`. 
-The transactions table stores the list of transactions performed by the user (debit/credit) and the balance table
-keeps track of the total user balance in the account.
+Implements a erp employees database with containing these tables - `departments` , `dept_manager` , `employees` , `dept_emp`, `salaries` , `titles` 
 
-The `user_txn` table is interleaved inside the `user_bal` table. This template demonstrates loading data into 
-interleaved tables via JMeter. The database is sampled and a CSV data set is created for the performance test
+`departments` table stores list of all departments. 
+`dept_manager` table stores managers of a department and duration they served. 
+`employees` table stores list of all employees.
+`dept_emp` stores correlation of an employee with its department.
+`salaries` table stores salaries of an employee for different durations.
+`titles` table stores titles of an employee during different intervals of time.
+`titles`,`salaries` and `dept_emp` are interleaved on parent employees.
+This template demonstrates loading data into tables via JMeter. The database is sampled and a CSV data set is created for the performance test
 template to use in its run.
 
-For performance testing, we showcase a variety of different access patterns such as write mutations, read queries,
-readWriteTransactions etc.
+For performance testing, we showcase read queries.
 

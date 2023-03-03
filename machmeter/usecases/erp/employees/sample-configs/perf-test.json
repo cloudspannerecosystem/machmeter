@@ -1,10 +1,10 @@
 {
   "namespace": "spanner-test",
-  "jMeterTemplatePath" : "usecases/finance/ledger/templates/finance-ledger-perf.jmx",
+  "jMeterTemplatePath" : "usecases/erp/employees/templates/erp-employees-perf.jmx",
   "jMeterParams" : {
     "project": "span-cloud-testing",
-    "instance": "machmeter-finance-ledger-test",
-    "database": "finance-ledger",
+    "instance": "machmeter-erpemp-test3",
+    "database": "erp-emp",
     "connections": 1000
   }
 }
