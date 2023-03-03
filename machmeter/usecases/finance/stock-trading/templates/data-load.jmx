@@ -81,11 +81,11 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="user_bal insert" enabled="true">
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="stocks insert" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">insert into user_bal (UserId, Balance, CreationTime) values (?,?,?)</stringProp>
-          <stringProp name="queryArguments">${UserId},${Balance},${CreationTime}</stringProp>
-          <stringProp name="queryArgumentsTypes">VARCHAR,DOUBLE,TIMESTAMP</stringProp>
+          <stringProp name="query">insert into Stocks (Ticker, Name) values (?,?)</stringProp>
+          <stringProp name="queryArguments">${Ticker},${Name}</stringProp>
+          <stringProp name="queryArgumentsTypes">INTEGER,VARCHAR</stringProp>
           <stringProp name="queryTimeout"></stringProp>
           <stringProp name="queryType">Prepared Update Statement</stringProp>
           <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -96,15 +96,13 @@
         <hashTree>
           <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
             <collectionProp name="UserParameters.names">
-              <stringProp name="-1752163738">UserId</stringProp>
-              <stringProp name="1325467324">Balance</stringProp>
-              <stringProp name="1750336108">CreationTime</stringProp>
+              <stringProp name="-1790093526">Ticker</stringProp>
+              <stringProp name="2420395">Name</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="1913419542">
+              <collectionProp name="1426794843">
+                <stringProp name="-2048415973">${__Random(0,3000)}</stringProp>
                 <stringProp name="118040362">${__UUID()}</stringProp>
-                <stringProp name="48">0</stringProp>
-                <stringProp name="-1728534736">${__time(yyyy-MM-dd hh:mm:ss)}</stringProp>
               </collectionProp>
             </collectionProp>
             <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -114,14 +112,14 @@
         </hashTree>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">5</stringProp>
         </LoopController>
         <hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="user_txns insert" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="stock_price insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="query">insert into user_txns (UserId, TransactionId, Amount, CreationTime) values (?,?,?,?);</stringProp>
-            <stringProp name="queryArguments">${UserId},${TransactionId},${Amount},${CreationTime_txn}</stringProp>
-            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,DOUBLE,TIMESTAMP</stringProp>
+            <stringProp name="query">insert into StockPrice (Ticker, Day, ClosingPrice) values (?,?,?);</stringProp>
+            <stringProp name="queryArguments">${Ticker},${Day},${ClosingPrice}</stringProp>
+            <stringProp name="queryArgumentsTypes">INTEGER,DATE,DOUBLE</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Prepared Update Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -132,34 +130,49 @@
           <hashTree>
             <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
               <collectionProp name="UserParameters.names">
-                <stringProp name="1247202425">TransactionId</stringProp>
-                <stringProp name="1964981368">Amount</stringProp>
-                <stringProp name="1084349975">CreationTime_txn</stringProp>
+                <stringProp name="68476">Day</stringProp>
+                <stringProp name="1698193844">ClosingPrice</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="-1638795965">
-                  <stringProp name="118040362">${__UUID()}</stringProp>
+                <collectionProp name="2116552340">
+                  <stringProp name="1238737880">${__time(yyyy-MM-dd)}</stringProp>
                   <stringProp name="-2048415973">${__Random(0,3000)}</stringProp>
-                  <stringProp name="-1728534736">${__time(yyyy-MM-dd hh:mm:ss)}</stringProp>
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
             </UserParameters>
             <hashTree/>
           </hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Update total balance" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="order_history insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="queryType">Prepared Update Statement</stringProp>
-            <stringProp name="query">update user_bal set Balance = Balance + ? where UserId = ?;</stringProp>
-            <stringProp name="queryArguments">${Amount},${UserId}</stringProp>
-            <stringProp name="queryArgumentsTypes">DOUBLE,VARCHAR</stringProp>
-            <stringProp name="variableNames"></stringProp>
-            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="query">insert into OrderHistory (OrderId, Ticker, Day, OrderType, Units) values (?,?,?,?,?);</stringProp>
+            <stringProp name="queryArguments">${OrderId},${Ticker},${Day},${OrderType},${Units}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,INTEGER,DATE,INTEGER,INTEGER</stringProp>
             <stringProp name="queryTimeout"></stringProp>
-            <stringProp name="resultSetMaxRows"></stringProp>
+            <stringProp name="queryType">Prepared Update Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultSetMaxRows"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames"></stringProp>
           </JDBCSampler>
-          <hashTree/>
+          <hashTree>
+            <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
+              <collectionProp name="UserParameters.names">
+                <stringProp name="457542889">OrderId</stringProp>
+                <stringProp name="1612403592">OrderType</stringProp>
+                <stringProp name="81880911">Units</stringProp>
+              </collectionProp>
+              <collectionProp name="UserParameters.thread_values">
+                <collectionProp name="1115934938">
+                  <stringProp name="118040362">${__UUID()}</stringProp>
+                  <stringProp name="-731385571">${__Random(1,2)}</stringProp>
+                  <stringProp name="-1999786906">${__Random(1000,10000)}</stringProp>
+                </collectionProp>
+              </collectionProp>
+              <boolProp name="UserParameters.per_iteration">false</boolProp>
+            </UserParameters>
+            <hashTree/>
+          </hashTree>
         </hashTree>
         <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
           <boolProp name="displayJMeterProperties">false</boolProp>
