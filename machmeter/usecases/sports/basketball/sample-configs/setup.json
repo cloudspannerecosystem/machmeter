@@ -11,7 +11,7 @@
     },
     "gkeConfig": {
       "clusterName": "machmeter-basketball",
-      "namespace": "basketball-spanner",
+      "namespace": "spanner-test",
       "region": "us-east1",
       "network": "machmeter-basketball-network",
       "subnetwork": "machmeter-basketball-subnet",
@@ -19,7 +19,7 @@
       "ipRangeServicesName": "ip-range-services",
       "service_account_json": "/Users/gargsurbhi/Work/github/machmeter/machmeter-sercive-account.json",
       "machineType": "e2-standard-2",
-      "nodeLocations": "us-east1-a,us-east1-b,us-east1-c",
+      "nodeLocations": "us-east1-c",
       "minCount": 3,
       "maxCount": 3,
       "initialNodeCount": 3

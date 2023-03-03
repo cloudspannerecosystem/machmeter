@@ -13,8 +13,7 @@ CREATE TABLE team (
   id INT64 NOT NULL,
   team_name STRING(100),
   country_id INT64 NOT NULL,
-) PRIMARY KEY(id, country_id),
-INTERLEAVE IN PARENT country ON DELETE CASCADE;;
+) PRIMARY KEY(id, country_id);  
 
 ALTER TABLE team ADD CONSTRAINT team_fk_country FOREIGN KEY(country_id) REFERENCES country(id);
 
