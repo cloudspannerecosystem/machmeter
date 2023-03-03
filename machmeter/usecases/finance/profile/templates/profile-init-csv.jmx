@@ -137,7 +137,7 @@ DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 
 // Create a list of sampling user_ref_id before testing
 // Note: Please change limit to 10000
-String readUserIdSql=&quot;SELECT user_ref_id FROM tbl_user_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 10000;&quot;;
+String readUserIdSql=&quot;SELECT userId FROM user_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 1000;&quot;;
 Statement stmt = Statement.newBuilder(readUserIdSql).build();
 
 ResultSet result = dbClient
@@ -153,11 +153,11 @@ while (result.next()) {
 	count = count+1;
 	//log.info(&quot;count({}), thread({}):{}&quot;,count, ${__threadNum},result.getString(&quot;user_ref_id&quot;));
 	//vars.put(&quot;UserId_&quot; + count.toString(),result.getString(&quot;user_ref_id&quot;) )
-	csv_result.append(result.getString(&quot;user_ref_id&quot;));
+	csv_result.append(result.getString(&quot;userId&quot;));
 	csv_result.append(System.getProperty(&quot;line.separator&quot;));
 
 }
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/userId.csv&quot;), csv_result.toString(), &quot;UTF-8&quot;);
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/userId.csv&quot;), csv_result.toString(), &quot;UTF-8&quot;);
 result.close();</stringProp>
         </JSR223Sampler>
         <hashTree/>
@@ -173,7 +173,7 @@ DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 
 // Create a list of sampling user_ref_id before testing
 // Note: Please change limit to 10000
-String readUserIdSql=&quot;SELECT device_id FROM tbl_device_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 10000;&quot;;
+String readUserIdSql=&quot;SELECT deviceId FROM device_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 1000;&quot;;
 Statement stmt = Statement.newBuilder(readUserIdSql).build();
 
 ResultSet result = dbClient
@@ -188,11 +188,11 @@ while (result.next()) {
 	count = count+1;
 	//log.info(&quot;count({}), thread({}):{}&quot;,count, ${__threadNum},result.getString(&quot;device_id&quot;));
 	//vars.put(&quot;DeviceId_&quot; + count.toString(),result.getString(&quot;device_id&quot;) )
-	csv_result.append(result.getString(&quot;device_id&quot;));
+	csv_result.append(result.getString(&quot;deviceId&quot;));
 	csv_result.append(System.getProperty(&quot;line.separator&quot;));
 
 }
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;deviceId.csv&quot;), csv_result.toString(), &quot;UTF-8&quot;);
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/deviceId.csv&quot;), csv_result.toString(), &quot;UTF-8&quot;);
 result.close();</stringProp>
         </JSR223Sampler>
         <hashTree/>
