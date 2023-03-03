@@ -82,6 +82,67 @@
         <stringProp name="connectionProperties"></stringProp>
       </JDBCDataSource>
       <hashTree/>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Load UserID" enabled="false">
+        <stringProp name="delimiter">,</stringProp>
+        <stringProp name="fileEncoding"></stringProp>
+        <stringProp name="filename">/Users/jaru/projects/hackathon/userId.csv</stringProp>
+        <boolProp name="ignoreFirstLine">false</boolProp>
+        <boolProp name="quotedData">false</boolProp>
+        <boolProp name="recycle">true</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+        <boolProp name="stopThread">false</boolProp>
+        <stringProp name="variableNames">userId</stringProp>
+      </CSVDataSet>
+      <hashTree/>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Load DeviceID" enabled="false">
+        <stringProp name="delimiter">,</stringProp>
+        <stringProp name="fileEncoding"></stringProp>
+        <stringProp name="filename">/Users/jaru/projects/hackathon/deviceId.csv</stringProp>
+        <boolProp name="ignoreFirstLine">false</boolProp>
+        <boolProp name="quotedData">false</boolProp>
+        <boolProp name="recycle">true</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+        <boolProp name="stopThread">false</boolProp>
+        <stringProp name="variableNames">deviceId</stringProp>
+      </CSVDataSet>
+      <hashTree/>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
       <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="create spanner connection" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -124,7 +185,8 @@ DatabaseClient dbClient = spanner.getDatabaseClient(DatabaseId.of(projectId, ins
 
 props.put(&quot;spanner&quot;, spanner);
 props.put(&quot;dbClient&quot;, dbClient);
-props.put(&quot;maxSamplingSize&quot;, 100);
+props.put(&quot;maxSamplingSize&quot;, 10);
+props.put(&quot;current&quot;, 0);
 
 SampleResult.setRequestHeaders(spanner.toString());</stringProp>
         </JSR223Sampler>
@@ -240,11 +302,48 @@ result.close();</stringProp>
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
-          <boolProp name="displayJMeterProperties">false</boolProp>
+        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
+          <boolProp name="displayJMeterProperties">true</boolProp>
           <boolProp name="displayJMeterVariables">true</boolProp>
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
         <hashTree/>
         <ForeachController guiclass="ForeachControlPanel" testclass="ForeachController" testname="ForEach Controller" enabled="false">
           <stringProp name="ForeachController.inputVal">userId</stringProp>
@@ -282,44 +381,7 @@ props.put(&quot;userId_&quot;+vars.get(&quot;counter&quot;), vars.get(&quot;user
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-        <boolProp name="ResultCollector.error_logging">false</boolProp>
-        <objProp>
-          <name>saveConfig</name>
-          <value class="SampleSaveConfiguration">
-            <time>true</time>
-            <latency>true</latency>
-            <timestamp>true</timestamp>
-            <success>true</success>
-            <label>true</label>
-            <code>true</code>
-            <message>true</message>
-            <threadName>true</threadName>
-            <dataType>true</dataType>
-            <encoding>false</encoding>
-            <assertions>true</assertions>
-            <subresults>true</subresults>
-            <responseData>false</responseData>
-            <samplerData>false</samplerData>
-            <xml>false</xml>
-            <fieldNames>true</fieldNames>
-            <responseHeaders>false</responseHeaders>
-            <requestHeaders>false</requestHeaders>
-            <responseDataOnError>false</responseDataOnError>
-            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
-            <assertionsResultsToSave>0</assertionsResultsToSave>
-            <bytes>true</bytes>
-            <sentBytes>true</sentBytes>
-            <url>true</url>
-            <threadCounts>true</threadCounts>
-            <idleTime>true</idleTime>
-            <connectTime>true</connectTime>
-          </value>
-        </objProp>
-        <stringProp name="filename"></stringProp>
-      </ResultCollector>
-      <hashTree/>
-      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="load sample data into profile" enabled="true">
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="load sample data into profile" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -641,7 +703,7 @@ int number = randomNum.nextInt(high - low) + low;
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="create sampled csv data" enabled="true">
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="create sampled csv data" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -667,7 +729,7 @@ DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 
 // Create a list of sampling user_ref_id before testing
 // Note: Please change limit to 10000
-String readUserIdSql=&quot;SELECT userId FROM user_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 10000;&quot;;
+String readUserIdSql=&quot;SELECT userId FROM user_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;&quot;;
 Statement stmt = Statement.newBuilder(readUserIdSql).build();
 
 ResultSet result = dbClient
@@ -703,7 +765,7 @@ DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 
 // Create a list of sampling user_ref_id before testing
 // Note: Please change limit to 10000
-String readUserIdSql=&quot;SELECT deviceId FROM device_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 10000;&quot;;
+String readUserIdSql=&quot;SELECT deviceId FROM device_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;&quot;;
 Statement stmt = Statement.newBuilder(readUserIdSql).build();
 
 ResultSet result = dbClient
@@ -725,6 +787,1420 @@ while (result.next()) {
 org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/Users/jaru/deviceId.csv&quot;), csv_result.toString(), &quot;UTF-8&quot;);
 result.close();</stringProp>
         </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="run performance test" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">5</stringProp>
+        <stringProp name="ThreadGroup.delay">0</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="false">
+          <stringProp name="IfController.condition">${__javaScript( vars.get(&quot;current_userId&quot;) == null || vars.get(&quot;current_deviceId&quot;) == null)}</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+        </IfController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Init" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">//vars.putObject(&quot;current&quot;, props.get(&quot;current&quot;));
+vars.putObject(&quot;current_userId&quot;, 0);
+vars.putObject(&quot;current_deviceId&quot;, 0);
+
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Init" enabled="true">
+            <boolProp name="displayJMeterProperties">false</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="TPC - Random Insert  5%" enabled="false">
+          <intProp name="ThroughputController.style">1</intProp>
+          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <intProp name="ThroughputController.maxThroughput">1</intProp>
+          <FloatProperty>
+            <name>ThroughputController.percentThroughput</name>
+            <value>30.0</value>
+            <savedValue>0.0</savedValue>
+          </FloatProperty>
+        </ThroughputController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Insert device_profile" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+DatabaseClient dbClient    = props.get(&quot;dbClient&quot;);
+Random random 		= new Random();
+String userId 	  	= RandomStringUtils.randomAlphabetic(41);
+String deviceId 	= RandomStringUtils.randomAlphabetic(41);
+String tokenId 	= RandomStringUtils.randomAlphabetic(128);
+String bioUUID 	= UUID.randomUUID().toString();
+boolean isActive 	= random.nextBoolean();
+	
+Mutation mutation = Mutation.newInsertBuilder(&quot;device_profile&quot;)
+					.set(&quot;userId&quot;)
+					.to(userId)
+					.set(&quot;deviceId&quot;)
+					.to(deviceId)
+					.set(&quot;bioUUID&quot;)
+					.to(bioUUID)
+					.set(&quot;isActive&quot;)
+					.to(isActive)
+					.set(&quot;tokenId&quot;)
+					.to(tokenId)
+					.build();
+
+ArrayList&lt;Mutation&gt; mutations = new ArrayList&lt;&gt;();
+mutations.add(mutation);
+dbClient.write(mutations);
+
+
+int current = vars.getObject(&quot;current_deviceId&quot;);
+int high = props.get(&quot;maxSamplingSize&quot;); 
+current = (current + 1) % high;
+//log.info(&quot;insert#2 --&gt;thread({}): current({})&quot;,${__threadNum},current);
+vars.put(&quot;DeviceId_&quot; + Integer.toString(current), deviceId);
+vars.putObject(&quot;current_deviceId&quot;, current);
+log.info(&quot;insert --&gt;thread({}): modify DeviceId({}) with {}&quot;,${__threadNum},Integer.toString(current), deviceId);
+
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Insert transaction_limit" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+DatabaseClient dbClient    = props.get(&quot;dbClient&quot;);
+
+String userId 	  	= RandomStringUtils.randomAlphabetic(41);
+String txnGroup 	= RandomStringUtils.random(16);
+int limitAmt 		= Integer.parseInt(RandomStringUtils.randomNumeric(8));
+
+	
+Mutation mutation = Mutation.newInsertBuilder(&quot;transaction_limit&quot;)
+					.set(&quot;userId&quot;)
+					.to(userId)
+					.set(&quot;txnGroup&quot;)
+					.to(txnGroup)
+					.set(&quot;limitAmt&quot;)
+					.to(limitAmt)
+					.build();
+
+ArrayList&lt;Mutation&gt; mutations = new ArrayList&lt;&gt;();
+mutations.add(mutation);
+dbClient.write(mutations);
+
+int current = vars.getObject(&quot;current_userId&quot;);
+int high = props.get(&quot;maxSamplingSize&quot;); 
+current = (current + 1) % high;
+//og.info(&quot;insert#2 --&gt;thread({}): current({})&quot;,${__threadNum},current);
+vars.put(&quot;UserId_&quot; + Integer.toString(current), userId);
+vars.putObject(&quot;current_userId&quot;, current);
+log.info(&quot;insert --&gt;thread({}): modify UserId({}) with {}&quot;,${__threadNum},Integer.toString(current), userId);
+
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Insert user_profile" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+DatabaseClient dbClient    	= props.get(&quot;dbClient&quot;);
+String userId		 	  	= RandomStringUtils.randomAlphabetic(41);
+String hashedUserId 		= RandomStringUtils.random(128);
+String email 			  	= RandomStringUtils.randomAlphabetic(40);
+String segment 		  	= RandomStringUtils.randomAlphabetic(16);
+String bankAcctNumber 		= RandomStringUtils.randomAlphabetic(12);
+String cardId			  	= RandomStringUtils.randomAlphabetic(13);;
+String birthDate 	  		= RandomStringUtils.randomAlphabetic(8);
+String firstNameEN 	  		= RandomStringUtils.randomAlphabetic(16);
+String lastNameEN 	  		= RandomStringUtils.randomAlphabetic(16);
+String midNameEN 	  		= RandomStringUtils.randomAlphabetic(16);
+String nickName 		 	= RandomStringUtils.randomAlphabetic(16);
+String mobileNumber 	  	= RandomStringUtils.randomNumeric(10);
+boolean isMaskedAcct 		= true;
+Timestamp createdDate 		= Timestamp.ofTimeMicroseconds(System.currentTimeMillis());
+Timestamp updatedDate 		= Timestamp.ofTimeMicroseconds(System.currentTimeMillis());
+String createdBy 			= &quot;INSERT Perf&quot;;
+String updatedBy 			= &quot;INSERT Perf&quot;;
+boolean isPinActive 		= true;
+	
+Mutation mutation = Mutation.newInsertBuilder(&quot;user_profile&quot;)
+					.set(&quot;userId&quot;)
+					.to(userId)
+					.set(&quot;hashedUserId&quot;)
+					.to(userId)
+					.set(&quot;email&quot;)
+					.to(email)
+					.set(&quot;segment&quot;)
+					.to(segment)
+					.set(&quot;bankAcctNumber&quot;)
+					.to(bankAcctNumber)
+					.set(&quot;cardId&quot;)
+					.to(cardId)
+					.set(&quot;birthDate&quot;)
+					.to(birthDate)
+					.set(&quot;firstNameEN&quot;)
+					.to(firstNameEN)
+					.set(&quot;lastNameEN&quot;)
+					.to(lastNameEN)
+					.set(&quot;midNameEN&quot;)
+					.to(midNameEN)
+					.set(&quot;nickName&quot;)
+					.to(nickName)
+					.set(&quot;mobileNumber&quot;)
+					.to(mobileNumber)
+					.set(&quot;isMaskedAcct&quot;)
+					.to(isMaskedAcct)
+					.set(&quot;createdDate&quot;)
+					.to(createdDate)
+					.set(&quot;createdBy&quot;)
+					.to(createdBy)
+					.set(&quot;updatedDate&quot;)
+					.to(updatedDate)
+					.set(&quot;updatedBy&quot;)
+					.to(updatedBy)
+					.set(&quot;isPinActive&quot;)
+					.to(isPinActive)
+					.build();
+
+ArrayList&lt;Mutation&gt; mutations = new ArrayList&lt;&gt;();
+mutations.add(mutation);
+dbClient.write(mutations);
+
+int current = vars.getObject(&quot;current_userId&quot;);
+int high = props.get(&quot;maxSamplingSize&quot;); 
+current = (current + 1) % high;
+//log.info(&quot;insert#2 --&gt;thread({}): current({})&quot;,${__threadNum},current);
+vars.put(&quot;UserId_&quot; + Integer.toString(current), userId);
+vars.putObject(&quot;current_userId&quot;, current);
+log.info(&quot;insert --&gt;thread({}): modify UserId({}) with {}&quot;,${__threadNum},Integer.toString(current), userId);
+
+
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Insert user_preference" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+DatabaseClient dbClient   	= props.get(&quot;dbClient&quot;);
+Random random 				= new Random();
+String userId 	  			= RandomStringUtils.randomAlphabetic(41);
+int scanLimit 				= Integer.parseInt(RandomStringUtils.randomNumeric(8));
+boolean isNotificationEnabled = random.nextBoolean();
+String language 			= RandomStringUtils.randomAlphabetic(5).toUpperCase();
+	
+Mutation mutation = Mutation.newInsertBuilder(&quot;user_preference&quot;)
+					.set(&quot;userId&quot;)
+					.to(userId)
+					.set(&quot;scanLimit&quot;)
+					.to(scanLimit)
+					.set(&quot;isNotificationEnabled&quot;)
+					.to(isNotificationEnabled)
+					.set(&quot;language&quot;)
+					.to(language)
+					.build();
+
+ArrayList&lt;Mutation&gt; mutations = new ArrayList&lt;&gt;();
+mutations.add(mutation);
+dbClient.write(mutations);
+
+int current = vars.getObject(&quot;current_userId&quot;);
+int high = props.get(&quot;maxSamplingSize&quot;); 
+current = (current + 1) % high;
+//log.info(&quot;insert#2 --&gt;thread({}): current({})&quot;,${__threadNum},current);
+vars.put(&quot;UserId_&quot; + Integer.toString(current), userId);
+vars.putObject(&quot;current_userId&quot;, current);
+log.info(&quot;insert --&gt;thread({}): modify UserId({}) with {}&quot;,${__threadNum},Integer.toString(current), userId);
+
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Insert user_quick_actions" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+DatabaseClient dbClient   = props.get(&quot;dbClient&quot;);
+Random random 			= new Random();
+String userId 	  		= RandomStringUtils.randomAlphabetic(41);
+int sortOrder 			= Integer.parseInt(RandomStringUtils.randomNumeric(8));
+String codeQuickAction 	= RandomStringUtils.randomAlphabetic(50);
+	
+Mutation mutation = Mutation.newInsertBuilder(&quot;user_quick_actions&quot;)
+					.set(&quot;userId&quot;)
+					.to(userId)
+					.set(&quot;sortOrder&quot;)
+					.to(sortOrder)
+					.set(&quot;codeQuickAction&quot;)
+					.to(codeQuickAction)
+					.build();
+
+ArrayList&lt;Mutation&gt; mutations = new ArrayList&lt;&gt;();
+mutations.add(mutation);
+dbClient.write(mutations);
+
+int current = vars.getObject(&quot;current_userId&quot;);
+int high = props.get(&quot;maxSamplingSize&quot;); 
+current = (current + 1) % high;
+//log.info(&quot;insert#2 --&gt;thread({}): current({})&quot;,${__threadNum},current);
+vars.put(&quot;UserId_&quot; + Integer.toString(current), userId);
+vars.putObject(&quot;current_userId&quot;, current);
+log.info(&quot;insert --&gt;thread({}): modify UserId({}) with {}&quot;,${__threadNum},Integer.toString(current), userId);
+
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Insert user_quick_actions_history" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+DatabaseClient dbClient   	= props.get(&quot;dbClient&quot;);
+Random random 				= new Random();
+String userId 	  			= RandomStringUtils.randomAlphabetic(41);
+String quickAction 			= RandomStringUtils.randomAlphabetic(128);
+String createdBy 			= RandomStringUtils.randomAlphabetic(50);
+String updatedBy 			= RandomStringUtils.randomAlphabetic(50);
+Timestamp createdDate 		= Timestamp.ofTimeMicroseconds(System.currentTimeMillis());
+Timestamp updatedDate 		= Timestamp.ofTimeMicroseconds(System.currentTimeMillis());
+String version 			= RandomStringUtils.randomNumeric(6);
+	
+Mutation mutation = Mutation.newInsertBuilder(&quot;user_quick_actions_history&quot;)
+					.set(&quot;userId&quot;)
+					.to(userId)
+					.set(&quot;quickAction&quot;)
+					.to(quickAction)
+					.set(&quot;createdDate&quot;)
+					.to(createdDate)
+					.set(&quot;createdBy&quot;)
+					.to(createdBy)
+					.set(&quot;updatedDate&quot;)
+					.to(updatedDate)
+					.set(&quot;updatedBy&quot;)
+					.to(updatedBy)
+					.set(&quot;version&quot;)
+					.to(version)
+					.build();
+
+ArrayList&lt;Mutation&gt; mutations = new ArrayList&lt;&gt;();
+mutations.add(mutation);
+dbClient.write(mutations);
+
+int current = vars.getObject(&quot;current_userId&quot;);
+int high = props.get(&quot;maxSamplingSize&quot;); 
+current = (current + 1) % high;
+//log.info(&quot;insert#2 --&gt;thread({}): current({})&quot;,${__threadNum},current);
+vars.put(&quot;UserId_&quot; + Integer.toString(current), userId);
+vars.putObject(&quot;current_userId&quot;, current);
+log.info(&quot;insert --&gt;thread({}): modify UserId({}) with {}&quot;,${__threadNum},Integer.toString(current), userId);
+
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Random Insert" enabled="false">
+            <boolProp name="displayJMeterProperties">false</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="TPC - Random Stale Read 10%" enabled="true">
+          <intProp name="ThroughputController.style">1</intProp>
+          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <intProp name="ThroughputController.maxThroughput">1</intProp>
+          <FloatProperty>
+            <name>ThroughputController.percentThroughput</name>
+            <value>100.0</value>
+            <savedValue>0.0</savedValue>
+          </FloatProperty>
+        </ThroughputController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read device_profile" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.concurrent.TimeUnit;
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+int current = vars.getObject(&quot;current_deviceId&quot;);
+String deviceId = vars.get(&quot;DeviceId_&quot; + Integer.toString(current));
+log.info(&quot;read --&gt;thread({}): deviceId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), deviceId);
+
+String readProfileSql = &quot;SELECT * FROM device_profile WHERE deviceId = @deviceId&quot;;
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;deviceId&quot;).to(deviceId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUse(TimestampBound.ofExactStaleness(1, TimeUnit.SECONDS))
+ .executeQuery(stmt);
+
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+}
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read transaction_limit" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.concurrent.TimeUnit;
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+int current = vars.getObject(&quot;current_userId&quot;);
+String userId = vars.get(&quot;UserId_&quot; + Integer.toString(current));
+log.info(&quot;read --&gt;thread({}): userId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), userId);
+
+String readProfileSql = &quot;SELECT * FROM device_profile WHERE userId = @userId&quot;;
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUse(TimestampBound.ofExactStaleness(1, TimeUnit.SECONDS))
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+}
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read user_profile" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.concurrent.TimeUnit;
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+int current = vars.getObject(&quot;current_userId&quot;);
+String userId = vars.get(&quot;UserId_&quot; + Integer.toString(current));
+log.info(&quot;read --&gt;thread({}): userId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), userId);
+
+String readProfileSql = &quot;SELECT * FROM device_profile WHERE userId = @userId&quot;;
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUse(TimestampBound.ofExactStaleness(1, TimeUnit.SECONDS))
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+}
+
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read user_preference" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.concurrent.TimeUnit;
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+int current = vars.getObject(&quot;current_userId&quot;);
+String userId = vars.get(&quot;UserId_&quot; + Integer.toString(current));
+log.info(&quot;read --&gt;thread({}): userId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), userId);
+
+String readProfileSql = &quot;SELECT * FROM device_profile WHERE userId = @userId&quot;;
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUse(TimestampBound.ofExactStaleness(1, TimeUnit.SECONDS))
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+}
+
+
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read user_quick_actions" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.concurrent.TimeUnit;
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+int current = vars.getObject(&quot;current_userId&quot;);
+String userId = vars.get(&quot;UserId_&quot; + Integer.toString(current));
+log.info(&quot;read --&gt;thread({}): userId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), userId);
+
+String readProfileSql = &quot;SELECT * FROM device_profile WHERE userId = @userId&quot;;
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUse(TimestampBound.ofExactStaleness(1, TimeUnit.SECONDS))
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+}
+
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read user_quick_actions_history" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.concurrent.TimeUnit;
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+int current = vars.getObject(&quot;current_userId&quot;);
+String userId = vars.get(&quot;UserId_&quot; + Integer.toString(current));
+log.info(&quot;read --&gt;thread({}): userId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), userId);
+
+String readProfileSql = &quot;SELECT * FROM device_profile WHERE userId = @userId&quot;;
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUse(TimestampBound.ofExactStaleness(1, TimeUnit.SECONDS))
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+}
+
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Stale Read" enabled="false">
+            <boolProp name="displayJMeterProperties">false</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="TPC - Random Update 5%" enabled="false">
+          <intProp name="ThroughputController.style">1</intProp>
+          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <intProp name="ThroughputController.maxThroughput">1</intProp>
+          <FloatProperty>
+            <name>ThroughputController.percentThroughput</name>
+            <value>40.0</value>
+            <savedValue>0.0</savedValue>
+          </FloatProperty>
+        </ThroughputController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Update device_profile with txn" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+int current = vars.getObject(&quot;current_userId&quot;);
+String userId = vars.get(&quot;UserId_&quot; + Integer.toString(current));
+log.info(&quot;update --&gt;thread({}): userId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), userId);
+
+// The userId is gathered from CSV instead
+// String userId 		= vars.get(&quot;userId&quot;);
+
+String bioUUID 	= UUID.randomUUID().toString();
+
+dbClient
+	.readWriteTransaction()
+	.run(transaction -&gt; {
+          Statement updateStatement =
+              Statement.newBuilder(&quot;UPDATE device_profile SET bioUUID = @bioUUID WHERE userId = @userId&quot;)
+                  .bind(&quot;bioUUID&quot;)
+                  .to(bioUUID)
+                  .bind(&quot;userId&quot;)
+                  .to(userId)
+                  .build();
+          transaction.executeUpdate(updateStatement);
+		}
+	);
+	
+
+//log.info(&quot;update --&gt;thread({}): user({}),{}&quot;,${__threadNum},number, userId);
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Update transaction_limit with txn" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+int current = vars.getObject(&quot;current_userId&quot;);
+String userId = vars.get(&quot;UserId_&quot; + Integer.toString(current));
+log.info(&quot;update --&gt;thread({}): userId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), userId);
+
+// The userId is gathered from CSV instead
+// String userId 		= vars.get(&quot;userId&quot;);
+int limitAmt 	=  Integer.parseInt(RandomStringUtils.randomNumeric(8));
+
+dbClient
+	.readWriteTransaction()
+	.run(transaction -&gt; {
+          Statement updateStatement =
+              Statement.newBuilder(&quot;UPDATE transaction_limit SET limitAmt = @limitAmt WHERE userId = @userId&quot;)
+                  .bind(&quot;limitAmt&quot;)
+                  .to(limitAmt)
+                  .bind(&quot;userId&quot;)
+                  .to(userId)
+                  .build();
+          transaction.executeUpdate(updateStatement);
+		}
+	);
+	
+
+//log.info(&quot;update --&gt;thread({}): user({}),{}&quot;,${__threadNum},number, userId);
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Update user_profile with txn" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+int current = vars.getObject(&quot;current_userId&quot;);
+String userId = vars.get(&quot;UserId_&quot; + Integer.toString(current));
+log.info(&quot;update --&gt;thread({}): userId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), userId);
+
+//String userId 		= vars.get(&quot;UserId_&quot; + number.toString());
+//String userId 		= vars.get(&quot;userId&quot;);
+String firstName 	= RandomStringUtils.randomAlphabetic(16);
+String lastName 	= RandomStringUtils.randomAlphabetic(16);
+
+
+
+dbClient
+	.readWriteTransaction()
+	.run(transaction -&gt; {
+          Statement updateStatement =
+              Statement.newBuilder(&quot;UPDATE user_profile SET firstNameEN = @firstName WHERE userId = @userId&quot;)
+                  .bind(&quot;firstName&quot;)
+                  .to(firstName)
+                  .bind(&quot;userId&quot;)
+                  .to(userId)
+                  .build();
+          transaction.executeUpdate(updateStatement);
+		}
+	);
+	
+
+//log.info(&quot;update --&gt;thread({}): user({}),{}&quot;,${__threadNum},number, userId);
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Update user_preference with txn" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+int current = vars.getObject(&quot;current_userId&quot;);
+String userId = vars.get(&quot;UserId_&quot; + Integer.toString(current));
+log.info(&quot;update --&gt;thread({}): userId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), userId);
+
+//String userId 		= vars.get(&quot;UserId_&quot; + number.toString());
+//String userId 		= vars.get(&quot;userId&quot;);
+String lang 	= RandomStringUtils.randomAlphabetic(5).toUpperCase();
+
+
+dbClient
+	.readWriteTransaction()
+	.run(transaction -&gt; {
+          Statement updateStatement =
+              Statement.newBuilder(&quot;UPDATE user_preference SET language = @lang WHERE userId = @userId&quot;)
+                  .bind(&quot;lang&quot;)
+                  .to(lang)
+                  .bind(&quot;userId&quot;)
+                  .to(userId)
+                  .build();
+          transaction.executeUpdate(updateStatement);
+		}
+	);
+	
+
+//log.info(&quot;update --&gt;thread({}): user({}),{}&quot;,${__threadNum},number, userId);
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Update user_quick_actions with txn" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+int current = vars.getObject(&quot;current_userId&quot;);
+String userId = vars.get(&quot;UserId_&quot; + Integer.toString(current));
+log.info(&quot;update --&gt;thread({}): userId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), userId);
+
+//String userId 		= vars.get(&quot;userId&quot;);
+//String userId 		= vars.get(&quot;UserId_&quot; + number.toString());
+String actionCode 	= RandomStringUtils.randomAlphabetic(50);
+
+
+// Update primary key or composite key column is not allowed. 
+dbClient
+	.readWriteTransaction()
+	.run(transaction -&gt; {
+          Statement updateStatement =
+              Statement.newBuilder(&quot;UPDATE user_quick_actions SET codeQuickAction = @actionCode WHERE userId = @userId&quot;)
+                  .bind(&quot;actionCode&quot;)
+                  .to(actionCode)
+                  .bind(&quot;userId&quot;)
+                  .to(userId)
+                  .build();
+          transaction.executeUpdate(updateStatement);
+		}
+	);
+	
+
+//log.info(&quot;update --&gt;thread({}): user({}),{}&quot;,${__threadNum},number, userId);
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Update user_quick_actions_history with txn" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+int current = vars.getObject(&quot;current_userId&quot;);
+String userId = vars.get(&quot;UserId_&quot; + Integer.toString(current));
+log.info(&quot;update --&gt;thread({}): userId({}),{}:{}&quot;,${__threadNum},Integer.toString(current), userId);
+
+//String userId 		= vars.get(&quot;UserId_&quot; + number.toString());
+//String userId 		= vars.get(&quot;userId&quot;);
+String createdBy 	= RandomStringUtils.randomAlphabetic(50);
+String updatedBy 	= RandomStringUtils.randomAlphabetic(50);
+
+dbClient
+	.readWriteTransaction()
+	.run(transaction -&gt; {
+          Statement updateStatement =
+              Statement.newBuilder(&quot;UPDATE user_quick_actions_history SET createdBy = @createdBy WHERE userId = @userId&quot;)
+                  .bind(&quot;createdBy&quot;)
+                  .to(createdBy)
+                  .bind(&quot;userId&quot;)
+                  .to(userId)
+                  .build();
+          transaction.executeUpdate(updateStatement);
+		}
+	);
+	
+
+//log.info(&quot;update --&gt;thread({}): user({}),{}&quot;,${__threadNum},number, userId);
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Random Update" enabled="true">
+            <boolProp name="displayJMeterProperties">false</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="TPC - Random Read from Sampling" enabled="false">
+          <intProp name="ThroughputController.style">1</intProp>
+          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <intProp name="ThroughputController.maxThroughput">1</intProp>
+          <FloatProperty>
+            <name>ThroughputController.percentThroughput</name>
+            <value>90.0</value>
+            <savedValue>0.0</savedValue>
+          </FloatProperty>
+        </ThroughputController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read tbl_user_profile" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+Random randomNum = new Random();
+int low = 1;
+int high = props.get(&quot;maxSamplingSize&quot;); //Change here to suit for sampling size
+int number = randomNum.nextInt(high - low) + low; 
+
+
+//String userId = vars.get(&quot;UserId_&quot; + number.toString());
+String userId = vars.get(&quot;userId&quot;);
+String readProfileSql = &quot;SELECT * FROM tbl_user_profile WHERE user_ref_id = @userId;&quot;;
+
+//log.info(&quot;user({}):{}&quot;, number.toString(), userId);
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	//log.info(&quot;read --&gt;thread({}): user({}),{}:{}&quot;,${__threadNum},number, userId,result.getString(&quot;otp_mobile_no&quot;));
+
+}
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read tbl_profile_transaction_limit" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+Random randomNum = new Random();
+int low = 1;
+int high = props.get(&quot;maxSamplingSize&quot;); //Change here to suit for sampling size
+int number = randomNum.nextInt(high - low) + low; 
+
+
+//String userId = vars.get(&quot;UserId_&quot; + number.toString());
+String userId = vars.get(&quot;userId&quot;);
+String readProfileSql = &quot;SELECT * FROM tbl_profile_transaction_limit WHERE user_ref_id = @userId&quot;;
+
+//log.info(&quot;user({}):{}&quot;, number.toString(), userId);
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	//log.info(&quot;read --&gt;thread({}): user({}),{}:{}&quot;,${__threadNum},number, userId,result.getString(&quot;transaction_group&quot;));
+
+}
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read tbl_user_preference" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+Random randomNum = new Random();
+int low = 1;
+int high = props.get(&quot;maxSamplingSize&quot;); //Change here to suit for sampling size
+int number = randomNum.nextInt(high - low) + low; 
+
+
+//String userId = vars.get(&quot;UserId_&quot; + number.toString());
+String userId = vars.get(&quot;userId&quot;);
+String readProfileSql = &quot;SELECT * from tbl_user_preference WHERE user_ref_id = @userId&quot;;
+
+//log.info(&quot;user({}):{}&quot;, number.toString(), userId);
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	//responseHeader += &quot; OTP Mobile: &quot; +result.getString(&quot;otp_mobile_no&quot;);
+	//log.info(&quot;read --&gt;thread({}): user({}),{}:{}&quot;,${__threadNum},number, userId,result.getString(&quot;language&quot;));
+
+}
+
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read tbl_user_default_quick_action" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+Random randomNum = new Random();
+int low = 1;
+int high = props.get(&quot;maxSamplingSize&quot;); //Change here to suit for sampling size
+int number = randomNum.nextInt(high - low) + low; 
+
+
+//String userId = vars.get(&quot;UserId_&quot; + number.toString());
+String userId = vars.get(&quot;userId&quot;);
+String readProfileSql = &quot;SELECT * FROM tbl_user_default_quick_action WHERE user_ref_id = @userId&quot;;
+
+//log.info(&quot;user({}):{}&quot;, number.toString(), userId);
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	//responseHeader += &quot; OTP Mobile: &quot; +result.getString(&quot;otp_mobile_no&quot;);
+	//log.info(&quot;read --&gt;thread({}): user({}),{}:{}&quot;,${__threadNum},number, userId,result.getString(&quot;version&quot;));
+
+}
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read tbl_user_quick_actions" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+Random randomNum = new Random();
+int low = 1;
+int high = props.get(&quot;maxSamplingSize&quot;); //Change here to suit for sampling size
+int number = randomNum.nextInt(high - low) + low; 
+
+
+//String userId = vars.get(&quot;UserId_&quot; + number.toString());
+String userId = vars.get(&quot;userId&quot;);
+String readProfileSql = &quot;SELECT * FROM tbl_user_quick_actions WHERE user_ref_id = @userId&quot;;
+
+//log.info(&quot;user({}):{}&quot;, number.toString(), userId);
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	//responseHeader += &quot; OTP Mobile: &quot; +result.getString(&quot;otp_mobile_no&quot;);
+	//log.info(&quot;read --&gt;thread({}): user({}),{}:{}&quot;,${__threadNum},number, userId,result.getString(&quot;quick_action_code&quot;));
+
+}
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read tbl_user_preference_quick_action" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+Random randomNum = new Random();
+int low = 1;
+int high = props.get(&quot;maxSamplingSize&quot;); //Change here to suit for sampling size
+int number = randomNum.nextInt(high - low) + low; 
+
+
+//String userId = vars.get(&quot;UserId_&quot; + number.toString());
+String userId = vars.get(&quot;userId&quot;);
+String readProfileSql = &quot;SELECT * FROM tbl_user_preference_quick_action WHERE user_ref_id = @userId&quot;;
+
+//log.info(&quot;user({}):{}&quot;, number.toString(), userId);
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	//responseHeader += &quot; OTP Mobile: &quot; +result.getString(&quot;otp_mobile_no&quot;);
+	//log.info(&quot;read --&gt;thread({}): user({}),{}:{}&quot;,${__threadNum},number, userId,result.getString(&quot;quick_actions&quot;));
+
+}
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read tbl_quick_link_favorite" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+Random randomNum = new Random();
+int low = 1;
+int high = props.get(&quot;maxSamplingSize&quot;); //Change here to suit for sampling size
+int number = randomNum.nextInt(high - low) + low; 
+
+
+//String userId = vars.get(&quot;UserId_&quot; + number.toString());
+String userId = vars.get(&quot;userId&quot;);
+String readProfileSql = &quot;SELECT * FROM tbl_quick_link_favorite WHERE user_ref_id = @userId&quot;;
+
+//log.info(&quot;user({}):{}&quot;, number.toString(), userId);
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	//responseHeader += &quot; OTP Mobile: &quot; +result.getString(&quot;otp_mobile_no&quot;);
+	//log.info(&quot;read --&gt;thread({}): user({}),{}:{}&quot;,${__threadNum},number, userId,result.getString(&quot;favorite_ref_id&quot;));
+
+}
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read tbl_device_profile" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+Random randomNum = new Random();
+int low = 1;
+int high = props.get(&quot;maxSamplingSize&quot;); //Change here to suit for sampling size
+int number = randomNum.nextInt(high - low) + low; 
+
+
+//String userId = vars.get(&quot;UserId_&quot; + number.toString());
+String userId = vars.get(&quot;userId&quot;);
+String readProfileSql = &quot;SELECT * FROM tbl_device_profile WHERE user_ref_id = @userId&quot;;
+
+//log.info(&quot;user({}):{}&quot;, number.toString(), userId);
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;userId&quot;).to(userId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	//responseHeader += &quot; OTP Mobile: &quot; +result.getString(&quot;otp_mobile_no&quot;);
+	//log.info(&quot;read --&gt;thread({}): user({}),{}:{}&quot;,${__threadNum},number, userId,result.getString(&quot;user_ref_id&quot;));
+
+}
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read tbl_transaction_limit" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+Random randomNum = new Random();
+int low = 1;
+int high = props.get(&quot;maxSamplingSize&quot;); //Change here to suit for sampling size
+int number = randomNum.nextInt(high - low) + low; 
+
+
+//String segmentId = vars.get(&quot;SegmentId_&quot; + number.toString());
+String segmentId = vars.get(&quot;segmentId&quot;);
+String readProfileSql = &quot;SELECT * FROM tbl_transaction_limit WHERE segment = @segmentId&quot;;
+
+//log.info(&quot;user({}):{}&quot;, number.toString(), userId);
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;segmentId&quot;).to(segmentId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	//responseHeader += &quot; OTP Mobile: &quot; +result.getString(&quot;otp_mobile_no&quot;);
+	//log.info(&quot;read --&gt;thread({}): user({}),{}:{}&quot;,${__threadNum},number, segmentId,result.getString(&quot;transaction_group&quot;));
+
+}
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read tbl_mobile_detect" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+
+// Randomly generate integer within a RANGE of user_ref_id stored in JmeterVariables as  UserID_&lt;count&gt;
+// Note: Please change high variable to match the sampling size in JSR223 method --&gt; Sampling tbl_user_profile
+
+Random randomNum = new Random();
+int low = 1;
+int high = props.get(&quot;maxSamplingSize&quot;); //Change here to suit for sampling size
+int number = randomNum.nextInt(high - low) + low; 
+
+
+//String deviceId = vars.get(&quot;DeviceId_&quot; + number.toString());
+String deviceId = vars.get(&quot;deviceId&quot;);
+String readProfileSql = &quot;SELECT * FROM tbl_mobile_detect WHERE device_id = @deviceId&quot;;
+
+//log.info(&quot;user({}):{}&quot;, number.toString(), userId);
+
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;deviceId&quot;).to(deviceId)
+ .build();
+ 
+ResultSet result = dbClient
+ .singleUseReadOnlyTransaction()
+ .executeQuery(stmt);
+
+// Note: this can be removed 
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+	//responseHeader += &quot; OTP Mobile: &quot; +result.getString(&quot;otp_mobile_no&quot;);
+	//log.info(&quot;read --&gt;thread({}): user({}),{}:{}&quot;,${__threadNum},number, deviceId,result.getString(&quot;detected_mobile_no&quot;));
+
+}
+
+result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug #Read" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Random Insert" enabled="false">
+          <boolProp name="displayJMeterProperties">false</boolProp>
+          <boolProp name="displayJMeterVariables">true</boolProp>
+          <boolProp name="displaySystemProperties">false</boolProp>
+        </DebugSampler>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
         <hashTree/>
       </hashTree>
       <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="read sampled csv data" enabled="false">

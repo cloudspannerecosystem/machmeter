@@ -6,8 +6,8 @@
       "instance": "spanner-profile",
       "database": "profile-db",
       "connections": 1000,
-      "channels": 10,
-      "users": 1,
+      "grpc_channel": 10,
+      "threads": 1,
       "iterations": 1
     }
 }

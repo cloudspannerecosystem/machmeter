@@ -13,6 +13,12 @@ Profile xxxxxxxxxxxxxxxxxxxxxxxx
 
 table - profile-infra-config.json, profile-load-data.json, profile-init-csv.json, profile-perf.json
 
+| Config | Description |
+| --- | --- |
+| `profile-infra-config.json` | Configuration file for provisioning infra & spanner resources as well as populate schema into spanner database |
+| `profile-load-data.json` | Configuration file for loading sample data into spanner database based on the the schema and create CSV file into the container to be used during the performance test  |
+| `profile-init-csv.json` | Configuration file for creating CSV file into the container without populating any new data into spanner  |
+| `profile-perf.json` | Configuration file for running performance load test based on the use case (e.g. read/write ratio). It may require pre-populated CSV file in the containers prior running|
 
 ## Loading Sample Data into Profile
 
