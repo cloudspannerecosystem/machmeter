@@ -1,9 +1,9 @@
 CREATE TABLE instructors (
   id STRING(36) NOT NULL,
-  first_name STRING(100),
-  last_name STRING(100),
-  enroll_date TIMESTAMP,
-  rating INT64,
+  first_name STRING(100) NOT NULL,
+  last_name STRING(100) NOT NULL,
+  enroll_date TIMESTAMP NOT NULL,
+  rating NUMERIC NOT NULL,
 ) PRIMARY KEY(id);
 
 CREATE TABLE students (
@@ -34,6 +34,8 @@ CREATE TABLE student_enrolled_courses (
     student_id STRING(36) NOT NULL,
     course_id STRING(36) NOT NULL,
     enrollment_date TIMESTAMP,
+    status STRING(36) NOT NULL,
+    rating NUMERIC NOT NULL,
     CONSTRAINT students_enrolled_courses_fk1 FOREIGN KEY(student_id) REFERENCES students(id),
     CONSTRAINT courses_fk1 FOREIGN KEY(course_id) REFERENCES courses(course_id),
 ) PRIMARY KEY(enrollment_id);
