@@ -8,7 +8,8 @@ CREATE TABLE game_items (
 
 CREATE TABLE games (
   game_uuid STRING(36) NOT NULL,
-  players ARRAY<STRING(36)> NOT NULL,
+  player1 STRING(36) NOT NULL,
+  player2 STRING(36) NOT NULL,
   winner STRING(36),
   created TIMESTAMP,
   finished TIMESTAMP,
@@ -52,6 +53,10 @@ CREATE TABLE scores (
 ALTER TABLE players ADD FOREIGN KEY(current_game) REFERENCES games(game_uuid);
 
 ALTER TABLE games ADD FOREIGN KEY(winner) REFERENCES players(player_uuid);
+
+ALTER TABLE games ADD FOREIGN KEY(player1) REFERENCES players(player_uuid);
+
+ALTER TABLE games ADD FOREIGN KEY(player2) REFERENCES players(player_uuid);
 
 CREATE UNIQUE INDEX player_auth ON players(email) STORING (password_hash);
 
