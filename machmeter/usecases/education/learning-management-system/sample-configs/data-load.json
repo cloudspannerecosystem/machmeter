@@ -1,0 +1,13 @@
+{
+  "namespace": "spanner-test",
+  "jMeterTemplatePath" : "usecases/education/learning-management-system/templates/data-load.jmx",
+  "jMeterParams" : {
+    "project": "span-cloud-testing",
+    "instance": "machmeter-lms-test",
+    "database": "lms-database",
+    "connections": 1000,
+    "channels": 10,
+    "users": 10,
+    "iterations": 10
+  }
+}

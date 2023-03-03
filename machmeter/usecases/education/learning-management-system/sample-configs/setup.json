@@ -1,0 +1,37 @@
+{
+  "infraConfig": {
+    "spannerInstanceConfig": {
+      "projectId" : "span-cloud-testing",
+      "instanceId": "machmeter-lms-test",
+      "dbName": "lms-database",
+      "configuration": "regional-us-central1",
+      "displayName": "load_test_instance",
+      "processingUnits": 1000,
+      "environment": "testing"
+    },
+    "gkeConfig": {
+      "clusterName": "jmeter-load-test-lms",
+      "namespace": "spanner-test",
+      "region": "us-central1",
+      "network": "gke-network-lms",
+      "subnetwork": "gke-subnet-lms",
+      "ipRangePodsName": "ip-range-pods",
+      "ipRangeServicesName": "ip-range-services",
+      "service_account_json": "/usr/local/google/home/sriharshach/github/machmeter/machmeter/terraformer.json",
+      "machineType": "e2-standard-2",
+      "nodeLocations": "us-central1-a,us-central1-b,us-central1-c",
+      "minCount": 3,
+      "maxCount": 3,
+      "initialNodeCount": 3
+    }
+  },
+  "ddlConfig" : {
+    "spannerInstanceConfig" : {
+      "instanceId" : "machmeter-lms-test",
+      "dbName" : "lms-database",
+      "configuration": "regional-us-central1",
+      "projectId" : "span-cloud-testing"
+    },
+    "schemaFilePath" : "usecases/education/learning-management-system/templates/schema.sql"
+  }
+}
