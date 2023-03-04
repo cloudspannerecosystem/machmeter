@@ -4,7 +4,7 @@ This template implements the backend for a chat like messaging application.
 #### Schema
 The following diagram shows the entity relationship diagram defined for this template.
 
-[![ER diagram](https://raw.githubusercontent.com/cloudspannerecosystem/machmeter/master/machmeter/usecases/messaging/images/Schema.png)](https://raw.githubusercontent.com/cloudspannerecosystem/machmeter/master/machmeter/usecases/messaging/images/Schema.png)
+[![ER diagram](https://github.com/rickygodoy/machmeter/blob/master/machmeter/usecases/messaging/images/Schema.png)](https://github.com/rickygodoy/machmeter/blob/master/machmeter/usecases/messaging/images/Schema.png)
 
 All of these tables are interlinked via interleaved/foreign key relationships.
 
