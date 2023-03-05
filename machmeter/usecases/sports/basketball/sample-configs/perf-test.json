@@ -1,0 +1,10 @@
+{
+  "namespace": "spanner-test",
+  "jMeterTemplatePath" : "usecases/sports/basketball/templates/data-load.jmx",
+  "jMeterParams" : {
+    "project": "spanner-nba-testing",
+    "instance": "machmeter-sports-basketball-test",
+    "database": "sports-basketball",
+    "connections": 1000
+  }
+}
