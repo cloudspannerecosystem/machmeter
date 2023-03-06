@@ -228,9 +228,9 @@ for (int i = 1; i &lt;= countries.length; i++) {
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">${iterations}</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${users}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">2</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
@@ -274,10 +274,10 @@ for (int i = 1; i &lt;= countries.length; i++) {
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">${iterations}</stringProp>
+          <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${users}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -286,47 +286,85 @@ for (int i = 1; i &lt;= countries.length; i++) {
       <hashTree>
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="get_teams" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">select team_id from team</stringProp>
+          <stringProp name="query">select id from team</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="queryTimeout"></stringProp>
           <stringProp name="queryType">Select Statement</stringProp>
           <stringProp name="resultSetHandler">Store as String</stringProp>
           <stringProp name="resultSetMaxRows"></stringProp>
-          <stringProp name="resultVariable"></stringProp>
-          <stringProp name="variableNames">team_id_results</stringProp>
+          <stringProp name="resultVariable">team_id_results</stringProp>
+          <stringProp name="variableNames">team_id_result</stringProp>
         </JDBCSampler>
-        <hashTree/>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="get_players" enabled="true">
-          <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">select player_id from player</stringProp>
-          <stringProp name="queryArguments"></stringProp>
-          <stringProp name="queryArgumentsTypes"></stringProp>
-          <stringProp name="queryTimeout"></stringProp>
-          <stringProp name="queryType">Select Statement</stringProp>
-          <stringProp name="resultSetHandler">Store as String</stringProp>
-          <stringProp name="resultSetMaxRows"></stringProp>
-          <stringProp name="resultVariable"></stringProp>
-          <stringProp name="variableNames">player_id_results</stringProp>
-        </JDBCSampler>
-        <hashTree/>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler" enabled="true">
+        <hashTree>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="false">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">resultSet = vars.getObject(&quot;team_id_results&quot;);
+StringBuilder result = new StringBuilder();
+log.info(resultset.length);
+for (Object row : resultSet ) {
+    iter = row.entrySet().iterator();
+    while (iter.hasNext()) {
+        pair = iter.next();
+        result.append(pair.getValue());
+        log.info(pair.getValue());
+        //result.append(&quot;,&quot;);
+    }
+    //result.append(System.getProperty(&quot;line.separator&quot;));
+}</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">
+var result1 = vars.get(&quot;team_id_result&quot;);
+log.info(result1);
+log.info(result1_{0});
+
+var resultSet = vars.getObject(&quot;team_id_results&quot;);
+StringBuilder result = new StringBuilder();
+log.info(resultSet.length);
+for (Object row : resultSet ) {
+    iter = row.entrySet().iterator();
+    while (iter.hasNext()) {
+        pair = iter.next();
+        result.append(pair.getValue());
+        log.info(pair.getValue());
+        //result.append(&quot;,&quot;);
+    }
+    //result.append(System.getProperty(&quot;line.separator&quot;));
+}</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
-          <stringProp name="script">var players = vars.get(&quot;player_id_results&quot;);
-
-for (int i = 1; i &lt;= countries.length; i++) {
-   log.info(countries[i-1]);
-   vars.put(&quot;countries_&quot; + i, countries[i-1]);
-}
-
-</stringProp>
+          <stringProp name="script">resultSet = vars.getObject(&quot;team_id_results&quot;);
+StringBuilder result = new StringBuilder();
+log.info(resultset.length);
+for (Object row : resultSet ) {
+    iter = row.entrySet().iterator();
+    while (iter.hasNext()) {
+        pair = iter.next();
+        result.append(pair.getValue());
+        log.info(pair.getValue());
+        //result.append(&quot;,&quot;);
+    }
+    //result.append(System.getProperty(&quot;line.separator&quot;));
+}</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree/>
         <ForeachController guiclass="ForeachControlPanel" testclass="ForeachController" testname="ForEach Controller" enabled="true">
-          <stringProp name="ForeachController.inputVal">team_id_results</stringProp>
+          <stringProp name="ForeachController.inputVal">team_id_result</stringProp>
           <stringProp name="ForeachController.returnVal">team_loop_variable</stringProp>
           <boolProp name="ForeachController.useSeparator">true</boolProp>
         </ForeachController>

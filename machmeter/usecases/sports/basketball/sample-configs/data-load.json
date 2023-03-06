@@ -1,6 +1,6 @@
 {
   "namespace": "spanner-test",
-  "jMeterTemplatePath" : "usecases/sports/basketball/templates/data-load_interleaved.jmx",
+  "jMeterTemplatePath" : "usecases/sports/basketball/templates/data-load.jmx",
   "jMeterParams" : {
     "project": "span-cloud-testing",
     "instance": "machmeter-basketball",
