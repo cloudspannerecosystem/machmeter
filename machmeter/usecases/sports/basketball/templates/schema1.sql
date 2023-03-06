@@ -1,15 +1,15 @@
-CREATE TABLE player (
+CREATE TABLE players (
   id INT64 NOT NULL,
   first_name STRING(100),
   last_name STRING(100),
 ) PRIMARY KEY(id);
 
-CREATE TABLE country (
+CREATE TABLE countries (
   id INT64 NOT NULL,
   country_name STRING(100),
 ) PRIMARY KEY(id);
 
-CREATE TABLE team (
+CREATE TABLE teams (
   id INT64 NOT NULL,
   team_name STRING(100),
   country_id INT64 NOT NULL,
@@ -27,7 +27,6 @@ CREATE TABLE team_players (
 ALTER TABLE team_players ADD CONSTRAINT team_players_fk_playerId FOREIGN KEY(player_id) REFERENCES player(id);
 
 ALTER TABLE team_players ADD CONSTRAINT team_players_fk_teamId FOREIGN KEY(team_id) REFERENCES team(id);
-
 
 CREATE TABLE game (
   id INT64 NOT NULL,

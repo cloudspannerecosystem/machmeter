@@ -84,7 +84,7 @@
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="cleanup_team" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Prepared Update Statement</stringProp>
-          <stringProp name="query">delete from team where id &gt;= 1</stringProp>
+          <stringProp name="query">delete from teams where id &gt;= 1</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="variableNames"></stringProp>
@@ -97,7 +97,7 @@
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="cleanup_country" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Prepared Update Statement</stringProp>
-          <stringProp name="query">delete from country where id &gt;= 1</stringProp>
+          <stringProp name="query">delete from countries where id &gt;= 1</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="variableNames"></stringProp>
@@ -110,7 +110,7 @@
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="cleanup_players" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Prepared Update Statement</stringProp>
-          <stringProp name="query">delete from player where id &gt;=1</stringProp>
+          <stringProp name="query">delete from players where id &gt;=1</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="variableNames"></stringProp>
@@ -169,7 +169,7 @@ for (int i = 1; i &lt;= countries.length; i++) {
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="country_insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
             <stringProp name="queryType">Prepared Update Statement</stringProp>
-            <stringProp name="query">insert into country (id, country_name) values (?,?)</stringProp>
+            <stringProp name="query">insert into countries (id, country_name) values (?,?)</stringProp>
             <stringProp name="queryArguments">${country_id},${country_name}</stringProp>
             <stringProp name="queryArgumentsTypes">INTEGER,VARCHAR</stringProp>
             <stringProp name="variableNames"></stringProp>
@@ -197,7 +197,7 @@ for (int i = 1; i &lt;= countries.length; i++) {
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="team_insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
             <stringProp name="queryType">Prepared Update Statement</stringProp>
-            <stringProp name="query">insert into team (id, team_name, country_id) values (?,?,?)</stringProp>
+            <stringProp name="query">insert into teams (id, team_name, country_id) values (?,?,?)</stringProp>
             <stringProp name="queryArguments">${team_id},${team_name},${country_id}</stringProp>
             <stringProp name="queryArgumentsTypes">INTEGER,VARCHAR,INTEGER</stringProp>
             <stringProp name="variableNames"></stringProp>
@@ -240,7 +240,7 @@ for (int i = 1; i &lt;= countries.length; i++) {
       <hashTree>
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="players_insert" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">insert into player (id, first_name, last_name) values (?,?,?)</stringProp>
+          <stringProp name="query">insert into players (id, first_name, last_name) values (?,?,?)</stringProp>
           <stringProp name="queryArguments">${player_id},${first_name},${last_name}</stringProp>
           <stringProp name="queryArgumentsTypes">INTEGER,VARCHAR,VARCHAR</stringProp>
           <stringProp name="queryTimeout"></stringProp>
@@ -286,7 +286,7 @@ for (int i = 1; i &lt;= countries.length; i++) {
       <hashTree>
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="get_teams" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">select id from team</stringProp>
+          <stringProp name="query">select id from teams</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="queryTimeout"></stringProp>
