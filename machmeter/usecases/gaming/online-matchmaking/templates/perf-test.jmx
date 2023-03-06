@@ -25,12 +25,12 @@
           </elementProp>
           <elementProp name="threads" elementType="Argument">
             <stringProp name="Argument.name">threads</stringProp>
-            <stringProp name="Argument.value">5</stringProp>
+            <stringProp name="Argument.value">50</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="rampUp_Time" elementType="Argument">
             <stringProp name="Argument.name">rampUp_Time</stringProp>
-            <stringProp name="Argument.value">0</stringProp>
+            <stringProp name="Argument.value">10</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="startUp_Delay" elementType="Argument">
@@ -40,12 +40,12 @@
           </elementProp>
           <elementProp name="duration" elementType="Argument">
             <stringProp name="Argument.name">duration</stringProp>
-            <stringProp name="Argument.value">300</stringProp>
+            <stringProp name="Argument.value">600</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="iterations" elementType="Argument">
             <stringProp name="Argument.name">iterations</stringProp>
-            <stringProp name="Argument.value">10000000</stringProp>
+            <stringProp name="Argument.value">100000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="grpc_channel" elementType="Argument">
@@ -248,7 +248,7 @@ Timestamp gameFinishedAt = Timestamp.now();
 dbClient
 	.readWriteTransaction()
 	.run(transaction -&gt; {
-		String sql1 = &quot;Select game_uuid, player1, player2 from games WHERE finished IS NULL LIMIT 1&quot;;
+		String sql1 = &quot;SELECT game_uuid, player1, player2 from games WHERE finished IS NULL LIMIT 1&quot;;
 		ResultSet resultSet = transaction.executeQuery(Statement.of(sql1));
 		if (!resultSet.next()) return;
 		String gameId = resultSet.getString(&quot;game_uuid&quot;);
@@ -313,7 +313,7 @@ dbClient
             <stringProp name="script">import com.google.cloud.spanner.*;
 
 DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
-String sql = &quot;SELECT p.player_uuid, s.score FROM players p JOIN scores s ON p.player_uuid = s.player_uuid ORDER BY s.Score DESC LIMIT 10&quot;;
+String sql = &quot;SELECT player_uuid, score from scores WHERE timestamp &gt;= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 1 HOUR) ORDER BY score DESC LIMIT 10&quot;;
 
 Statement stmt = Statement.newBuilder(sql).build();
 
