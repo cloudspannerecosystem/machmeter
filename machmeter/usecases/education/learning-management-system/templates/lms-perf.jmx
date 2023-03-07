@@ -67,7 +67,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
@@ -236,7 +236,7 @@ fWriter.close();</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">2</stringProp>
+          <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${ramUp_time}</stringProp>
@@ -464,6 +464,27 @@ ResultSet result = dbClient
 while(result.next()) {}
 result.close();
 </stringProp>
+            </JSR223Sampler>
+            <hashTree/>
+            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Stale Read Instructors" enabled="true">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.concurrent.TimeUnit;
+
+String instructorId = vars.get(&quot;instructorId&quot;);
+String readProfileSql = &quot;SELECT * FROM instructors WHERE id = @instructorId;&quot;;
+Statement stmt = Statement.newBuilder(readProfileSql)
+ .bind(&quot;instructorId&quot;).to(instructorId)
+ .build();
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+ResultSet result = dbClient
+ .singleUse(TimestampBound.ofExactStaleness(15, TimeUnit.SECONDS))
+ .executeQuery(stmt);
+while(result.next()) {}
+result.close();</stringProp>
             </JSR223Sampler>
             <hashTree/>
             <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
