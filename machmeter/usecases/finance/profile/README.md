@@ -252,6 +252,19 @@ Updating instance...done.
 
 ```
 
+## Cleanup Environment
+
+> Note: 
+
+Machmeter provides a capabilities to easily cleanup performance load test environment and it reuses the same configuration as deployment  
+
+
+Run the following steps to start cleanup/destroy environment:
+
+```bash
+# Running machmeter setup to deploy environment
+$ java -jar target/machmeter/machmeter.jar cleanup profile-infra-config.json 
+```
 
 ## Documentation
 

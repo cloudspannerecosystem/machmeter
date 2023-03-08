@@ -2,10 +2,10 @@
     "infraConfig": {
       "spannerInstanceConfig": {
         "projectId" : "jaru-ktb-spanner-ext",
-        "instanceId": "jaru-spanner-profile",
-        "dbName": "jaru-profile-db",
+        "instanceId": "spanner-profile",
+        "dbName": "profile-db",
         "configuration": "regional-asia-southeast1",
-        "displayName": "jaru-spanner-profile",
+        "displayName": "spanner-profile",
         "processingUnits": 1000,
         "environment": "dev"
       },
@@ -26,8 +26,8 @@
     },
     "ddlConfig" : {
       "spannerInstanceConfig" : {
-        "instanceId" : "jaru-spanner-profile",
-        "dbName" : "jaru-profile-db",
+        "instanceId" : "spanner-profile",
+        "dbName" : "profile-db",
         "configuration": "regional-asia-southeast1",
         "projectId" : "jaru-ktb-spanner-ext"
       },
