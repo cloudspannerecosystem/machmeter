@@ -1,0 +1,13 @@
+{
+    "namespace": "spanner-test",
+    "jMeterTemplatePath" : "usecases/finance/profile/templates/profile-init-csv.jmx",
+    "jMeterParams" : {
+      "project": "jaru-ktb-spanner-ext",
+      "instance": "spanner-profile",
+      "database": "profile-db",
+      "connections": 1000,
+      "grpc_channel": 10,
+      "threads": 1,
+      "iterations": 1
+    }
+}

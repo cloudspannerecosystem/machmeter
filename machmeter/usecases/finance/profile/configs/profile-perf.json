@@ -1,0 +1,15 @@
+{
+    "namespace": "spanner-test",
+    "jMeterTemplatePath" : "usecases/finance/profile/templates/profile-perf.jmx",
+    "jMeterParams" : {
+      "project": "jaru-ktb-spanner-ext",
+      "instance": "spanner-profile",
+      "database": "profile-db",
+      "startUp_Delay": 0,
+      "rampUp_Time": 5,
+      "duration": 300,
+      "connections": 500,
+      "threads": 2,
+      "grpc_channel": 50
+    }
+}
