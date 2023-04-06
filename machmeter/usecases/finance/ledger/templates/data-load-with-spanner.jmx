@@ -48,7 +48,7 @@
       <stringProp name="TestPlan.user_define_classpath">/test/</stringProp>
     </TestPlan>
     <hashTree>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection" enabled="true">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection" enabled="false">
         <boolProp name="autocommit">true</boolProp>
         <stringProp name="checkQuery"></stringProp>
         <stringProp name="connectionAge">5000</stringProp>
@@ -67,7 +67,147 @@
         <stringProp name="username"></stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Insert Data" enabled="true">
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="create spanner connection" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Create connection" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">import com.google.cloud.spanner.*;
+
+String projectId = &quot;${project}&quot;;
+String instanceId = &quot;${instance}&quot;;
+String databaseId = &quot;${database}&quot;;
+
+int sessions = ${connections};
+int channels = ${channels}; 
+SessionPoolOptions sessionPool = SessionPoolOptions.newBuilder()
+                .setMinSessions(sessions)
+                .setMaxSessions(sessions)
+                .build();
+                
+SpannerOptions options = SpannerOptions.newBuilder()
+      .setNumChannels(channels)
+      .setSessionPoolOption(sessionPool)
+      .build();
+    
+Spanner spanner = options.getService();
+DatabaseClient dbClient = spanner.getDatabaseClient(DatabaseId.of(projectId, instanceId, databaseId));
+
+props.put(&quot;spanner&quot;, spanner);
+props.put(&quot;dbClient&quot;, dbClient);
+props.put(&quot;maxSamplingSize&quot;, 1000);
+
+SampleResult.setRequestHeaders(spanner.toString());</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="load sample data using Spanner Connection" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${iterations}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${users}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${ramUp_Time}</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">${duration}</stringProp>
+        <stringProp name="ThreadGroup.delay">${startUp_Delay}</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Insert user_data" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.*;
+import com.google.cloud.Timestamp;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.Long
+
+try 
+{ 
+	DatabaseClient dbClient    = props.get(&quot;dbClient&quot;);
+	
+	Timestamp createdDate 		= Timestamp.ofTimeMicroseconds(System.currentTimeMillis());
+	
+	String data 		 	= &quot;fbsdkjbfksdjfbksdfsvddjfgbdcfdsfbjsdkfbskdfbksdfbksdfbjksdbfksdbfksdbfksdfbdskbfksjfgbdjkfhbgdfkgsfsdbfskdfbsksdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfsdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvddjfgbdcfdsfbjsdkfbskdfbksdfbksdfbjksdbfksdbfksdbfksdfbdskbfksjfgbdjkfhbgdfkgsfsdbfskdfbsksdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsfskjhhjvgvhsdfasaewrerergergergergertertevcxvxcvsdsdfgdfgdfgdfgdfgdgfdgnnnnndsvcfjsdfvjsdvfksdavfvfdsjhbdjhfgbjhdfbgdhjfgjdhfgbjdhfbgjhdfbgvnvnvbnvnvbnvnbvnbjhfjfhjfjfjfjfjfhjdfbgsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvddjfgbdcfdsfbjsdkfbskdfbksdfbksdfbjksdbfksdbfksdbfksdfbdskbfksjfgbdjkfhbgdfkgbsfsdbfskdfbsksdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsfskjhhjvgvhsdfasaewrerergergergergertertevcxvxcvsdsdfgdfgdfgdfgdfgdgfdgnnnnndsvcfjsdfvjsdvfksdavfvfdsjhbdjhfgbjhdfbgdhjfgjdhfgbjdhfbgjhdfbgvnvnvbnvnvbnvnbvnbjhfjfhjfjfjfjfjfhjdfbgsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjbfksdjfbksdfsvdsdfhjksdfhksjdfjskdfbjksdbfskdbgfssdfsdkfbsdkjb&quot;;
+	
+	ArrayList&lt;Mutation&gt; mutations = new ArrayList&lt;&gt;();
+
+	for (int i = 0; i &lt; 50; i = i + 1) {
+		float limitAmt 		= Float.parseFloat(RandomStringUtils.randomNumeric(4));
+		float balance 	= 1000 + limitAmt;
+		
+		String userId 	  	= UUID.randomUUID().toString();	
+		Mutation user_bal_mutation = Mutation.newInsertBuilder(&quot;user_bal&quot;)
+							.set(&quot;userId&quot;)
+							.to(userId)
+							.set(&quot;balance&quot;)
+							.to(balance)
+							.set(&quot;creationTime&quot;)
+							.to(createdDate)
+							.set(&quot;engmtLvl&quot;)
+							.to(data)
+							.set(&quot;streakDay&quot;)
+							.to(data)
+							.set(&quot;source&quot;)
+							.to(data)
+							.build();
+		mutations.add(user_bal_mutation);
+		
+		String transactionId 	  	= UUID.randomUUID().toString();
+		Mutation user_txn_mutation = Mutation.newInsertBuilder(&quot;user_txns&quot;)
+							.set(&quot;userId&quot;)
+							.to(userId)
+							.set(&quot;transactionId&quot;)
+							.to(transactionId)
+							.set(&quot;amount&quot;)
+							.to(limitAmt)
+							.set(&quot;creationTime&quot;)
+							.to(createdDate)
+							.set(&quot;streakDay&quot;)
+							.to(data)
+							.set(&quot;RewardType&quot;)
+							.to(data)
+							.build();
+		
+		mutations.add(user_txn_mutation);
+	}
+	
+	dbClient.write(mutations);
+
+} catch (Exception e) {
+    System.out.println(e.toString());
+} 
+
+//Random randomNum = new Random();
+//int low = 1;
+//int high = props.get(&quot;maxSamplingSize&quot;); //Change here to suit for sampling size
+//int number = randomNum.nextInt(high - low) + low; 
+//vars.put(&quot;UserId_&quot; + number.toString(), userId);
+//log.info(&quot;insert --&gt;thread({}): modify UserId({}) with {}&quot;,${__threadNum},number, userId);
+
+</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Insert Data" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -221,7 +361,92 @@
         </BackendListener>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create Sampled CSV Data" enabled="true">
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="create sampled csv data" enabled="false">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Sampling UserID" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+// Create a list of sampling user_ref_id before testing
+// Note: Please change limit to 10000
+String readUserIdSql=&quot;SELECT userId FROM user_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 1000;&quot;;
+Statement stmt = Statement.newBuilder(readUserIdSql).build();
+
+ResultSet result = dbClient
+	.singleUseReadOnlyTransaction()
+	.executeQuery(stmt);
+
+StringBuilder csv_result = new StringBuilder();
+int count = 0;
+
+// Store sampling user_ref_id in the JmeterProperties for future use by other threads*
+while (result.next()) {
+	count = count+1;
+	//log.info(&quot;count({}), thread({}):{}&quot;,count, ${__threadNum},result.getString(&quot;user_ref_id&quot;));
+	//vars.put(&quot;UserId_&quot; + count.toString(),result.getString(&quot;user_ref_id&quot;) )
+	csv_result.append(result.getString(&quot;userId&quot;));
+	csv_result.append(System.getProperty(&quot;line.separator&quot;));
+
+}
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/userId.csv&quot;), csv_result.toString(), &quot;UTF-8&quot;);
+result.close();</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Sampling DeviceID" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">import com.google.cloud.spanner.*;
+
+
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+// Create a list of sampling user_ref_id before testing
+// Note: Please change limit to 10000
+String readUserIdSql=&quot;SELECT deviceId FROM device_profile TABLESAMPLE BERNOULLI (50 PERCENT) limit 1000;&quot;;
+Statement stmt = Statement.newBuilder(readUserIdSql).build();
+
+ResultSet result = dbClient
+	.singleUseReadOnlyTransaction()
+	.executeQuery(stmt);
+
+StringBuilder csv_result = new StringBuilder();
+int count = 0;
+
+// Store sampling user_ref_id in the JmeterProperties for future use by other threads*
+while (result.next()) {
+	count = count+1;
+	//log.info(&quot;count({}), thread({}):{}&quot;,count, ${__threadNum},result.getString(&quot;device_id&quot;));
+	//vars.put(&quot;DeviceId_&quot; + count.toString(),result.getString(&quot;device_id&quot;) )
+	csv_result.append(result.getString(&quot;deviceId&quot;));
+	csv_result.append(System.getProperty(&quot;line.separator&quot;));
+
+}
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/deviceId.csv&quot;), csv_result.toString(), &quot;UTF-8&quot;);
+result.close();</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create Sampled CSV Data" enabled="false">
         <stringProp name="TestPlan.comments">Fetches sampled data from Spanner for the load test</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">

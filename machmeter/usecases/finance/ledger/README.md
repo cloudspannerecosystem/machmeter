@@ -11,3 +11,4 @@ template to use in its run.
 For performance testing, we showcase a variety of different access patterns such as write mutations, read queries,
 readWriteTransactions etc.
 
+Use `data-load-with-spanner.jmx` template for loading data using Spanner connection and mutations for bulk upload. 
