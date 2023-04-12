@@ -49,10 +49,6 @@ public class GKEConfig {
   @Expose
   private String namespace;
 
-  @SerializedName(value = "service_account_json", alternate = "serviceAccountJson")
-  @Expose
-  private String serviceAccountJson;
-
   @SerializedName(value = "machine_type", alternate = "machineType")
   @Expose
   private String machineType;
@@ -73,6 +69,27 @@ public class GKEConfig {
   @Expose
   private int initialNodeCount;
 
+  @SerializedName(value = "google_service_account", alternate = "googleServiceAccount")
+  @Expose
+  private String googleServiceAccount;
+
+  public void setGoogleServiceAccount(String googleServiceAccount) {
+    this.googleServiceAccount = googleServiceAccount;
+  }
+  public String getGoogleServiceAccount() {
+    return googleServiceAccount;
+  }
+
+  @SerializedName(value = "kube_service_account", alternate = "kubeServiceAccount")
+  @Expose
+  private String kubeServiceAccount;
+
+  public void setKubeServiceAccount(String kubeServiceAccount) {
+    this.kubeServiceAccount = kubeServiceAccount;
+  }
+  public String getKubeServiceAccount() {
+    return kubeServiceAccount;
+  }
   public String getClusterName() {
     return clusterName;
   }
@@ -127,14 +144,6 @@ public class GKEConfig {
 
   public void setNamespace(String namespace) {
     this.namespace = namespace;
-  }
-
-  public String getServiceAccountJson() {
-    return serviceAccountJson;
-  }
-
-  public void setServiceAccountJson(String serviceAccountJson) {
-    this.serviceAccountJson = serviceAccountJson;
   }
 
   public String getMachineType() {

@@ -76,6 +76,7 @@ public class ExecutePlugin implements Plugin<ExecuteConfig> {
                   try {
                     shellExecutor.run(kubectlStop, "machmeter_output/terraform");
                   } catch (Exception e) {
+                    e.printStackTrace();
                     throw new RuntimeException(e);
                   }
                 }));
@@ -87,6 +88,7 @@ public class ExecutePlugin implements Plugin<ExecuteConfig> {
     } catch (IOException | InterruptedException e) {
       e.printStackTrace();
     } catch (Exception e) {
+      e.printStackTrace();
       throw new RuntimeException(e);
     }
   }
