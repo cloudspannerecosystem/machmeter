@@ -22,7 +22,8 @@
       "nodeLocations": "us-central1-a,us-central1-b,us-central1-c",
       "minCount": 3,
       "maxCount": 3,
-      "initialNodeCount": 3
+      "initialNodeCount": 3,
+      "jvmArgs": "-Xms1g -Xmx1g"
     }
   },
   "ddlConfig" : {

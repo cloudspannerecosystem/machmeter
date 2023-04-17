@@ -61,6 +61,10 @@ public class GKEConfig {
   @Expose
   private String nodeLocations;
 
+  @SerializedName(value = "jvm_args", alternate = "jvmArgs")
+  @Expose
+  private String jvmArgs;
+
   @SerializedName(value = "min_count", alternate = "minCount")
   @Expose
   private int minCount;
@@ -151,6 +155,14 @@ public class GKEConfig {
 
   public void setNodeLocations(String nodeLocations) {
     this.nodeLocations = nodeLocations;
+  }
+
+  public String getJvmArgs() {
+    return jvmArgs;
+  }
+
+  public void setJvmArgs(String jvmArgs) {
+    this.jvmArgs = jvmArgs;
   }
 
   public int getMinCount() {

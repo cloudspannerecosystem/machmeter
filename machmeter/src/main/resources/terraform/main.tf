@@ -28,6 +28,7 @@ variable "gke_config" {
     service_account_json    = string
     machine_type            = string
     node_locations          = string
+    jvm_args                = string
     min_count               = number
     max_count               = number
     initial_node_count      = number
@@ -303,6 +304,10 @@ resource "kubernetes_deployment" "jmeter-master" {
             name = "GOOGLE_APPLICATION_CREDENTIALS"
             value = "/var/secrets/google/key.json"
           }
+          env {
+            name = "JVM_ARGS"
+            value: var.gke_config.jvm_args
+          }
         }
         volume {
           name = "loadtest"
@@ -380,6 +385,11 @@ resource "kubernetes_stateful_set" "jmeter-slave" {
           env {
             name = "GOOGLE_APPLICATION_CREDENTIALS"
             value = "/var/secrets/google/key.json"
+
+          }
+          env {
+            name = "JVM_ARGS"
+            value: var.gke_config.jvm_args
           }
         }
         volume {
