@@ -372,16 +372,6 @@ resource "kubernetes_stateful_set" "jmeter-slave" {
           port {
             container_port = 50000
           }
-          resources {
-            limits = {
-              cpu    = "1000m"
-              memory = "2Gi"
-            }
-            requests = {
-              cpu    = "1000m"
-              memory = "2Gi"
-            }
-          }
           env {
             name = "GOOGLE_APPLICATION_CREDENTIALS"
             value = "/var/secrets/google/key.json"
