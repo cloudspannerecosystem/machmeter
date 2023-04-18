@@ -1,8 +1,8 @@
 ---
 layout: default
 title: Troubleshooting Guide
-parent: Guides
-nav_order: 1
+nav_order: 7
+description: "Common FAQs and issues"
 ---
 
 # Troubleshooting Guide
