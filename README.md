@@ -17,7 +17,11 @@ Run the following steps to start using Machmeter:
 
 ```bash
 $ git clone https://github.com/cloudspannerecosystem/machmeter.git
-$ cd machmeter/machmeter
+
+# Install Dependencies
+$ cd machmeter
+$ ./install.sh
+$ cd machmeter
 
 # Building the maven project
 $ mvn clean package -P assembly
