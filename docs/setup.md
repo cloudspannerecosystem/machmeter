@@ -49,7 +49,8 @@ for a quick reference to common concepts and commands.
 | gkeConfig.subnetwork                              | GKE cluster sub network                                                 | 
 | gkeConfig.ipRangePodsName                         | GKE cluster IP range Pod's Name                                         | 
 | gkeConfig.ipRangeServicesName                     | GKE cluster IP range Services Name                                      | 
-| gkeConfig.service_account_json                    | Path to service account's json file                                     | 
+| gkeConfig.google_service_account                  | Name of Google Cloud Service Account to be created                      | 
+| gkeConfig.kube_service_account                    | Name of GKE Service Account to be created                               | 
 | jMeterParams.spannerInstanceConfig.projectId      | Google Cloud Project Id (Should be same as in previoud keys)            | 
 | jMeterParams.spannerInstanceConfig.instanceId     | Name of the instance to be created (Should be same as in previoud keys) | 
 | jMeterParams.spannerInstanceConfig.dbName         | Name of the database to be created (Should be same as in previoud keys) | 
