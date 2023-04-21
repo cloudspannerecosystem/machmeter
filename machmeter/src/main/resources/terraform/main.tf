@@ -28,6 +28,13 @@ variable "gke_config" {
     service_account_json    = string
     machine_type            = string
     node_locations          = string
+    master_jvm_args         = string
+    slave_jvm_args          = string
+    master_cpu_request      = string
+    master_memory_request   = string
+    slave_cpu_request       = string
+    slave_memory_request    = string
+    slave_replica_count     = number
     min_count               = number
     max_count               = number
     initial_node_count      = number
@@ -118,7 +125,7 @@ module "gke" {
   ip_range_pods          = var.gke_config.ip_range_pods_name
   ip_range_services      = var.gke_config.ip_range_services_name
   grant_registry_access    = true
-  remove_default_node_pool = false
+  remove_default_node_pool = true
   create_service_account   = false
   node_pools = [
     {
@@ -299,9 +306,19 @@ resource "kubernetes_deployment" "jmeter-master" {
           port {
             container_port = 60000
           }
+          resources {
+            requests = {
+              cpu    = var.gke_config.master_cpu_request
+              memory = var.gke_config.master_memory_request
+            }
+          }
           env {
             name = "GOOGLE_APPLICATION_CREDENTIALS"
             value = "/var/secrets/google/key.json"
+          }
+          env {
+            name = "JVM_ARGS"
+            value: var.gke_config.master_jvm_args
           }
         }
         volume {
@@ -336,7 +353,7 @@ resource "kubernetes_stateful_set" "jmeter-slave" {
   }
   spec {
     service_name = "jmeter-slaves"
-    replicas = 2
+    replicas = var.gke_config.slave_replica_count
     selector {
       match_labels = {
         jmeter_mode = "slave"
@@ -368,18 +385,19 @@ resource "kubernetes_stateful_set" "jmeter-slave" {
             container_port = 50000
           }
           resources {
-            limits = {
-              cpu    = "1000m"
-              memory = "2Gi"
-            }
             requests = {
-              cpu    = "1000m"
-              memory = "2Gi"
+              cpu    = var.gke_config.slave_cpu_request
+              memory = var.gke_config.slave_memory_request
             }
           }
           env {
             name = "GOOGLE_APPLICATION_CREDENTIALS"
             value = "/var/secrets/google/key.json"
+
+          }
+          env {
+            name = "JVM_ARGS"
+            value: var.gke_config.slave_jvm_args
           }
         }
         volume {

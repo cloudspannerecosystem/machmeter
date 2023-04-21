@@ -21,6 +21,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class GKEConfig {
 
+  private static final String DEFAULT_JVM_ARGS = "-Xms1g -Xmx1g";
+  private static final int DEFAULT_SLAVE_REPLICA_COUNT = 2;
+  private static final String DEFAULT_CPU_REQUEST = "1000m";
+  private static final String DEFAULT_MEMORY_REQUEST = "1Gi";
+
   @SerializedName(value = "cluster_name", alternate = "clusterName")
   @Expose
   private String clusterName;
@@ -60,6 +65,34 @@ public class GKEConfig {
   @SerializedName(value = "node_locations", alternate = "nodeLocations")
   @Expose
   private String nodeLocations;
+
+  @SerializedName(value = "master_jvm_args", alternate = "masterJvmArgs")
+  @Expose
+  private String masterJvmArgs;
+
+  @SerializedName(value = "slave_jvm_args", alternate = "slaveJvmArgs")
+  @Expose
+  private String slaveJvmArgs;
+
+  @SerializedName(value = "master_cpu_request", alternate = "masterCPURequest")
+  @Expose
+  private String masterCPURequest;
+
+  @SerializedName(value = "master_memory_request", alternate = "masterMemoryRequest")
+  @Expose
+  private String masterMemoryRequest;
+
+  @SerializedName(value = "slave_cpu_request", alternate = "slaveCPURequest")
+  @Expose
+  private String slaveCPURequest;
+
+  @SerializedName(value = "slave_memory_request", alternate = "slaveMemoryRequest")
+  @Expose
+  private String slaveMemoryRequest;
+
+  @SerializedName(value = "slave_replica_count", alternate = "slaveReplicaCount")
+  @Expose
+  private int slaveReplicaCount;
 
   @SerializedName(value = "min_count", alternate = "minCount")
   @Expose
@@ -151,6 +184,109 @@ public class GKEConfig {
 
   public void setNodeLocations(String nodeLocations) {
     this.nodeLocations = nodeLocations;
+  }
+
+  public String getMasterJvmArgs() {
+    if (masterJvmArgs == null) masterJvmArgs = DEFAULT_JVM_ARGS;
+    ;
+    return masterJvmArgs;
+  }
+
+  public void setMasterJvmArgs(String masterJvmArgs) {
+    if (masterJvmArgs == null) {
+      this.masterJvmArgs = DEFAULT_JVM_ARGS;
+      return;
+    }
+    this.masterJvmArgs = masterJvmArgs;
+  }
+
+  public String getSlaveJvmArgs() {
+    if (slaveJvmArgs == null) slaveJvmArgs = DEFAULT_JVM_ARGS;
+    ;
+    return slaveJvmArgs;
+  }
+
+  public void setSlaveJvmArgs(String slaveJvmArgs) {
+    if (slaveJvmArgs == null) {
+      this.slaveJvmArgs = DEFAULT_JVM_ARGS;
+      return;
+    }
+    this.slaveJvmArgs = slaveJvmArgs;
+  }
+
+  public String getMasterCPURequest() {
+    if (masterCPURequest == null) masterCPURequest = DEFAULT_CPU_REQUEST;
+    ;
+    return masterCPURequest;
+  }
+
+  public void setMasterCPURequest(String masterCPURequest) {
+    if (masterCPURequest == null) {
+      this.masterCPURequest = DEFAULT_CPU_REQUEST;
+      return;
+    }
+    ;
+    this.masterCPURequest = masterCPURequest;
+  }
+
+  public String getMasterMemoryRequest() {
+    if (masterMemoryRequest == null) masterMemoryRequest = DEFAULT_MEMORY_REQUEST;
+    ;
+    return masterMemoryRequest;
+  }
+
+  public void setMasterMemoryRequest(String masterMemoryRequest) {
+    if (masterMemoryRequest == null) {
+      this.masterMemoryRequest = DEFAULT_MEMORY_REQUEST;
+      return;
+    }
+    ;
+    this.masterMemoryRequest = masterMemoryRequest;
+  }
+
+  public String getSlaveCPURequest() {
+    if (slaveCPURequest == null) slaveCPURequest = DEFAULT_MEMORY_REQUEST;
+    ;
+    return slaveCPURequest;
+  }
+
+  public void setSlaveCPURequest(String slaveCPURequest) {
+    if (slaveCPURequest == null) {
+      this.slaveCPURequest = DEFAULT_CPU_REQUEST;
+      return;
+    }
+    ;
+    this.slaveCPURequest = slaveCPURequest;
+  }
+
+  public String getSlaveMemoryRequest() {
+    if (slaveMemoryRequest == null) slaveMemoryRequest = DEFAULT_MEMORY_REQUEST;
+    ;
+    return slaveMemoryRequest;
+  }
+
+  public void setSlaveMemoryRequest(String slaveMemoryRequest) {
+    if (slaveMemoryRequest == null) {
+      this.slaveMemoryRequest = DEFAULT_MEMORY_REQUEST;
+      return;
+    }
+    ;
+    this.slaveMemoryRequest = slaveMemoryRequest;
+  }
+
+  public int getSlaveReplicaCount() {
+    if (slaveReplicaCount <= 0) slaveReplicaCount = DEFAULT_SLAVE_REPLICA_COUNT;
+    ;
+    return slaveReplicaCount;
+  }
+
+  public void setSlaveReplicaCount(int slaveReplicaCount) {
+    if (slaveReplicaCount <= 0) {
+      this.slaveReplicaCount = DEFAULT_SLAVE_REPLICA_COUNT;
+      return;
+    }
+    ;
+    this.slaveReplicaCount = slaveReplicaCount;
   }
 
   public int getMinCount() {
