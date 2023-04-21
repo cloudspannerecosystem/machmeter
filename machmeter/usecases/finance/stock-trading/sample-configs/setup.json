@@ -2,22 +2,22 @@
   "infraConfig": {
     "spannerInstanceConfig": {
       "projectId" : "span-cloud-testing",
-      "instanceId": "machmeter-lms-test",
-      "dbName": "lms-database",
+      "instanceId": "stock-trading-template-test",
+      "dbName": "stock-trading",
       "configuration": "regional-us-central1",
-      "displayName": "load_test_instance",
+      "displayName": "Stock Trading Template",
       "processingUnits": 1000,
       "environment": "testing"
     },
     "gkeConfig": {
-      "clusterName": "jmeter-lms-load-test",
-      "namespace": "spanner-test",
+      "clusterName": "stock-trading-template-cluster",
+      "namespace": "stock-trading-template-spanner-test",
       "region": "us-central1",
-      "network": "gke-network-machmeter-lms",
-      "subnetwork": "gke-subnet-machmeter-lms",
+      "network": "stock-trading-template-network",
+      "subnetwork": "stock-trading-template-subnet",
       "ipRangePodsName": "ip-range-pods",
       "ipRangeServicesName": "ip-range-services",
-      "service_account_json": "/usr/local/google/home/arpanmishra/machmeter/machmeter/terraformer.json",
+      "service_account_json": "sa.json",
       "machineType": "e2-standard-2",
       "nodeLocations": "us-central1-a,us-central1-b,us-central1-c",
       "minCount": 3,
@@ -27,11 +27,11 @@
   },
   "ddlConfig" : {
     "spannerInstanceConfig" : {
-      "instanceId" : "machmeter-lms-test",
-      "dbName" : "lms-database",
+      "instanceId" : "stock-trading-template-test",
+      "dbName" : "stock-trading",
       "configuration": "regional-us-central1",
       "projectId" : "span-cloud-testing"
     },
-    "schemaFilePath" : "usecases/education/learning-management-system/templates/schema.sql"
+    "schemaFilePath" : "usecases/finance/stock-trading/templates/schema.sql"
   }
 }

@@ -21,9 +21,13 @@ $ git clone https://github.com/cloudspannerecosystem/machmeter.git
 # Install Dependencies
 $ cd machmeter
 $ ./install.sh
+$ cd machmeter
+
+# Authenticate with gCloud
+gcloud auth login
 
 # You provide the path to service accounts key.
-$ export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
+export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
 
 # Install the gcloud gke plugin
 gcloud components install gke-gcloud-auth-plugin

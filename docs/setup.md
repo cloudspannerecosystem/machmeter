@@ -24,6 +24,11 @@ containing SQL command describing the database structure.
 One important thing to remember is that the spanner config will need to remain the
 same in all these steps.
 
+{: .note}
+Machmeter uses Terraform to create a GKE cluster which is used to generate the load. 
+Refer to [Kubernetes concepts cheat sheet](https://medium.com/hashmapinc/30-second-kubernetes-concepts-cheat-sheet-98ba813194cb) and [kubectl CLI cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) 
+for a quick reference to common concepts and commands.
+
 ### Configuration File Definition 
 
 <div class="resource-config" markdown="1">
@@ -61,7 +66,7 @@ This is a [sample file](https://github.com/cloudspannerecosystem/machmeter/blob/
 
 ### Execution Command
 ```bash
-$ java -jar target/machmeter/machmeter.jar setup path-to-config-file.json
+java -jar target/machmeter/machmeter.jar setup path-to-config-file.json
 ```
 
 ## Data Load
@@ -100,5 +105,5 @@ Ensure you have the GKE credentials configured via: `gcloud container clusters g
 
 ```bash
 
-$ java -jar target/machmeter/machmeter.jar execute path-to-config-file.json
+java -jar target/machmeter/machmeter.jar execute path-to-config-file.json
 ```

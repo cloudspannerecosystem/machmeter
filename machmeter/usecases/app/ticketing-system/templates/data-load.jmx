@@ -4,27 +4,28 @@
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Scenario 1 Cloud Spanner Initial Load" enabled="true">
       <stringProp name="TestPlan.comments">Populates the user_bal and user_txn table with dummy data</stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="project" elementType="Argument">
             <stringProp name="Argument.name">project</stringProp>
-            <stringProp name="Argument.value">${__P(project, span-cloud-testing)}</stringProp>
+            <stringProp name="Argument.value">${__P(project, default)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="instance" elementType="Argument">
             <stringProp name="Argument.name">instance</stringProp>
-            <stringProp name="Argument.value">${__P(instance, machmeter-lms-test)}</stringProp>
+            <stringProp name="Argument.value">${__P(instance, default)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="database" elementType="Argument">
             <stringProp name="Argument.name">database</stringProp>
-            <stringProp name="Argument.value">${__P(database, lms-database)}</stringProp>
+            <stringProp name="Argument.value">${__P(database, ticketing-db)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="connections" elementType="Argument">
             <stringProp name="Argument.name">connections</stringProp>
-            <stringProp name="Argument.value">${__P(connections, 1000)}</stringProp>
+            <stringProp name="Argument.value">${__P(connections, 1)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="channels" elementType="Argument">
@@ -34,17 +35,17 @@
           </elementProp>
           <elementProp name="users" elementType="Argument">
             <stringProp name="Argument.name">users</stringProp>
-            <stringProp name="Argument.value">${__P(users, 5)}</stringProp>
+            <stringProp name="Argument.value">${__P(users, 10)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="iterations" elementType="Argument">
             <stringProp name="Argument.name">iterations</stringProp>
-            <stringProp name="Argument.value">${__P(iterations, 10)}</stringProp>
+            <stringProp name="Argument.value">${__P(iterations, 5)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
       </elementProp>
-      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+      <stringProp name="TestPlan.user_define_classpath">/test</stringProp>
     </TestPlan>
     <hashTree>
       <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection" enabled="true">
@@ -66,7 +67,7 @@
         <stringProp name="username"></stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Insert LMS Data" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Insert Data" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -80,11 +81,11 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="instructors insert" enabled="true">
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="issues_insert" enabled="true">
           <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">insert into instructors (id, first_name, last_name, enroll_date, rating) values (?,?,?,?,?)</stringProp>
-          <stringProp name="queryArguments">${InstructorId},${FirstName},${LastName},${EnrollDate},${Rating}</stringProp>
-          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,TIMESTAMP,NUMERIC</stringProp>
+          <stringProp name="query">insert into issues (issue_id, component_id, reporter, create_time) values (?,?,?,?)</stringProp>
+          <stringProp name="queryArguments">${issue_id},${component_id},${reporter},${create_time}</stringProp>
+          <stringProp name="queryArgumentsTypes">INTEGER,INTEGER,VARCHAR,TIMESTAMP</stringProp>
           <stringProp name="queryTimeout"></stringProp>
           <stringProp name="queryType">Prepared Update Statement</stringProp>
           <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -95,56 +96,17 @@
         <hashTree>
           <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
             <collectionProp name="UserParameters.names">
-              <stringProp name="921877176">InstructorId</stringProp>
-              <stringProp name="2136803643">FirstName</stringProp>
-              <stringProp name="-1394955679">LastName</stringProp>
-              <stringProp name="2108329364">EnrollDate</stringProp>
-              <stringProp name="-1854235203">Rating</stringProp>
+              <stringProp name="698707521">issue_id</stringProp>
+              <stringProp name="-499132515">component_id</stringProp>
+              <stringProp name="-427039519">reporter</stringProp>
+              <stringProp name="-493574096">create_time</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="-1241713690">
-                <stringProp name="118040362">${__UUID()}</stringProp>
-                <stringProp name="1623793987">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
-                <stringProp name="1623793987">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
-                <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
-                <stringProp name="-731382688">${__Random(1,5)}</stringProp>
-              </collectionProp>
-            </collectionProp>
-            <boolProp name="UserParameters.per_iteration">false</boolProp>
-            <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
-          </UserParameters>
-          <hashTree/>
-        </hashTree>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="students insert" enabled="true">
-          <stringProp name="dataSource">conn_pool</stringProp>
-          <stringProp name="query">insert into students (id, first_name, last_name, location, enroll_date, email_id) values (?,?,?,?,?,?)</stringProp>
-          <stringProp name="queryArguments">${StudentId},${FirstName},${LastName},${Location},${EnrollDate},${EmailId}</stringProp>
-          <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,VARCHAR,TIMESTAMP,VARCHAR</stringProp>
-          <stringProp name="queryTimeout"></stringProp>
-          <stringProp name="queryType">Prepared Update Statement</stringProp>
-          <stringProp name="resultSetHandler">Store as String</stringProp>
-          <stringProp name="resultSetMaxRows"></stringProp>
-          <stringProp name="resultVariable"></stringProp>
-          <stringProp name="variableNames"></stringProp>
-        </JDBCSampler>
-        <hashTree>
-          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
-            <collectionProp name="UserParameters.names">
-              <stringProp name="31000726">StudentId</stringProp>
-              <stringProp name="2136803643">FirstName</stringProp>
-              <stringProp name="-1394955679">LastName</stringProp>
-              <stringProp name="1965687765">Location</stringProp>
-              <stringProp name="2108329364">EnrollDate</stringProp>
-              <stringProp name="26637751">EmailId</stringProp>
-            </collectionProp>
-            <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="-1074617113">
-                <stringProp name="118040362">${__UUID()}</stringProp>
-                <stringProp name="-1161236289">${__RandomString(5,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
-                <stringProp name="-1161236289">${__RandomString(5,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
-                <stringProp name="1623793987">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
-                <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
-                <stringProp name="-821717204">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}@gmail.com </stringProp>
+              <collectionProp name="986071645">
+                <stringProp name="-623245923">${__Random(0,100000)}</stringProp>
+                <stringProp name="-2105674275">${__Random(0,1000)}</stringProp>
+                <stringProp name="25594985">${__RandomString(10, abcdefghij)}</stringProp>
+                <stringProp name="-1728534736">${__time(yyyy-MM-dd hh:mm:ss)}</stringProp>
               </collectionProp>
             </collectionProp>
             <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -154,14 +116,14 @@
         </hashTree>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">${__Random(0,10)}</stringProp>
         </LoopController>
         <hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="courses insert" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="comments_insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="query">insert into courses (course_id, instructor_id, course_name, course_duration, category, course_start_date, course_end_date, course_start_time, course_end_time) values (?,?,?,?,?,?,?,?,?);</stringProp>
-            <stringProp name="queryArguments">${CourseId},${InstructorId},${CourseName},${CourseDuration},${Category},${CourseStartDate},${CourseEndDate},${CourseStartTime},${CourseEndTime}</stringProp>
-            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,BIGINT,VARCHAR,TIMESTAMP,TIMESTAMP,TIMESTAMP,TIMESTAMP</stringProp>
+            <stringProp name="query">insert into comments (issue_id, comment_id, comment_description, commenter_id, comment_timestamp) values (?,?,?,?,?)</stringProp>
+            <stringProp name="queryArguments">${issue_id},${comment_id},${comment_description},${commenter_id},${comment_timestamp}</stringProp>
+            <stringProp name="queryArgumentsTypes">INTEGER,INTEGER,VARCHAR,INTEGER,TIMESTAMP</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Prepared Update Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -172,36 +134,35 @@
           <hashTree>
             <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
               <collectionProp name="UserParameters.names">
-                <stringProp name="-303713610">CourseId</stringProp>
-                <stringProp name="189146470">CourseName</stringProp>
-                <stringProp name="587207407">CourseDuration</stringProp>
-                <stringProp name="115155230">Category</stringProp>
-                <stringProp name="516623669">CourseStartDate</stringProp>
-                <stringProp name="830777966">CourseEndDate</stringProp>
-                <stringProp name="517107796">CourseStartTime</stringProp>
-                <stringProp name="831262093">CourseEndTime</stringProp>
+                <stringProp name="899150587">comment_id</stringProp>
+                <stringProp name="804403740">comment_description</stringProp>
+                <stringProp name="801095406">commenter_id</stringProp>
+                <stringProp name="-134420682">comment_timestamp</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="1296100717">
-                  <stringProp name="118040362">${__UUID()}</stringProp>
-                  <stringProp name="1623793987">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
-                  <stringProp name="-1198082182">${__Random(1,30)}</stringProp>
-                  <stringProp name="837591188">${__RandomString(5)} </stringProp>
-                  <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
-                  <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
-                  <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
-                  <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
+                <collectionProp name="-1909854349">
+                  <stringProp name="-623245923">${__Random(0,100000)}</stringProp>
+                  <stringProp name="25594985">${__RandomString(10, abcdefghij)}</stringProp>
+                  <stringProp name="624811547">${__Random(0,100)}</stringProp>
+                  <stringProp name="-1728534736">${__time(yyyy-MM-dd hh:mm:ss)}</stringProp>
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
+              <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
             </UserParameters>
             <hashTree/>
           </hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="student_enrolled_courses insert" enabled="true">
+        </hashTree>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">${__Random(0,10)}</stringProp>
+        </LoopController>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="history_insert" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
-            <stringProp name="query">insert into student_enrolled_courses (enrollment_id, student_id, course_id,enrollment_date, status, rating) values (?,?,?,?,?,?);</stringProp>
-            <stringProp name="queryArguments">${EnrollmentId},${StudentId},${CourseId},${EnrollmentDate},${EnrollmentStatus},${EnrollmentRating}</stringProp>
-            <stringProp name="queryArgumentsTypes">VARCHAR,VARCHAR,VARCHAR,TIMESTAMP,VARCHAR,NUMERIC</stringProp>
+            <stringProp name="query">insert into history (issue_id, change_id, changed_by, title, issue_description, assignee, issue_status, history_timestamp) VALUES (?,?,?,?,?,?,?,?)</stringProp>
+            <stringProp name="queryArguments">${issue_id},${change_id},${changed_by},${title},${issue_description},${assignee},${issue_status},${history_timestamp}</stringProp>
+            <stringProp name="queryArgumentsTypes">INTEGER,INTEGER,INTEGER,VARCHAR,VARCHAR,INTEGER,VARCHAR,TIMESTAMP</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Prepared Update Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -212,20 +173,27 @@
           <hashTree>
             <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
               <collectionProp name="UserParameters.names">
-                <stringProp name="57282399">EnrollmentId</stringProp>
-                <stringProp name="-786337550">EnrollmentDate</stringProp>
-                <stringProp name="644674017">EnrollmentRating</stringProp>
-                <stringProp name="690294838">EnrollmentStatus</stringProp>
+                <stringProp name="1455259658">change_id</stringProp>
+                <stringProp name="-2131451454">changed_by</stringProp>
+                <stringProp name="110371416">title</stringProp>
+                <stringProp name="-1879831146">issue_description</stringProp>
+                <stringProp name="-369881649">assignee</stringProp>
+                <stringProp name="-219009512">issue_status</stringProp>
+                <stringProp name="-495689941">history_timestamp</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="20309511">
-                  <stringProp name="118040362">${__UUID()}</stringProp>
-                  <stringProp name="-1368431543">${__BeanShell(new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(new Date()))}</stringProp>
-                  <stringProp name="-731382688">${__Random(1,5)}</stringProp>
-                  <stringProp name="1842965237">${__RandomString(2,abc,)}</stringProp>
+                <collectionProp name="230346868">
+                  <stringProp name="-2105674275">${__Random(0,1000)}</stringProp>
+                  <stringProp name="624811547">${__Random(0,100)}</stringProp>
+                  <stringProp name="480971247">${__RandomString(16, abcdefghij)}</stringProp>
+                  <stringProp name="2019630249">${__RandomString(32, abcdefghij)}</stringProp>
+                  <stringProp name="624811547">${__Random(0,100)}</stringProp>
+                  <stringProp name="-1836564954">${__RandomString(6, abcdefghij)}</stringProp>
+                  <stringProp name="-1728534736">${__time(yyyy-MM-dd hh:mm:ss)}</stringProp>
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
+              <stringProp name="TestPlan.comments">Random generated values to populate database</stringProp>
             </UserParameters>
             <hashTree/>
           </hashTree>
@@ -235,96 +203,6 @@
           <boolProp name="displayJMeterVariables">true</boolProp>
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
-        <hashTree/>
-        <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="false">
-          <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="influxdbMetricsSender" elementType="Argument">
-                <stringProp name="Argument.name">influxdbMetricsSender</stringProp>
-                <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="influxdbUrl" elementType="Argument">
-                <stringProp name="Argument.name">influxdbUrl</stringProp>
-                <stringProp name="Argument.value">http://jmeter-influxdb:8086/write?db=jmeter</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="application" elementType="Argument">
-                <stringProp name="Argument.name">application</stringProp>
-                <stringProp name="Argument.value">application name</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="measurement" elementType="Argument">
-                <stringProp name="Argument.name">measurement</stringProp>
-                <stringProp name="Argument.value">jmeter</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="summaryOnly" elementType="Argument">
-                <stringProp name="Argument.name">summaryOnly</stringProp>
-                <stringProp name="Argument.value">true</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="samplersRegex" elementType="Argument">
-                <stringProp name="Argument.name">samplersRegex</stringProp>
-                <stringProp name="Argument.value">.*</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="percentiles" elementType="Argument">
-                <stringProp name="Argument.name">percentiles</stringProp>
-                <stringProp name="Argument.value">99;95;90</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="testTitle" elementType="Argument">
-                <stringProp name="Argument.name">testTitle</stringProp>
-                <stringProp name="Argument.value">Test name</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="eventTags" elementType="Argument">
-                <stringProp name="Argument.name">eventTags</stringProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
-          </elementProp>
-          <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient</stringProp>
-        </BackendListener>
-        <hashTree/>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-          <boolProp name="ResultCollector.error_logging">false</boolProp>
-          <objProp>
-            <name>saveConfig</name>
-            <value class="SampleSaveConfiguration">
-              <time>true</time>
-              <latency>true</latency>
-              <timestamp>true</timestamp>
-              <success>true</success>
-              <label>true</label>
-              <code>true</code>
-              <message>true</message>
-              <threadName>true</threadName>
-              <dataType>true</dataType>
-              <encoding>false</encoding>
-              <assertions>true</assertions>
-              <subresults>true</subresults>
-              <responseData>false</responseData>
-              <samplerData>false</samplerData>
-              <xml>false</xml>
-              <fieldNames>true</fieldNames>
-              <responseHeaders>false</responseHeaders>
-              <requestHeaders>false</requestHeaders>
-              <responseDataOnError>false</responseDataOnError>
-              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
-              <assertionsResultsToSave>0</assertionsResultsToSave>
-              <bytes>true</bytes>
-              <sentBytes>true</sentBytes>
-              <url>true</url>
-              <threadCounts>true</threadCounts>
-              <idleTime>true</idleTime>
-              <connectTime>true</connectTime>
-            </value>
-          </objProp>
-          <stringProp name="filename"></stringProp>
-        </ResultCollector>
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create Sampled CSV Data" enabled="true">
@@ -342,11 +220,11 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Student Queries" enabled="true">
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Fetch issue ids" enabled="true">
           <stringProp name="TestPlan.comments">Create CSV for sample UserIds to be used for perf test.</stringProp>
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Select Statement</stringProp>
-          <stringProp name="query">SELECT * FROM students limit 50000;</stringProp>
+          <stringProp name="query">SELECT issue_id FROM issues TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="variableNames"></stringProp>
@@ -356,10 +234,10 @@
           <stringProp name="resultSetHandler">Store as String</stringProp>
         </JDBCSampler>
         <hashTree>
-          <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="Select All" enabled="true">
+          <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="JDBC PreProcessor" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
             <stringProp name="queryType">Select Statement</stringProp>
-            <stringProp name="query">SELECT * FROM students limit 50000;</stringProp>
+            <stringProp name="query">SELECT issue_id FROM issues TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
             <stringProp name="queryArguments"></stringProp>
             <stringProp name="queryArgumentsTypes"></stringProp>
             <stringProp name="variableNames"></stringProp>
@@ -382,19 +260,20 @@ for (Object row : resultSet ) {
     while (iter.hasNext()) {
         pair = iter.next();
         result.append(pair.getValue());
+        result.append(&quot;,&quot;);
     }
     result.append(System.getProperty(&quot;line.separator&quot;));
 }
 
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/all_students.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/issues.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Course Queries" enabled="true">
-          <stringProp name="TestPlan.comments">Create CSV for sample to be used for perf test.</stringProp>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Fetch assignee ids" enabled="true">
+          <stringProp name="TestPlan.comments">Create CSV for sample UserIds to be used for perf test.</stringProp>
           <stringProp name="dataSource">conn_pool</stringProp>
           <stringProp name="queryType">Select Statement</stringProp>
-          <stringProp name="query">SELECT * FROM courses limit 50000;</stringProp>
+          <stringProp name="query">SELECT DISTINCT assignee_id FROM history TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="variableNames"></stringProp>
@@ -404,10 +283,10 @@ org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/all_stude
           <stringProp name="resultSetHandler">Store as String</stringProp>
         </JDBCSampler>
         <hashTree>
-          <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="Select All" enabled="true">
+          <JDBCPreProcessor guiclass="TestBeanGUI" testclass="JDBCPreProcessor" testname="JDBC PreProcessor" enabled="true">
             <stringProp name="dataSource">conn_pool</stringProp>
             <stringProp name="queryType">Select Statement</stringProp>
-            <stringProp name="query">SELECT * FROM courses limit 50000;</stringProp>
+            <stringProp name="query">SELECT DISTINCT assignee_id FROM history TABLESAMPLE BERNOULLI (50 PERCENT) limit 100;</stringProp>
             <stringProp name="queryArguments"></stringProp>
             <stringProp name="queryArgumentsTypes"></stringProp>
             <stringProp name="variableNames"></stringProp>
@@ -418,10 +297,10 @@ org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/all_stude
           </JDBCPreProcessor>
           <hashTree/>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="scriptLanguage">java</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="cacheKey">false</stringProp>
             <stringProp name="script">resultSet = vars.getObject(&quot;resultSet&quot;);
 StringBuilder result = new StringBuilder();
 
@@ -430,11 +309,12 @@ for (Object row : resultSet ) {
     while (iter.hasNext()) {
         pair = iter.next();
         result.append(pair.getValue());
+        result.append(&quot;,&quot;);
     }
     result.append(System.getProperty(&quot;line.separator&quot;));
 }
 
-org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/all_courses.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
+org.apache.commons.io.FileUtils.writeStringToFile(new File(&quot;/data/assignee.csv&quot;), result.toString(), &quot;UTF-8&quot;);</stringProp>
           </JSR223PreProcessor>
           <hashTree/>
         </hashTree>

@@ -1,0 +1,38 @@
+CREATE TABLE Classification (
+  GeneID STRING(7) NOT NULL,
+  Localization STRING(255) NOT NULL,
+) PRIMARY KEY(GeneID);
+
+CREATE TABLE Interactions (
+  InteractionId STRING(7) NOT NULL,
+  GeneID STRING(7) NOT NULL,
+  GeneID2 STRING(7) NOT NULL,
+  InteractionType STRING(255) NOT NULL,
+  Expression_Corr NUMERIC NOT NULL,
+) PRIMARY KEY(GeneID, GeneID2, InteractionId),
+  INTERLEAVE IN PARENT Classification ON DELETE NO ACTION;
+
+CREATE INDEX GeneID2 ON Interactions(GeneID2);
+
+CREATE TABLE Genes (
+  GeneID STRING(7) NOT NULL,
+  Essential STRING(255) NOT NULL,
+  Class STRING(100) NOT NULL,
+  Complex STRING(255),
+  Phenotype STRING(255) NOT NULL,
+  Motif STRING(255) NOT NULL,
+  Chromosome INT64 NOT NULL,
+  Function STRING(100) NOT NULL,
+  Localization STRING(255) NOT NULL,
+  synth_id STRING(50) NOT NULL,
+) PRIMARY KEY(synth_id);
+
+CREATE INDEX GeneID ON Genes(GeneID);
+
+CREATE TABLE Protein (
+  synth_id STRING(50) NOT NULL,
+  ProteinID STRING(7) NOT NULL,
+  ProteinName STRING(1024) NOT NULL,
+  Organism STRING(100) NOT NULL,
+) PRIMARY KEY(synth_id, ProteinID),
+  INTERLEAVE IN PARENT Genes ON DELETE NO ACTION;

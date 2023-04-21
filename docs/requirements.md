@@ -39,6 +39,7 @@ $ git clone https://github.com/cloudspannerecosystem/machmeter.git
 # Install Dependencies
 $ cd machmeter
 $ ./install.sh
+$ cd machmeter
 
 # You provide the path to service accounts key.
 $ export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
@@ -52,7 +53,7 @@ gcloud components install gke-gcloud-auth-plugin
 Machmeter exposes three CLI commands: `setup`, `execute` and `cleanup`. All of these commands follow similar syntax and can be executed as follows:
 
 ```bash
-$ java -jar target/machmeter/machmeter.jar <command> <Path To Json Config>
+java -jar target/machmeter/machmeter.jar <command> <Path To Json Config>
 ```
 Each Machmeter run consists of the following three phases:
 
@@ -77,18 +78,18 @@ Currently, we only support Service Account for authentication.
 
 ```bash
 # Example to create account and keyfile
-$ export SA_NAME=terraformer
-$ export PROJECT_ID=test
+export SA_NAME=terraformer
+export PROJECT_ID=test
 # Create Service Account
-$ gcloud iam service-accounts create $SA_NAME \
+gcloud iam service-accounts create $SA_NAME \
     --description="Operation service account for spanner stress demo" \
     --display-name=$SA_NAME
-$ gcloud projects add-iam-policy-binding $PROJECT_ID \
+gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member="serviceAccount:${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com" \
     --role="roles/owner"
 # Download a key file
-$ export KEY_FILE=terraformer.json
-$ gcloud iam service-accounts keys create $KEY_FILE \
+export KEY_FILE=terraformer.json
+gcloud iam service-accounts keys create $KEY_FILE \
     --iam-account=${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com
 # We recommend key file type is JSON
 ```

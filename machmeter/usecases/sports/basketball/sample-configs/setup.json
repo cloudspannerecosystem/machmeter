@@ -1,23 +1,23 @@
 {
   "infraConfig": {
     "spannerInstanceConfig": {
-      "projectId" : "span-cloud-testing",
-      "instanceId": "machmeter-lms-test",
-      "dbName": "lms-database",
+      "projectId" : "spanner-nba-testing",
+      "instanceId": "machmeter-sports-basketball-test",
+      "dbName": "sports-basketball",
       "configuration": "regional-us-central1",
       "displayName": "load_test_instance",
       "processingUnits": 1000,
       "environment": "testing"
     },
     "gkeConfig": {
-      "clusterName": "jmeter-lms-load-test",
+      "clusterName": "jmeter-load-test",
       "namespace": "spanner-test",
       "region": "us-central1",
-      "network": "gke-network-machmeter-lms",
-      "subnetwork": "gke-subnet-machmeter-lms",
+      "network": "gke-network",
+      "subnetwork": "gke-subnet",
       "ipRangePodsName": "ip-range-pods",
       "ipRangeServicesName": "ip-range-services",
-      "service_account_json": "/usr/local/google/home/arpanmishra/machmeter/machmeter/terraformer.json",
+      "service_account_json": "sa.json",
       "machineType": "e2-standard-2",
       "nodeLocations": "us-central1-a,us-central1-b,us-central1-c",
       "minCount": 3,
@@ -27,11 +27,11 @@
   },
   "ddlConfig" : {
     "spannerInstanceConfig" : {
-      "instanceId" : "machmeter-lms-test",
-      "dbName" : "lms-database",
+      "instanceId" : "machmeter-sports-basketball-test",
+      "dbName" : "sports-basketball",
       "configuration": "regional-us-central1",
-      "projectId" : "span-cloud-testing"
+      "projectId" : "spanner-nba-testing"
     },
-    "schemaFilePath" : "usecases/education/learning-management-system/templates/schema.sql"
+    "schemaFilePath" : "usecases/sports/basketball/templates/schema.sql"
   }
 }

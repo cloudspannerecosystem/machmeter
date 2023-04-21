@@ -1,0 +1,11 @@
+{
+    "namespace": "spanner-test",
+    "jMeterTemplatePath" : "usecases/messaging/templates/messaging-app-perf.jmx",
+    "jMeterParams" : {
+      "project": "foundations-service",
+      "instance": "machmeter-messaging-test",
+      "database": "messaging-app",
+      "connections": 5000,
+      "threads": 5000	
+    }
+  }

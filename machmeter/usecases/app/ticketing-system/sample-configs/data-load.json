@@ -1,0 +1,13 @@
+{
+  "namespace": "spanner-test",
+  "jMeterTemplatePath" : "usecases/app/ticketing-system/templates/data-load.jmx",
+  "jMeterParams" : {
+    "project": "span-cloud-testing",
+    "instance": "machmeter-hotspotters-test",
+    "database": "ticketing-db",
+    "connections": 1000,
+    "channels": 10,
+    "users": 10,
+    "iterations": 100
+  }
+}

@@ -55,7 +55,7 @@ This is a [sample file](https://github.com/cloudspannerecosystem/machmeter/blob/
 Ensure you have the GKE credentials configured via: `gcloud container clusters get-credentials CLUSTER_NAME --region=COMPUTE_REGION`
 
 ```bash
-$ java -jar target/machmeter/machmeter.jar execute path-to-config-file.json
+java -jar target/machmeter/machmeter.jar execute path-to-config-file.json
 ```
 
 ## Cleanup
@@ -72,7 +72,7 @@ Refer to the Setup section for details on the config file.
 
 ### Execution Command
 ```bash
-$ java -jar target/machmeter/machmeter.jar cleanup path-to-config-file.json
+java -jar target/machmeter/machmeter.jar cleanup path-to-config-file.json
 ```
 
 

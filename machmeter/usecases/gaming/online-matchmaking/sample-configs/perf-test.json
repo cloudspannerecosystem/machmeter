@@ -1,0 +1,10 @@
+{
+  "namespace": "spanner-test",
+  "jMeterTemplatePath" : "usecases/gaming/online-matchmaking/templates/perf-test.jmx",
+  "jMeterParams" : {
+    "project": "span-cloud-testing",
+    "instance": "machmeter-gaming-matchmaking-test",
+    "database": "gaming",
+    "connections": 1000
+  }
+}

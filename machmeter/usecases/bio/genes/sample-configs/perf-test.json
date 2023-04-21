@@ -1,0 +1,10 @@
+{
+  "namespace": "spanner-test",
+  "jMeterTemplatePath" : "usecases/bio/genes/templates/bio-gene-perf.jmx",
+  "jMeterParams" : {
+    "project": "span-cloud-testing",
+    "instance": "test-mach-inst",
+    "database": "genes",
+    "connections": 1000
+  }
+}
