@@ -1,0 +1,13 @@
+{
+  "namespace": "spanner-test",
+  "jMeterTemplatePath" : "usecases/finance/stock-trading/templates/data-load.jmx",
+  "jMeterParams" : {
+    "project": "span-cloud-testing",
+    "instance": "stock-trading-template-test",
+    "database": "stock-trading",
+    "connections": 1000,
+    "channels": 10,
+    "users": 10,
+    "iterations": 10
+  }
+}

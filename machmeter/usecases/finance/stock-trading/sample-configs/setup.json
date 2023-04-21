@@ -1,0 +1,37 @@
+{
+  "infraConfig": {
+    "spannerInstanceConfig": {
+      "projectId" : "span-cloud-testing",
+      "instanceId": "stock-trading-template-test",
+      "dbName": "stock-trading",
+      "configuration": "regional-us-central1",
+      "displayName": "Stock Trading Template",
+      "processingUnits": 1000,
+      "environment": "testing"
+    },
+    "gkeConfig": {
+      "clusterName": "stock-trading-template-cluster",
+      "namespace": "stock-trading-template-spanner-test",
+      "region": "us-central1",
+      "network": "stock-trading-template-network",
+      "subnetwork": "stock-trading-template-subnet",
+      "ipRangePodsName": "ip-range-pods",
+      "ipRangeServicesName": "ip-range-services",
+      "service_account_json": "sa.json",
+      "machineType": "e2-standard-2",
+      "nodeLocations": "us-central1-a,us-central1-b,us-central1-c",
+      "minCount": 3,
+      "maxCount": 3,
+      "initialNodeCount": 3
+    }
+  },
+  "ddlConfig" : {
+    "spannerInstanceConfig" : {
+      "instanceId" : "stock-trading-template-test",
+      "dbName" : "stock-trading",
+      "configuration": "regional-us-central1",
+      "projectId" : "span-cloud-testing"
+    },
+    "schemaFilePath" : "usecases/finance/stock-trading/templates/schema.sql"
+  }
+}
