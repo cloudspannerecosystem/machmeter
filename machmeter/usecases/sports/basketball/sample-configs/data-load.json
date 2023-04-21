@@ -1,0 +1,13 @@
+{
+  "namespace": "spanner-test",
+  "jMeterTemplatePath" : "usecases/sports/basketball/templates/data-load.jmx",
+  "jMeterParams" : {
+    "project": "span-cloud-testing",
+    "instance": "machmeter-basketball",
+    "database": "basketball-db",
+    "connections": 1000,
+    "channels": 10,
+    "users": 1,
+    "iterations": 1
+  }
+}
