@@ -29,7 +29,7 @@ Run the following steps to start deploying environment:
 
 ```bash
 # Review configuration for loading sample data
-$ cat profile-infra-config.json 
+cat profile-infra-config.json 
 {
     "infraConfig": {
       "spannerInstanceConfig": {
@@ -70,7 +70,7 @@ $ cat profile-infra-config.json
 
 ```bash
 # Running machmeter setup to deploy environment
-$ java -jar target/machmeter/machmeter.jar setup profile-infra-config.json 
+java -jar target/machmeter/machmeter.jar setup profile-infra-config.json 
 ```
 
 ## Loading Sample Data into Profile
@@ -106,7 +106,7 @@ Run the following steps to start loading profile data:
 
 ```bash
 # Review configuration for loading sample data
-$ cat profile-load.json 
+cat profile-load.json 
 {
     "namespace": "spanner-test",
     "jMeterTemplatePath" : "usecases/finance/profile/templates/profile-load-data.jmx",
@@ -124,10 +124,10 @@ $ cat profile-load.json
 
 ```bash
 # Running machmeter execute to load sample data and generate CSV stored in each container (while running, you may run [Option#1] to check whether there is any new rows added into tables )
-$ java -jar target/machmeter/machmeter.jar execute profile-load-data.json 
+java -jar target/machmeter/machmeter.jar execute profile-load-data.json 
 
 # Validate whether there is CSV generated in container 
-$ kubectl get pods -n spanner-test | grep slave | awk '{print $1}' | xargs -i kubectl -n spanner-test exec -i {} -- ls /data/
+kubectl get pods -n spanner-test | grep slave | awk '{print $1}' | xargs -i kubectl -n spanner-test exec -i {} -- ls /data/
 
 # The following CSVs must be generated
 deviceId.csv
@@ -142,10 +142,10 @@ userId.csv
 
 ```bash
 # Running machmeter execute to ONLY generate CSV stored in each container
-$ java -jar target/machmeter/machmeter.jar execute profile-init-csv.json 
+java -jar target/machmeter/machmeter.jar execute profile-init-csv.json 
 
 # Validate whether there is CSV generated in container 
-$ kubectl get pods -n spanner-test | grep slave | awk '{print $1}' | xargs -i kubectl -n spanner-test exec -i {} -- ls /data/
+kubectl get pods -n spanner-test | grep slave | awk '{print $1}' | xargs -i kubectl -n spanner-test exec -i {} -- ls /data/
 
 # The following CSVs must be generated
 deviceId.csv
@@ -164,7 +164,7 @@ userId.csv
 
 ```bash
 # Review configuration for loading sample data
-$ cat profile-perf.json 
+cat profile-perf.json 
 {
     "namespace": "spanner-test",
     "jMeterTemplatePath" : "usecases/finance/profile/templates/profile-perf.jmx",
@@ -185,13 +185,13 @@ $ cat profile-perf.json
 
 ```bash
 # Running machmeter execute to performance load test
-$ java -jar target/machmeter/machmeter.jar execute profile-perf.json 
+java -jar target/machmeter/machmeter.jar execute profile-perf.json 
 
 ```
 
 ```bash
 # Validate whether there is any error in one of jmeter slave container 
-$ kubectl get pods -n spanner-test | grep slave | awk '{print $1}' | xargs -i kubectl -n spanner-test exec -it {} -- tail -f jmeter-server.log
+kubectl get pods -n spanner-test | grep slave | awk '{print $1}' | xargs -i kubectl -n spanner-test exec -it {} -- tail -f jmeter-server.log
 ```
 
 ## Scaling Performance Load Test to Profile
@@ -205,7 +205,7 @@ The goal of performance load test is to achieve the best results in terms of (1)
 
 ```bash
 # Number of 'Threads' in the template configurations
-$ cat profile-perf.json 
+cat profile-perf.json 
 {
     "namespace": "spanner-test",
     "jMeterTemplatePath" : "usecases/finance/profile/templates/profile-perf.jmx",
@@ -228,15 +228,15 @@ $ cat profile-perf.json
 
 ```bash
 # Number of 'Jmeter Slaves' running in GKE
-$ kubectl get statefulsets -n spanner-test
+kubectl get statefulsets -n spanner-test
 NAME            READY   AGE
 jmeter-slaves   2/2     25h
 
 
 # Scale number of 'Jmeter Slaves' 
-$ kubectl -n spanner-test scale statefulsets jmeter-slaves --replicas=4
+kubectl -n spanner-test scale statefulsets jmeter-slaves --replicas=4
 
-$ kubectl get statefulsets -n spanner-test
+kubectl get statefulsets -n spanner-test
 NAME            READY   AGE
 jmeter-slaves   4/4     26h
 ```
@@ -247,7 +247,7 @@ jmeter-slaves   4/4     26h
 
 ```bash
 # Increase Spanner Node to 2 x Nodes (or 2000 PUs)
-$ gcloud spanner instances update spanner-profile --nodes=2
+gcloud spanner instances update spanner-profile --nodes=2
 Updating instance...done.
 
 ```
@@ -263,7 +263,7 @@ Run the following steps to start cleanup/destroy environment:
 
 ```bash
 # Running machmeter setup to deploy environment
-$ java -jar target/machmeter/machmeter.jar cleanup profile-infra-config.json 
+java -jar target/machmeter/machmeter.jar cleanup profile-infra-config.json 
 ```
 
 ## Documentation

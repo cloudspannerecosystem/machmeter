@@ -16,14 +16,17 @@ specific use-case.
 Run the following steps to start using Machmeter:
 
 ```bash
-$ git clone https://github.com/cloudspannerecosystem/machmeter.git
-$ cd machmeter/machmeter
+git clone https://github.com/cloudspannerecosystem/machmeter.git
+cd machmeter/machmeter
 
 # Building the maven project
-$ mvn clean package -P assembly
+mvn clean package -P assembly
+
+# Authenticate with gCloud
+gcloud auth login
 
 # You provide the path to service accounts key.
-$ export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
+export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
 
 # Install the gcloud gke plugin
 gcloud components install gke-gcloud-auth-plugin

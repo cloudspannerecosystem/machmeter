@@ -29,8 +29,8 @@ Machmeters sets up a [Grafana](https://grafana.com/) dashboard for client side m
 
 ```bash
 # SSH port-forwording to grafana
-$ kubectl port-forward -n spanner-test $(kubectl get po -n spanner-test | grep jmeter-grafana | awk '{print $1}') 3001:3000
+kubectl port-forward -n spanner-test $(kubectl get po -n spanner-test | grep jmeter-grafana | awk '{print $1}') 3001:3000
 
 # Grafana Dashboard
-$ open http://localhost:3001
+open http://localhost:3001
 ```
