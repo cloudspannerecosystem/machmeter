@@ -119,7 +119,7 @@ module "gke" {
   ip_range_pods          = var.gke_config.ip_range_pods_name
   ip_range_services      = var.gke_config.ip_range_services_name
   grant_registry_access    = true
-  remove_default_node_pool = false
+  remove_default_node_pool = true
   create_service_account   = false
   node_pools = [
     {
