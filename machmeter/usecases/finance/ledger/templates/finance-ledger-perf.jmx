@@ -222,7 +222,7 @@ SampleResult.setRequestHeaders(spanner.toString());</stringProp>
           <intProp name="ThroughputController.maxThroughput">1</intProp>
           <FloatProperty>
             <name>ThroughputController.percentThroughput</name>
-            <value>12.0</value>
+            <value>10.0</value>
             <savedValue>0.0</savedValue>
           </FloatProperty>
         </ThroughputController>
@@ -239,7 +239,7 @@ import com.google.cloud.Timestamp;
 
 DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 String userId = vars.get(&quot;userId&quot;);
-String txnId = vars.get(&quot;txnId&quot;);
+String txnId = UUID.randomUUID().toString();;
 double randomAmount = Double.parseDouble(vars.get(&quot;randomAmount&quot;));
 
 dbClient
@@ -262,19 +262,6 @@ dbClient
 				.to(randomAmount)
 				.set(&quot;RewardType&quot;)
 				.to(&quot;COINS&quot;)
-				.set(&quot;TransactionSource&quot;)
-				.to(&quot;LOADTEST&quot;)
-				.set(&quot;TransactionStatus&quot;)
-				.to(&quot;SUCCESS&quot;)
-				.set(&quot;TransactionType&quot;)
-				.to(&quot;Credit&quot;)
-				.build());
-		transaction.buffer(
-			Mutation.newUpdateBuilder(&quot;user_bal&quot;)
-				.set(&quot;UserId&quot;)
-				.to(userId)
-				.set(&quot;Balance&quot;)
-				.to(balance + randomAmount)
 				.build());
 		}
 	);
@@ -284,12 +271,10 @@ dbClient
           <hashTree>
             <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
               <collectionProp name="UserParameters.names">
-                <stringProp name="110811429">txnId</stringProp>
                 <stringProp name="-1076477189">randomAmount</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="332914725">
-                  <stringProp name="118040362">${__UUID()}</stringProp>
+                <collectionProp name="684165949">
                   <stringProp name="-108146350">${__Random(0000,9999)}</stringProp>
                 </collectionProp>
               </collectionProp>
@@ -304,7 +289,7 @@ dbClient
           <intProp name="ThroughputController.maxThroughput">1</intProp>
           <FloatProperty>
             <name>ThroughputController.percentThroughput</name>
-            <value>24.06</value>
+            <value>30.0</value>
             <savedValue>0.0</savedValue>
           </FloatProperty>
         </ThroughputController>
@@ -331,11 +316,37 @@ ResultSet result = dbClient
 
 String responseHeader = &quot;&quot;;
 while (result.next()) {
-	responseHeader += &quot; Balance: &quot; +result.getDouble(&quot;Balance&quot;);
 }
 result.close();
+</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Read balance stale" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.concurrent.TimeUnit;
 
-SampleResult.setRequestHeaders(responseHeader);</stringProp>
+DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
+
+String userId = vars.get(&quot;userId&quot;);
+String readBalanceSql = &quot;Select Balance from user_bal where UserId = @userId&quot;;
+Statement stmt = Statement.newBuilder(readBalanceSql)
+      .bind(&quot;userId&quot;).to(userId)
+      .build();
+
+ResultSet result = dbClient
+ .singleUse(TimestampBound.ofExactStaleness(1, TimeUnit.SECONDS))
+ .executeQuery(stmt);
+
+
+String responseHeader = &quot;&quot;;
+while (result.next()) {
+}
+result.close();
+</stringProp>
           </JSR223Sampler>
           <hashTree/>
         </hashTree>
@@ -345,7 +356,7 @@ SampleResult.setRequestHeaders(responseHeader);</stringProp>
           <intProp name="ThroughputController.maxThroughput">1</intProp>
           <FloatProperty>
             <name>ThroughputController.percentThroughput</name>
-            <value>63.16</value>
+            <value>10.0</value>
             <savedValue>0.0</savedValue>
           </FloatProperty>
         </ThroughputController>
@@ -362,13 +373,13 @@ import com.google.cloud.Timestamp;
 
 DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 String userId = vars.get(&quot;userId&quot;);
-String txnId = vars.get(&quot;txnId&quot;);
+double randomAmount = 10.0;
 
 Mutation mutation = Mutation.newUpdateBuilder(&quot;user_bal&quot;)
 					.set(&quot;UserId&quot;)
 					.to(userId)
-					.set(&quot;StreakDay&quot;)
-					.to(10)
+					.set(&quot;balance&quot;)
+					.to(randomAmount)
 					.build();
 
 ArrayList&lt;Mutation&gt; mutations = new ArrayList&lt;&gt;();
@@ -385,7 +396,7 @@ SampleResult.setRequestHeaders(mutation.toString());</stringProp>
           <intProp name="ThroughputController.maxThroughput">1</intProp>
           <FloatProperty>
             <name>ThroughputController.percentThroughput</name>
-            <value>0.12</value>
+            <value>30.0</value>
             <savedValue>0.0</savedValue>
           </FloatProperty>
         </ThroughputController>
@@ -396,28 +407,27 @@ SampleResult.setRequestHeaders(mutation.toString());</stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey">true</stringProp>
             <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.concurrent.TimeUnit;
 
 
 DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
 
 String loadedTxnId = vars.get(&quot;loaded_txnId&quot;);
-String sql = &quot;Select * from user_txns where transactionid = @loadedTxnId&quot;;
+String sql = &quot;Select balance from user_txns where transactionid = @loadedTxnId limit 1&quot;;
 Statement stmt = Statement.newBuilder(sql)
 				.bind(&quot;loadedTxnId&quot;)
 				.to(loadedTxnId)
 				.build();
 
 ResultSet result = dbClient
-				.singleUseReadOnlyTransaction()
-				.executeQuery(stmt);
+ .singleUse(TimestampBound.ofExactStaleness(1, TimeUnit.SECONDS))
+ .executeQuery(stmt);
+
 
 String responseHeader = &quot;&quot;;
 while (result.next()) {
-	responseHeader += &quot; Userid: &quot; +result.getString(0);
 }
-result.close();
-
-SampleResult.setRequestHeaders(responseHeader);</stringProp>
+result.close();</stringProp>
           </JSR223Sampler>
           <hashTree/>
         </hashTree>
@@ -427,7 +437,7 @@ SampleResult.setRequestHeaders(responseHeader);</stringProp>
           <intProp name="ThroughputController.maxThroughput">1</intProp>
           <FloatProperty>
             <name>ThroughputController.percentThroughput</name>
-            <value>0.62</value>
+            <value>20.0</value>
             <savedValue>0.0</savedValue>
           </FloatProperty>
         </ThroughputController>
@@ -438,10 +448,11 @@ SampleResult.setRequestHeaders(responseHeader);</stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey">true</stringProp>
             <stringProp name="script">import com.google.cloud.spanner.*;
+import java.util.concurrent.TimeUnit;
 
 
 DatabaseClient dbClient = props.get(&quot;dbClient&quot;);
-String sql = &quot;select * from user_txns where UserId= @user_id&quot;;
+String sql = &quot;select userId from user_txns where UserId= @user_id limit 1&quot;;
 
 String userId = vars.get(&quot;userId&quot;);
 Statement stmt = Statement.newBuilder(sql)
@@ -450,20 +461,19 @@ Statement stmt = Statement.newBuilder(sql)
 				.build();
 
 ResultSet result = dbClient
-					.singleUseReadOnlyTransaction()
-					.executeQuery(stmt);
+ .singleUse(TimestampBound.ofExactStaleness(1, TimeUnit.SECONDS))
+ .executeQuery(stmt);
+
 
 String responseHeader = &quot;&quot;;
 while (result.next()) {
-	responseHeader += &quot; Userid: &quot; +result.getString(0);
 }
 result.close();
-
-SampleResult.setRequestHeaders(responseHeader);</stringProp>
+</stringProp>
           </JSR223Sampler>
           <hashTree/>
         </hashTree>
-        <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
+        <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="false">
           <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="influxdbMetricsSender" elementType="Argument">
