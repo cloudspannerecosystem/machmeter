@@ -16,15 +16,15 @@ specific use-case.
 Run the following steps to start using Machmeter:
 
 ```bash
-$ git clone https://github.com/cloudspannerecosystem/machmeter.git
+git clone https://github.com/cloudspannerecosystem/machmeter.git
 
 # Install Dependencies
-$ cd machmeter
-$ ./install.sh
-$ cd machmeter
+cd machmeter
+./install.sh
+cd machmeter
 
 # Building the maven project
-$ mvn clean package -P assembly
+mvn clean package -P assembly
 
 # Authenticate with gCloud
 gcloiud auth login
