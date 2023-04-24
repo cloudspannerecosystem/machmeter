@@ -31,17 +31,14 @@ It's very easy to quickly start experimenting with Machmeter. Use on of the exis
 
 ### Installation
 
-Create a clone of the Github repository of Machmeter and create export your gCloud service account credentials as follows:
+Create a clone of the Github repository of Machmeter as follows:
 
 ```bash
 git clone https://github.com/cloudspannerecosystem/machmeter.git
 cd machmeter/machmeter
 
 # Building the maven project
-mvn clean package -P assembly
-
-# You provide the path to service accounts key.
-export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
+$ mvn clean package -P assembly
 ```
 
 ### Execute an existing template
@@ -66,27 +63,8 @@ We expect to set organization policy by default.
 - [Google Cloud Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects)
 - [Google Account](https://cloud.google.com/iam/docs/overview?hl=ja#google_account) - It needs roles/owner permission on your project
 
-{: .warning }
-Currently, we only support Service Account for authentication.
+We use Workload Identity for authentication. The **required resources will be
+automatically created** in set up phase with the required permissions and bindings.
 
-- [Service Account](https://cloud.google.com/iam/docs/creating-managing-service-accounts#creating) - It needs roles/owner permission on your project
-- [Service Account Key file](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating)
-
-```bash
-# Example to create account and keyfile
-export SA_NAME=terraformer
-export PROJECT_ID=test
-# Create Service Account
-gcloud iam service-accounts create $SA_NAME \
-    --description="Operation service account for spanner stress demo" \
-    --display-name=$SA_NAME
-gcloud projects add-iam-policy-binding $PROJECT_ID \
-    --member="serviceAccount:${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com" \
-    --role="roles/owner"
-# Download a key file
-export KEY_FILE=terraformer.json
-gcloud iam service-accounts keys create $KEY_FILE \
-    --iam-account=${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com
-# We recommend key file type is JSON
-```
-
+- [Understand Workload Identity](https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity)
+- [Use Workload Identity (NOT to be done manually for machmeter)](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity)
