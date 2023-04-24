@@ -23,13 +23,11 @@ $ cd machmeter
 $ ./install.sh
 $ cd machmeter
 
-<<<<<<< HEAD
-# Authenticate with gCloud
-gcloud auth login
-=======
 # Building the maven project
 $ mvn clean package -P assembly
->>>>>>> parent of 702dd9d (move maven build to install script)
+
+# Authenticate with gCloud
+gcloiud auth login
 
 # You provide the path to service accounts key.
 export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json

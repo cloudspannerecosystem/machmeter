@@ -34,18 +34,18 @@ It's very easy to quickly start experimenting with Machmeter. Use on of the exis
 Create a clone of the Github repository of Machmeter and create export your gCloud service account credentials as follows:
 
 ```bash
-$ git clone https://github.com/cloudspannerecosystem/machmeter.git
+git clone https://github.com/cloudspannerecosystem/machmeter.git
 
 # Install Dependencies
-$ cd machmeter
-$ ./install.sh
-$ cd machmeter
+cd machmeter
+./install.sh
+cd machmeter
 
 # Building the maven project
-$ mvn clean package -P assembly
+mvn clean package -P assembly
 
 # You provide the path to service accounts key.
-$ export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
+export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
 
 # Install the gcloud gke plugin
 gcloud components install gke-gcloud-auth-plugin
