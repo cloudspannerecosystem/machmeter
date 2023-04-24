@@ -27,7 +27,7 @@ cd machmeter
 mvn clean package -P assembly
 
 # Authenticate with gCloud
-gcloiud auth login
+gcloud auth login
 
 # You provide the path to service accounts key.
 export GOOGLE_APPLICATION_CREDENTIALS=~/service-accounts.json
