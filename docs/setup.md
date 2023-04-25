@@ -29,6 +29,14 @@ Machmeter uses Terraform to create a GKE cluster which is used to generate the l
 Refer to [Kubernetes concepts cheat sheet](https://medium.com/hashmapinc/30-second-kubernetes-concepts-cheat-sheet-98ba813194cb) and [kubectl CLI cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) 
 for a quick reference to common concepts and commands.
 
+### Workload Identity for Authentication
+The steps mentioned in [Use Workload Identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity)
+are automated in the setup phase. It triggers the creation of a Google Service
+Account with Spanner Admin role and a Kubernetes Service account with
+Workload Identity User binding to the Google Service Account. This enables the
+Kubernetes Service Account to impersonate the Google Service Account when
+authenticating for requests to Spanner in execute phase.
+
 ### Configuration File Definition 
 
 <div class="resource-config" markdown="1">
@@ -49,7 +57,8 @@ for a quick reference to common concepts and commands.
 | gkeConfig.subnetwork                              | GKE cluster sub network                                                 | 
 | gkeConfig.ipRangePodsName                         | GKE cluster IP range Pod's Name                                         | 
 | gkeConfig.ipRangeServicesName                     | GKE cluster IP range Services Name                                      | 
-| gkeConfig.service_account_json                    | Path to service account's json file                                     | 
+| gkeConfig.google_service_account                  | Name of Google Cloud Service Account to be created                      | 
+| gkeConfig.kube_service_account                    | Name of GKE Service Account to be created                               | 
 | jMeterParams.spannerInstanceConfig.projectId      | Google Cloud Project Id (Should be same as in previoud keys)            | 
 | jMeterParams.spannerInstanceConfig.instanceId     | Name of the instance to be created (Should be same as in previoud keys) | 
 | jMeterParams.spannerInstanceConfig.dbName         | Name of the database to be created (Should be same as in previoud keys) | 
