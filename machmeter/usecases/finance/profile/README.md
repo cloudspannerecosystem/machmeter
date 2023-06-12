@@ -53,7 +53,8 @@ cat profile-infra-config.json
         "subnetwork": "jaru-mm-subnet",
         "ipRangePodsName": "jaru-ip-range-pods",
         "ipRangeServicesName": "jaru-ip-range-services",
-        "service_account_json": "~/machmeter.json"
+        "google_service_account": "machmeter-test-gsa",
+        "kube_service_account": "machmeter-test-ksa",
       }
     },
     "ddlConfig" : {
