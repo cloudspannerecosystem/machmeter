@@ -25,12 +25,13 @@ variable "gke_config" {
     subnetwork              = string
     ip_range_pods_name      = string
     ip_range_services_name  = string
-    service_account_json    = string
     machine_type            = string
     node_locations          = string
     min_count               = number
     max_count               = number
     initial_node_count      = number
+    google_service_account  = string
+    kube_service_account = string
   })
   description = "The configuration specifications for the GKE cluster"
 }
@@ -120,6 +121,9 @@ module "gke" {
   grant_registry_access    = true
   remove_default_node_pool = false
   create_service_account   = false
+  node_metadata            = "GKE_METADATA"
+  identity_namespace = "${var.gcp_project}.svc.id.goog"
+
   node_pools = [
     {
       name                      = "default-node-pool"
@@ -149,6 +153,51 @@ module "gke" {
   }
 }
 
+resource "google_service_account" "app-service-account" {
+  account_id = "${var.gke_config.google_service_account}"
+  project    = var.gcp_project
+}
+
+resource "kubernetes_service_account" "k8s-service-account" {
+  automount_service_account_token = true
+  metadata {
+    name      = "${var.gke_config.kube_service_account}"
+    namespace = var.gke_config.namespace
+    annotations = {
+      "iam.gke.io/gcp-service-account" : "${google_service_account.app-service-account.email}"
+    }
+  }
+}
+
+data "google_iam_policy" "spanner-policy" {
+  binding {
+    role = "roles/iam.workloadIdentityUser"
+    members = [
+      "serviceAccount:${var.gcp_project}.svc.id.goog[${var.gke_config.namespace}/${kubernetes_service_account.k8s-service-account.metadata[0].name}]"
+    ]
+  }
+}
+
+resource "google_service_account_iam_policy" "app-service-account-iam" {
+  service_account_id = google_service_account.app-service-account.name
+  policy_data        = data.google_iam_policy.spanner-policy.policy_data
+}
+
+data "google_iam_policy" "database-reader-policy" {
+  binding {
+    role = "roles/owner"
+    members = [
+      "serviceAccount:${google_service_account.app-service-account.email}"
+    ]
+  }
+}
+
+resource "google_spanner_database_iam_policy" "database" {
+  instance    = google_spanner_instance.instance.name
+  database    = google_spanner_database.database.name
+  policy_data = data.google_iam_policy.database-reader-policy.policy_data
+}
+
 resource "google_spanner_instance" "instance" {
   name             = var.spanner_config.instance_name  # << be careful changing this in production
   config           = var.spanner_config.configuration
@@ -167,16 +216,6 @@ resource "google_spanner_database" "database" {
 resource "kubernetes_namespace" "namespace" {
   metadata  {
     name = var.gke_config.namespace
-  }
-}
-
-resource "kubernetes_secret" "service_account" {
-  metadata {
-    name      = "sa-key"
-    namespace = kubernetes_namespace.namespace.metadata.0.name
-  }
-  data = {
-    "key.json" = file("${var.gke_config.service_account_json}")
   }
 }
 
@@ -292,16 +331,8 @@ resource "kubernetes_deployment" "jmeter-master" {
             name       = "loadtest"
             sub_path = "load_test"
           }
-          volume_mount {
-            mount_path = "/var/secrets/google"
-            name       = "google-cloud-key"
-          }
           port {
             container_port = 60000
-          }
-          env {
-            name = "GOOGLE_APPLICATION_CREDENTIALS"
-            value = "/var/secrets/google/key.json"
           }
         }
         volume {
@@ -313,12 +344,6 @@ resource "kubernetes_deployment" "jmeter-master" {
               path = "load_test"
               mode = "0755"
             }
-          }
-        }
-        volume {
-          name = "google-cloud-key"
-          secret {
-            secret_name = "sa-key"
           }
         }
       }
@@ -349,14 +374,11 @@ resource "kubernetes_stateful_set" "jmeter-slave" {
         }
       }
       spec {
+        service_account_name = "${var.gke_config.kube_service_account}"
         container {
           image = "gcr.io/cloud-spanner-emulator/machmeter-jmeter-slave:latest"
           name  = "jmslave"
           image_pull_policy = "Always"
-          volume_mount {
-            mount_path = "/var/secrets/google"
-            name       = "google-cloud-key"
-          }
           volume_mount {
             mount_path = "/data"
             name       = "jmeter-data"
@@ -367,26 +389,7 @@ resource "kubernetes_stateful_set" "jmeter-slave" {
           port {
             container_port = 50000
           }
-          resources {
-            limits = {
-              cpu    = "1000m"
-              memory = "2Gi"
-            }
-            requests = {
-              cpu    = "1000m"
-              memory = "2Gi"
-            }
-          }
-          env {
-            name = "GOOGLE_APPLICATION_CREDENTIALS"
-            value = "/var/secrets/google/key.json"
-          }
-        }
-        volume {
-          name = "google-cloud-key"
-          secret {
-            secret_name = "sa-key"
-          }
+          resources {}
         }
         volume {
           name = "jmeter-data"

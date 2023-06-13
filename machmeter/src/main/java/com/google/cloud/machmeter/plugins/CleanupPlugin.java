@@ -49,9 +49,6 @@ public class CleanupPlugin implements Plugin<SetupConfig> {
     SpannerInstanceConfig spannerInstanceConfig =
         config.getInfraConfig().getSpannerInstanceConfig();
     GKEConfig gkeConfig = config.getInfraConfig().getGkeConfig();
-    if (gkeConfig.getServiceAccountJson().isEmpty()) {
-      gkeConfig.setServiceAccountJson(System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
-    }
     String terraformDestroyCMD =
         String.format(
             "terraform destroy -var=gcp_project=%s -var='spanner_config=%s' -var='gke_config=%s'",

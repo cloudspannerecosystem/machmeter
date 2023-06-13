@@ -49,9 +49,6 @@ public class InfraSetupPlugin implements Plugin<SetupConfig> {
     SpannerInstanceConfig spannerInstanceConfig =
         config.getInfraConfig().getSpannerInstanceConfig();
     GKEConfig gkeConfig = config.getInfraConfig().getGkeConfig();
-    if (gkeConfig.getServiceAccountJson().isEmpty()) {
-      gkeConfig.setServiceAccountJson(System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
-    }
     String terraformPlanCMD =
         String.format(
             "terraform plan -var=gcp_project=%s -var='spanner_config=%s' -var='gke_config=%s'",
@@ -74,6 +71,7 @@ public class InfraSetupPlugin implements Plugin<SetupConfig> {
     } catch (IOException | InterruptedException e) {
       e.printStackTrace();
     } catch (Exception e) {
+      e.printStackTrace();
       throw new RuntimeException(e);
     }
   }
